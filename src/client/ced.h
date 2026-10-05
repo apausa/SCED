@@ -18,6 +18,31 @@
 
 typedef void (*ced_draw_cb)(void *data);
 
+typedef struct {
+  unsigned size;            // size of one item in bytes
+  unsigned char *b;         // "body" - data are stored here (here is some trick :)
+  unsigned long count;      // number of usefull items
+  unsigned long alloced;    // number of allocated items
+  ced_draw_cb draw;         // draw fucation, NOT used in CED client
+} ced_element;
+
+typedef struct {
+  ced_element *e;
+  unsigned      e_count;
+} ced_event;
+
+// the event being built (client) or received (server)
+extern ced_event eve;
+
+// we reserve this size just before ced_element.b data
+#define HDR_SIZE 8
+
+typedef enum {
+  DRAW_EVENT=10000
+} MSG_TYPE;
+
+void ced_reset(void);
+
 
 /*
  * Register new element type. Order is important!
