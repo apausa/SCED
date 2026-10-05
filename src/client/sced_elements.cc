@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include <sced_types.h>
-#include "ced_cli.h"
+#include "sced_elements.h"
 #include <ced.h>
 #include <stdio.h>
 //#include <iostream>

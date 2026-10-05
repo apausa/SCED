@@ -4,8 +4,8 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
-#ifndef __CED_CLI_H
-#define __CED_CLI_H
+#ifndef __SCED_ELEMENTS_H
+#define __SCED_ELEMENTS_H
 
 #include <sced_types.h>
 #include <sced_connection.h>
@@ -156,4 +156,4 @@ void ced_cluellipse_r_ID(float radius, float height, float *center, double *rota
  }
 #endif
 
-#endif /* __CED_CLI_H */
+#endif /* __SCED_ELEMENTS_H */
