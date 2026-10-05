@@ -12,7 +12,7 @@
 #include <iostream>
 #include <math.h>
 
-#include <ced.h>
+#include <sced_types.h>
 #include <config.h>
 #include <settings.h>
 

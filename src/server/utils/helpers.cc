@@ -4,7 +4,6 @@
 #  include <GL/gl.h>
 #endif
 
-#include <ced.h>
 #include <sced_types.h>
 #include <settings.h>
 
