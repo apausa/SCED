@@ -7,7 +7,7 @@
 #ifndef __CED_CLI_H
 #define __CED_CLI_H
 
-#include <ced_common.h>
+#include <sced_types.h>
 #include <sced_connection.h>
 
 

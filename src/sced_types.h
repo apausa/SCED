@@ -4,8 +4,8 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
-#ifndef __CED_COMMON_H
-#define __CED_COMMON_H
+#ifndef __SCED_TYPES_H
+#define __SCED_TYPES_H
 
 //important:
 //          - sum of all layers must be smaler than max_layer!
@@ -251,5 +251,5 @@ typedef struct {
 #endif
 	
 
-#endif /* __CED_COMMON_H */
+#endif /* __SCED_TYPES_H */
 

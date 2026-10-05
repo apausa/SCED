@@ -8,7 +8,7 @@
 #include <sys/time.h>
 
 #include <ced.h>
-#include <ced_common.h>
+#include <sced_types.h>
 #include <third_party/gl_font.h>
 
 #include "render.h"

@@ -4,7 +4,7 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 */
 #include <string.h>
 
-#include <ced_common.h>
+#include <sced_types.h>
 #include "ced_cli.h"
 #include <ced.h>
 #include <stdio.h>

@@ -35,13 +35,13 @@ AUX_SOURCE_DIRECTORY( ./src/client client_sources )
 # Compile client
 ADD_LIBRARY( sced-client SHARED ${client_sources} )
 
-# Headers are included relative to src/client
-TARGET_INCLUDE_DIRECTORIES( sced-client PUBLIC ./src/client )
+# Headers are included relative to src/client, shared types relative to src
+TARGET_INCLUDE_DIRECTORIES( sced-client PUBLIC ./src/client ./src )
 
 INSTALL( TARGETS sced-client LIBRARY DESTINATION lib )
 
 # Only the public API is installed
-INSTALL( FILES ./src/client/ced_cli.h ./src/client/sced_connection.h ./src/client/ced_common.h DESTINATION include )
+INSTALL( FILES ./src/client/ced_cli.h ./src/client/sced_connection.h ./src/sced_types.h DESTINATION include )
 
 # SCED SERVER 
 
