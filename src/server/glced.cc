@@ -29,6 +29,7 @@
 #include "utils/helpers.h"
 #include "event_loop.h"
 #include "tcp_listener.h"
+#include "draw/draw.h"
 
 using namespace std;
 

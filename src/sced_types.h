@@ -42,12 +42,6 @@
 extern "C" {
 #endif
 
-/*
- * Register the element types. Both the client and the server
- * implement this function, and the order must be the same.
- */
-void ced_register_elements(void);
-
 typedef struct {
   float x;
   float y;

@@ -15,6 +15,12 @@
 extern "C" {
 #endif
 
+/*
+ * Register the element types. The order must be the
+ * same as in the server (see draw/draw.h).
+ */
+void ced_register_elements(void);
+
 typedef enum {
   CED_TYPE_SHIFT=0x0,
   CED_LAYER_SHIFT=0x8

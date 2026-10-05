@@ -17,6 +17,10 @@ extern int selected_layer;
 
 #define IS_VISIBLE(x) ((x < (CED_MAX_LAYER-1) && (int)x >= 0)?setting.layer[x]:false)
 
+// Register the element types with their draw functions. The order must be
+// the same as in the client (see sced_elements.h).
+void ced_register_elements(void);
+
 // Shared helpers
 void ced_color(unsigned rgba);
 
