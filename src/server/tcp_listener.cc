@@ -19,14 +19,10 @@ char trusted_hosts[50];
 #include <netinet/tcp.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#include <errno.h>
-
-
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+
+#include <errno.h>
 
 static int _server_fd = -1;
 static void (*_on_event)(void *) = nullptr;

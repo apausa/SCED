@@ -16,7 +16,6 @@
 
 #include <ced.h>
 #include <ced_common.h>
-#include <glut_socks.h>
 #include <settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
@@ -29,6 +28,7 @@
 #include "cli.h"
 #include "utils/helpers.h"
 #include "event_loop.h"
+#include "tcp_listener.h"
 
 using namespace std;
 
