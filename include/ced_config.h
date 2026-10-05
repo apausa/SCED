@@ -7,7 +7,7 @@
 #ifndef __CED_CONFIG
 #define __CED_CONFIG
 
-#include "ced_cli.h"
+#include "ced_common.h"
 
 
 /**********************************************************

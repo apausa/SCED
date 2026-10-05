@@ -6,7 +6,7 @@
 #ifndef __CED_H
 #define __CED_H
 
-#include "ced_cli.h"
+#include "ced_common.h"
 
 //#ifdef __cplusplus
 // extern "C" {

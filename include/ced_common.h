@@ -4,8 +4,8 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
-#ifndef __CED_CLI_H
-#define __CED_CLI_H
+#ifndef __CED_COMMON_H
+#define __CED_COMMON_H
 
 #include <ced_config.h>
 
@@ -236,5 +236,5 @@ typedef struct {
 #endif
 	
 
-#endif /* __CED_CLI_H */
+#endif /* __CED_COMMON_H */
 

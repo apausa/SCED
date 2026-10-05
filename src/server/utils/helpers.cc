@@ -5,7 +5,7 @@
 #endif
 
 #include <ced.h>
-#include <ced_cli.h>
+#include <ced_common.h>
 #include <settings.h>
 
 #include "utils/helpers.h"
