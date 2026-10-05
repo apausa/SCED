@@ -16,32 +16,13 @@
 //char trusted_hosts[50];
 //extern static char testchar;
 
-typedef void (*ced_draw_cb)(void *data);
-
-typedef struct {
-  unsigned size;            // size of one item in bytes
-  unsigned char *b;         // "body" - data are stored here (here is some trick :)
-  unsigned long count;      // number of usefull items
-  unsigned long alloced;    // number of allocated items
-  ced_draw_cb draw;         // draw fucation, NOT used in CED client
-} ced_element;
-
-typedef struct {
-  ced_element *e;
-  unsigned      e_count;
-} ced_event;
-
 // the event being built (client) or received (server)
 extern ced_event eve;
 
-// we reserve this size just before ced_element.b data
-#define HDR_SIZE 8
-
-typedef enum {
-  DRAW_EVENT=10000
-} MSG_TYPE;
-
 void ced_reset(void);
+
+// Allocate the data of an element for count items, HDR_SIZE bytes are reserved before them.
+void ced_buf_alloc(ced_element *pe,unsigned count);
 
 
 /*
@@ -71,31 +52,6 @@ unsigned ced_register_element(unsigned item_size,ced_draw_cb draw_func);
  * This will add one Dummy item to the event
  */
 void *ced_add(unsigned id);
-
-/*
- * To be called in paint function
- *
- * It calls user defined functions for
- * each item of all elements types.
- */
-void ced_do_draw_event(void);
-
-/*
- * Server side function.
- * Must be used to process all incoming
- * messages from client.
- *
- * It return positive value when
- * new event must be drawn.
- *
- * Example:
- *      tcp_server(7285,my_process_input)
- *
- *      my_process_input(x){
- *        if(ced_process_input(x)>0)
- *          <do redraw>
- */
-int ced_process_input(void *data);
 
 //#ifdef __cplusplus
 // }

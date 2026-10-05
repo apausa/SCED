@@ -7,13 +7,13 @@
 #include <sys/select.h>
 #include <sys/time.h>
 
-#include <ced.h>
 #include <sced_types.h>
 #include <third_party/gl_font.h>
 
 #include "render.h"
 #include "ui/input.h"
 #include "ui/overlay.h"
+#include "event.h"
 
 #include "event_loop.h"
 
