@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ced_config.h>
+#include <ced_common.h>
 
 /*
  * Global display/view state for the glced server

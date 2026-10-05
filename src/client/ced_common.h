@@ -7,9 +7,6 @@
 #ifndef __CED_COMMON_H
 #define __CED_COMMON_H
 
-#include <ced_config.h>
-
-
 //important:
 //          - sum of all layers must be smaler than max_layer!
 //          - number_popup_layer must be smaler than number_data_layer
@@ -22,6 +19,24 @@
 //
 //#define CED_MAX_LAYER_CHAR 400
 
+
+/**********************************************************
+* Layers                                                  *
+**********************************************************/
+//number of total number of layers
+#define CED_MAX_LAYER                       120
+
+//number of layers shown in popup menu
+#define NUMBER_POPUP_LAYER                  20
+
+//number of layers reserved for data
+#define NUMBER_DATA_LAYER                   25
+
+//number of layers reserved for detector components
+#define NUMBER_DETECTOR_LAYER               40
+
+//layer description text: maximal number of chars for one entry
+#define CED_MAX_LAYER_CHAR                  400
 
 #ifdef __cplusplus
 extern "C" {
