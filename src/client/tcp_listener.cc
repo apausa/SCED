@@ -9,7 +9,7 @@
 
 char trusted_hosts[50]; 
 
-#include "glut_socks.h"
+#include "tcp_listener.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -62,7 +62,7 @@ static void tcp_server_read(void){
 	    if(size <= 0){
 	      if (errno == EAGAIN)
 		continue; // keep trying..
-	      perror("In glut_socks::tcp_server_read");
+	      perror("In tcp_listener::tcp_server_read");
 	      need_size=0; // problem
 	      break;
 	    }
