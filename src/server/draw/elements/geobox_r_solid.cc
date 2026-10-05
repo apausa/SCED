@@ -1,4 +1,5 @@
 #include "elements.h"
+#include <config.h>
 
 /*
  * GeoBoxRSolid

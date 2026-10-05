@@ -15,8 +15,8 @@
 #include <SDL3/SDL.h>
 
 #include <ced.h>
-#include <ced_cli.h>
-#include <ced_config.h>
+#include <ced_common.h>
+#include <config.h>
 #include <settings.h>
 
 #include "third_party/fg_geometry.h"

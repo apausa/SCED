@@ -13,6 +13,7 @@
 #include <math.h>
 
 #include <ced.h>
+#include <config.h>
 #include <settings.h>
 
 #include "actions.h"
