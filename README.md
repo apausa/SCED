@@ -67,8 +67,6 @@ cmake --build build -j$(nproc)
 ./build/sced-server
 ```
 
-The build embeds an rpath to `~/sdl3/lib64`, so `LD_LIBRARY_PATH` is not needed when running from `build/`. If the binary is moved elsewhere, use `export LD_LIBRARY_PATH=$HOME/sdl3/lib64:$LD_LIBRARY_PATH`.
-
 ### Kill server
 
 ```bash
