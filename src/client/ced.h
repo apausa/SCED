@@ -64,16 +64,13 @@ void ced_do_draw_event(void);
  * new event must be drawn.
  *
  * Example:
- *      glut_tcp_server(7285,my_process_input)
+ *      tcp_server(7285,my_process_input)
  *
  *      my_process_input(x){
  *        if(ced_process_input(x)>0)
  *          <do redraw>
  */
 int ced_process_input(void *data);
-
-// glut_socks.cc
-int  tcp_server(unsigned short port, void (*user_func)(void *data));
 
 //#ifdef __cplusplus
 // }
