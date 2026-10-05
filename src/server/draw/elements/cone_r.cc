@@ -1,6 +1,6 @@
 #include "../../third_party/fg_geometry.h"
 
-#include "elements.h"
+#include "../draw.h"
 
 /**
  * Draws a opaque cone with a custom alpha colour channel.
