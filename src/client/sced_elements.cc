@@ -6,7 +6,7 @@
 
 #include <sced_types.h>
 #include "sced_elements.h"
-#include <ced.h>
+#include <event_buffer.h>
 #include <stdio.h>
 //#include <iostream>
 

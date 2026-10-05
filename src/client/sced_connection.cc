@@ -13,7 +13,7 @@
 #include <time.h>
 #include <signal.h>
 
-#include <ced.h>
+#include <event_buffer.h>
 #include "sced_connection.h"
 
 //hauke

@@ -1,4 +1,4 @@
-#include <ced.h>
+#include <event_buffer.h>
 #include <sced_types.h>
 #include <settings.h>
 

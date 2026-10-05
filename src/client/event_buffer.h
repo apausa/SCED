@@ -3,8 +3,8 @@
  * included into enduser application.
  */
 
-#ifndef __CED_H
-#define __CED_H
+#ifndef __EVENT_BUFFER_H
+#define __EVENT_BUFFER_H
 
 #include <sced_types.h>
 
@@ -59,4 +59,4 @@ void *ced_add(unsigned id);
 
 	
 
-#endif /* __CED_H  */
+#endif /* __EVENT_BUFFER_H  */
