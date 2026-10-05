@@ -1,6 +1,6 @@
 /* "C" event display.
  * Enduser accessable API (client side): connection and event handling.
- * The elements API is in ced_cli.h.
+ * The elements API is in sced_elements.h.
  *
  * Alexey Zhelezov, DESY/ITEP, 2005
  */

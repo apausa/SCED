@@ -41,7 +41,7 @@ TARGET_INCLUDE_DIRECTORIES( sced-client PUBLIC ./src/client ./src )
 INSTALL( TARGETS sced-client LIBRARY DESTINATION lib )
 
 # Only the public API is installed
-INSTALL( FILES ./src/client/ced_cli.h ./src/client/sced_connection.h ./src/sced_types.h DESTINATION include )
+INSTALL( FILES ./src/client/sced_elements.h ./src/client/sced_connection.h ./src/sced_types.h DESTINATION include )
 
 # SCED SERVER 
 
