@@ -4,10 +4,10 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
-#ifndef __CED_CLIENT_H
-#define __CED_CLIENT_H
+#ifndef __CED_CLI_H
+#define __CED_CLI_H
 
-#include <ced_cli.h>
+#include <ced_common.h>
 
 
 #ifdef __cplusplus
@@ -206,4 +206,4 @@ void ced_cluellipse_r_ID(float radius, float height, float *center, double *rota
  }
 #endif
 
-#endif /* __CED_CLIENT_H */
+#endif /* __CED_CLI_H */
