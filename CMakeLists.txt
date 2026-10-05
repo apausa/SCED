@@ -24,13 +24,6 @@ ENDIF()
 SET( CMAKE_CXX_STANDARD 17 )
 SET( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-# Include directories
-INCLUDE_DIRECTORIES( BEFORE ./include )
-INCLUDE_DIRECTORIES( BEFORE ./src )
-INCLUDE_DIRECTORIES( BEFORE ./src/server )
-INSTALL( DIRECTORY ./include/ DESTINATION include FILES_MATCHING PATTERN "*.h" )
-INSTALL( FILES ./src/client/ced_cli.h DESTINATION include )
-
 # Compile options
 ADD_COMPILE_OPTIONS( "-Wall" "-Wextra" )
 
@@ -42,7 +35,13 @@ AUX_SOURCE_DIRECTORY( ./src/client client_sources )
 # Compile client
 ADD_LIBRARY( sced-client SHARED ${client_sources} )
 
+# Headers are included relative to src/client
+TARGET_INCLUDE_DIRECTORIES( sced-client PUBLIC ./src/client )
+
 INSTALL( TARGETS sced-client LIBRARY DESTINATION lib )
+
+# Only the public API is installed
+INSTALL( FILES ./src/client/ced_cli.h ./src/client/ced_common.h DESTINATION include )
 
 # SCED SERVER 
 
@@ -57,6 +56,9 @@ AUX_SOURCE_DIRECTORY( ./src/server/draw/elements/helpers server_sources )
 
 # Compile server
 ADD_EXECUTABLE( sced-server ${server_sources} )
+
+# Headers are included relative to src/server
+TARGET_INCLUDE_DIRECTORIES( sced-server PRIVATE ./src/server )
 
 # Link libraries
 TARGET_LINK_LIBRARIES(
