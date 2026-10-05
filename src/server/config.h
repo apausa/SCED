@@ -1,5 +1,5 @@
 /**********************************************************
-* ced_config.h, CED config file                           *
+* config.h, CED server config file                        *
 * Hauke Hoelbe, DESY, 2011                                *
 * Headerfile to adapt CED before the build.               *
 **********************************************************/
@@ -7,7 +7,6 @@
 #ifndef __CED_CONFIG
 #define __CED_CONFIG
 
-#include "ced_cli.h"
 
 
 /**********************************************************
@@ -170,26 +169,6 @@
 #define HELP_FRAME_TEXT_COLOR               0.0,0.0,0.0
 
 
-
-
-/**********************************************************
-* Layers                                                  *
-**********************************************************/
-//number of total number of layers
-#define CED_MAX_LAYER                       120
-
-//number of layers shown in popup menu
-#define NUMBER_POPUP_LAYER                  20
-
-//number of layers reserved for data
-#define NUMBER_DATA_LAYER                   25
-
-//number of layers reserved for detector components
-#define NUMBER_DETECTOR_LAYER               40
-
-//layer description text: maximal number of chars for one entry
-#define CED_MAX_LAYER_CHAR                  400
-
 /**********************************************************
 * Graphics                                                *
 **********************************************************/
@@ -208,3 +187,4 @@
 
 
 #endif
+

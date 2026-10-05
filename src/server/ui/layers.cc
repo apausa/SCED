@@ -2,6 +2,7 @@
 #include <cstring>
 
 #include <ced.h>
+#include <config.h>
 
 #include "layers.h"
 

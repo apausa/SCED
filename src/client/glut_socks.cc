@@ -9,7 +9,7 @@
 
 char trusted_hosts[50]; 
 
-#include "ced.h"
+#include "glut_socks.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

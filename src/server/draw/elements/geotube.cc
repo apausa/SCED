@@ -1,6 +1,7 @@
 #include "../../third_party/fg_geometry.h"
 
 #include "elements.h"
+#include <config.h>
 #include "ui/selection.h"
 
 void ced_draw_geotube(CED_GeoTube *c){

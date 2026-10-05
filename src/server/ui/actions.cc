@@ -12,8 +12,7 @@
 #include <iostream>
 
 #include <ced.h>
-#include <ced_cli.h>
-#include <ced_config.h>
+#include <ced_common.h>
 #include <settings.h>
 
 #include "actions.h"

@@ -15,8 +15,8 @@
 #include <math.h>
 
 #include <ced.h>
-#include <ced_cli.h>
-#include <ced_config.h>
+#include <ced_common.h>
+#include <glut_socks.h>
 #include <settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
