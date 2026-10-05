@@ -15,6 +15,7 @@
 #include <time.h>
 
 #include <ced.h>
+#include "ced_client.h"
 
 //hauke
 //#include <stropts.h>

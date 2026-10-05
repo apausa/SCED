@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include <ced_cli.h>
+#include "ced_client.h"
 #include <ced.h>
 #include <stdio.h>
 //#include <iostream>

@@ -29,6 +29,7 @@ INCLUDE_DIRECTORIES( BEFORE ./include )
 INCLUDE_DIRECTORIES( BEFORE ./src )
 INCLUDE_DIRECTORIES( BEFORE ./src/server )
 INSTALL( DIRECTORY ./include/ DESTINATION include FILES_MATCHING PATTERN "*.h" )
+INSTALL( FILES ./src/client/ced_client.h DESTINATION include )
 
 # Compile options
 ADD_COMPILE_OPTIONS( "-Wall" "-Wextra" )
