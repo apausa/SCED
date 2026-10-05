@@ -19,10 +19,8 @@
 //
 //#define CED_MAX_LAYER_CHAR 400
 
+// LAYERS
 
-/**********************************************************
-* Layers                                                  *
-**********************************************************/
 //number of total number of layers
 #define CED_MAX_LAYER                       120
 
@@ -37,6 +35,40 @@
 
 //layer description text: maximal number of chars for one entry
 #define CED_MAX_LAYER_CHAR                  400
+
+// EVENT
+
+typedef void (*ced_draw_cb)(void *data);
+
+typedef struct {
+  unsigned size;            // size of one item in bytes
+  unsigned char *b;         // "body" - data are stored here (here is some trick :)
+  unsigned long count;      // number of usefull items
+  unsigned long alloced;    // number of allocated items
+  ced_draw_cb draw;         // draw fucation, NOT used in CED client
+} ced_element;
+
+typedef struct {
+  ced_element *e;
+  unsigned      e_count;
+} ced_event;
+
+
+// CONNECTION
+
+// we reserve this size just before ced_element.b data
+#define HDR_SIZE 8
+
+typedef enum {
+  DRAW_EVENT=10000
+} MSG_TYPE;
+
+//header of every message, the data of the element follows it
+struct _phdr{
+  int size;             //size of the whole message, header included
+  unsigned type;        //message type: the id of an element type, or DRAW_EVENT
+  unsigned char b[4];   //start of the data
+};
 
 #ifdef __cplusplus
 extern "C" {

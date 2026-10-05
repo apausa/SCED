@@ -75,10 +75,7 @@ static char ced_host[30];
 
 
 void ced_send_event(void){
-  struct _phdr{
-    int size;
-    unsigned type;
-  } *hdr,draw_hdr;
+  struct _phdr *hdr,draw_hdr;
   unsigned i,problem=0;
   int sent_sum;
   char *buf;
