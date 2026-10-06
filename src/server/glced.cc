@@ -34,7 +34,6 @@ int animation_start_time = 0;
 int animate_layer = -1;
 int last_selected_layer;
 extern CEDsettings setting;
-extern CEDsettings setting_old[5];
 
 static int subSave;
 static int subLoad;
@@ -203,12 +202,6 @@ int main(int argc,char *argv[]){
     set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)
     init();
     font_init();
-
-    setting_old[0]=setting;
-    setting_old[1]=setting;
-    setting_old[2]=setting;
-    setting_old[3]=setting;
-    setting_old[4]=setting;
 
     animation_start_time = (int)SDL_GetTicks();
 

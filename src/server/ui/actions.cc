@@ -27,8 +27,6 @@ extern GLfloat window_height;
 extern bool ced_needs_redraw;
 extern CEDsettings setting;
 
-CEDsettings setting_old[5];
-
 static void toggle_layer(unsigned l){
     if(l > CED_MAX_LAYER-1){ return; }
 
@@ -70,14 +68,6 @@ void selectFromMenu(int id){
     static float mm_ha_backup;
     static float mm_va_backup;
     static int graphic_2_backup;
-
-    if(id != UNDO){
-        setting_old[4]=setting_old[3];
-        setting_old[3]=setting_old[2];
-        setting_old[2]=setting_old[1];
-        setting_old[1]=setting_old[0];
-        setting_old[0]=setting;
-    }
 
     switch(id){
         case VIEW_RESET:
@@ -204,15 +194,6 @@ void selectFromMenu(int id){
                 setting.fixed_view=true;
             }
 
-            break;
-
-        case UNDO:
-            setting=setting_old[0];
-            setting_old[0]=setting_old[1];
-            setting_old[1]=setting_old[2];
-            setting_old[2]=setting_old[3];
-            setting_old[3]=setting_old[4];
-            setting_old[4]=setting_old[4];
             break;
 
 

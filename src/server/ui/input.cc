@@ -183,8 +183,6 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU('+', VIEW_ZOOM_IN);
     SELECT_FROM_MENU('-', VIEW_ZOOM_OUT);
 
-    SELECT_FROM_MENU(26, UNDO);
-    SELECT_FROM_MENU('x', UNDO);
   case 27: // esc
     exit(0);
   case 'c':
