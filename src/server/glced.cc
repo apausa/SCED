@@ -1,8 +1,5 @@
 /* "C" event display.
- * Communications related part. 
- *
-*ik
- * Alexey Zhelezov, DESY/ITEP, 2005 */
+ * Communications related part. */
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
 #else
@@ -47,7 +44,7 @@ long int doubleClickTime=0;
 float BG_COLOR[4];
 extern int SELECTED_ID ;
 
-//fg - make axe a global to be able to rescale the world volume
+// make axe a global to be able to rescale the world volume
 GLfloat axe[][3]={
   { 0., 0., 0., },
   { DEFAULT_WORLD_SIZE/2, 0., 0. },
@@ -155,21 +152,6 @@ int main(int argc,char *argv[]){
 
     defaultSettings();
 
-    //set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)=0;
-
-    //set_bg_color(0.0,0.0,0.0,0.0); //set to default (black)
-    //set_bg_color(bgColors[0][0],bgColors[0][1],bgColors[0][2],bgColors[0][3]); //set to default (light blue [0.0, 0.2, 0.4, 0.0])
-
-    //graphic[1]=1; //transp
-    //graphic[2]=1; //persp
-    //cut_angle=0; //degrees
-    //phi_projection=false;
-    //projection=false;
-
-    //trans_value=0.8;
-
-
-
     parseCliArgs(argc, argv);
 
     ced_register_elements();
@@ -209,14 +191,8 @@ int main(int argc,char *argv[]){
     SDL_GL_SetSwapInterval(1); // vsync control
     SDL_StartTextInput(ced_sdl_window);
 
-    //glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    //glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
-    //glHint(GL_POLYGON_SMOOTH,GL_FASTEST);
-    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-    //glEnable(GL_POLYGON_SMOOTH);
     glShadeModel(GL_SMOOTH);
 
     glEnable(GL_DEPTH_TEST);
@@ -225,12 +201,8 @@ int main(int argc,char *argv[]){
 
 
     set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)
-    //glClearColor(BG_COLOR[0],BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     init();
     font_init();
-
-    //glDisable(GL_BLEND);
-
 
     setting_old[0]=setting;
     setting_old[1]=setting;

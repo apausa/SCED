@@ -1,10 +1,5 @@
 /* TCP/IP communication for GLUT based programs
- * Server (GLUT) side. 
- *
- * Alexey Zhelezov, DESY/ITEP, 2005 
- * July 2005, Jörgen Samson: small fix to keep
- *            TCP/IP connection alive if data
- *            is temporary not available
+ * Server (GLUT) side.
  */
 
 char trusted_hosts[50]; 
@@ -45,8 +40,7 @@ static void tcp_server_read(void){
   }
   if((size=read(socket_fd,buf,8))){
     need_size=*((unsigned *)buf);
-    //if((need_size >=8) && (need_size<10000000)){
-    if((need_size >=8)) { //&& (need_size<1000000000)){
+    if((need_size >=8)) {
       if(need_size>8){
 	if((unsigned)need_size>buf_size){
 	  buf=(unsigned char *) realloc(buf,need_size);
@@ -84,13 +78,8 @@ static void tcp_server_accept(void){
   struct sockaddr_in myclient;
   unsigned int size=sizeof(myclient);
 
-  //fd=accept(_server_fd,0,0);
   fd=accept(_server_fd,(struct sockaddr *)&myclient, &size);
-  //fd=accept(list->fd, &myclient, &size);
 
-  //printf("New connection from: %s\n", inet_ntoa(myclient.sin_addr));
-
-  //printf("trusted hosts: %s\n",trusted_hosts); 
   if(strcmp(inet_ntoa(myclient.sin_addr), "127.0.0.1")){ //not an connection from localhost
     if(strcmp(inet_ntoa(myclient.sin_addr), trusted_hosts)){
         struct hostent *hp;

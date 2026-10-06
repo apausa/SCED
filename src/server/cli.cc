@@ -23,7 +23,6 @@ void parseCliArgs(int argc, char *argv[]){
       if(!strcmp( argv[i] , "-world_size" ) ) {
         float w_size = atof(  argv[++i] )  ;
         printf( "  setting world size to  %f " , w_size ) ;
-        //set_world_size( w_size ) ;
         mm.sf = 205.0/w_size;
       } else if(!strcmp(argv[i], "-bgcolor") && i < argc-1){
         i++;
@@ -100,7 +99,6 @@ void parseCliArgs(int argc, char *argv[]){
               exit(0);
           }
 
-          //printf("test: %s %s\n",argv[i], argv[i+1]);
           struct hostent *host = gethostbyname(argv[i]);
           if (host != NULL){
               extern char trusted_hosts[50];

@@ -1,6 +1,5 @@
 /**********************************************************
 * config.h, CED server config file                        *
-* Hauke Hoelbe, DESY, 2011                                *
 * Headerfile to adapt CED before the build.               *
 **********************************************************/
 
@@ -96,7 +95,6 @@
 #define CED_GEOTUBE_LINE_WIDTH              0.3
 
 //maximal transparency of boarder lines
-//#define CED_GEOTUBE_LINE_MAX_TRANS          0.2
 #define CED_GEOTUBE_LINE_MAX_TRANS          1.0
 
 
