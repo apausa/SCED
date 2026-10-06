@@ -4,9 +4,9 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 */
 #include <string.h>
 
-#include <ced_common.h>
-#include "ced_cli.h"
-#include <ced.h>
+#include <sced_types.h>
+#include "sced_elements.h"
+#include <event_buffer.h>
 #include <stdio.h>
 //#include <iostream>
 

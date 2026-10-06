@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ced.h>
+#include <sced_types.h>
 
 extern char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
 extern const char layer_keys[];

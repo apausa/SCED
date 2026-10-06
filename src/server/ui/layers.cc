@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include <ced.h>
+#include <sced_types.h>
 #include <config.h>
 
 #include "layers.h"

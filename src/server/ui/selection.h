@@ -6,7 +6,7 @@
 #  include <GL/gl.h>
 #endif
 
-#include <ced_common.h>
+#include <sced_types.h>
 
 /*
  * To be called from drawing functions

@@ -1,4 +1,4 @@
-#include "elements.h"
+#include "../draw.h"
 
 /** 
  * Draws 3 orthogonal elipses as wireframes

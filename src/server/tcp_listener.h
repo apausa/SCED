@@ -3,8 +3,8 @@
  * included into enduser application.
  */
 
-#ifndef __GLUT_SOCKS_H
-#define __GLUT_SOCKS_H
+#ifndef __TCP_LISTENER_H
+#define __TCP_LISTENER_H
 
 /*
  * Server side function.
@@ -23,4 +23,4 @@
  */
 int tcp_server(unsigned short port, void (*user_func)(void *data));
 
-#endif /* __GLUT_SOCKS_H  */
+#endif /* __TCP_LISTENER_H  */
