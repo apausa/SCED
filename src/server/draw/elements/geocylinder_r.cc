@@ -31,7 +31,6 @@ void ced_draw_geocylinder_r(CED_GeoCylinderR *c){
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   
-  	//glDisable(GL_BLEND);
     glEnd();
   	
     glPopMatrix();

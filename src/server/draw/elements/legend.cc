@@ -6,11 +6,7 @@
 #include "../draw.h"
 #include "../../third_party/gl_font.h"
 
-/**
- * Draws the energy spectrum legend
- * @author: SD
- * @date: 1.09.09
- * */
+// Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
     //saves the matrices on the stack
     glMatrixMode(GL_PROJECTION);
@@ -71,13 +67,11 @@ void ced_draw_legend(CED_Legend *legend){
 
 	/**
 	 *  Legend header: GeV */
-	//glColor3f(1.0,1.0,1.0);
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0; //ever readable color
     glColor3f(dark,dark,dark);
 
 	font_render(font, x_min-x_offset_legend, y_min+stripeThickness*color_steps-y_offset_legend, header);
 	glEnd();
-	//glPopMatrix();
 
 	/**
 	 *  Legend footer: LOG or LIN */
@@ -120,8 +114,6 @@ void ced_draw_legend(CED_Legend *legend){
 
 			/**
 		 	 * Spectrum max & min value display */
-			//glColor3f(1.0f,1.0f,1.0f);
-            //double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0; //ever readable color
             glColor3f(dark,dark,dark);
 
 
@@ -131,7 +123,6 @@ void ced_draw_legend(CED_Legend *legend){
 				font_render(font, x_min+x_offset, y_min+y_offset, string);
 			}
 			else if (i==(color_steps-1)){
-				//printf("top\n");
 				snprintf(string, 6, "%.1f", ene_max);
 				font_render(font, x_min+x_offset, y_min+stripeThickness*i+y_offset, string);
             }
@@ -140,8 +131,6 @@ void ced_draw_legend(CED_Legend *legend){
 		/**
 		 *  Legend: middle ticks */
 		else if ((i%((color_steps-1)/ticks))==0 && (unsigned)tickNumber<ticks){
-
-			//printf("middle\n");
 
 			float pos;
 			pos = (float)tickNumber*(float)color_steps/(float)ticks;

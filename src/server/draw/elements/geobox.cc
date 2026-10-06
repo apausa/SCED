@@ -11,7 +11,6 @@ void ced_draw_geobox(CED_GeoBox * box )  {
     const unsigned int nDim   = 3;
     const unsigned int nFace  = 2;
     double face[nFace][nPoint][nDim];
-    //  unsigned int iDim, iPoint, iFace;
     unsigned int i, j;
   
   
