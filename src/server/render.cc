@@ -14,8 +14,7 @@
 
 #include <SDL3/SDL.h>
 
-#include <ced.h>
-#include <ced_common.h>
+#include <sced_types.h>
 #include <config.h>
 #include <settings.h>
 
@@ -23,6 +22,7 @@
 #include "ui/input.h"
 #include "ui/overlay.h"
 #include "ui/selection.h"
+#include "event.h"
 
 #include "render.h"
 

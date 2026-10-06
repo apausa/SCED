@@ -3,10 +3,10 @@
  * included into enduser application.
  */
 
-#ifndef __CED_H
-#define __CED_H
+#ifndef __EVENT_BUFFER_H
+#define __EVENT_BUFFER_H
 
-#include "ced_common.h"
+#include <sced_types.h>
 
 //#ifdef __cplusplus
 // extern "C" {
@@ -16,7 +16,13 @@
 //char trusted_hosts[50];
 //extern static char testchar;
 
-typedef void (*ced_draw_cb)(void *data);
+// the event being built (client) or received (server)
+extern ced_event eve;
+
+void ced_reset(void);
+
+// Allocate the data of an element for count items, HDR_SIZE bytes are reserved before them.
+void ced_buf_alloc(ced_element *pe,unsigned count);
 
 
 /*
@@ -47,35 +53,10 @@ unsigned ced_register_element(unsigned item_size,ced_draw_cb draw_func);
  */
 void *ced_add(unsigned id);
 
-/*
- * To be called in paint function
- *
- * It calls user defined functions for
- * each item of all elements types.
- */
-void ced_do_draw_event(void);
-
-/*
- * Server side function.
- * Must be used to process all incoming
- * messages from client.
- *
- * It return positive value when
- * new event must be drawn.
- *
- * Example:
- *      tcp_server(7285,my_process_input)
- *
- *      my_process_input(x){
- *        if(ced_process_input(x)>0)
- *          <do redraw>
- */
-int ced_process_input(void *data);
-
 //#ifdef __cplusplus
 // }
 //#endif
 
 	
 
-#endif /* __CED_H  */
+#endif /* __EVENT_BUFFER_H  */

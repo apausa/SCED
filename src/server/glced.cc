@@ -14,9 +14,7 @@
 
 #include <math.h>
 
-#include <ced.h>
-#include <ced_common.h>
-#include <glut_socks.h>
+#include <sced_types.h>
 #include <settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
@@ -29,6 +27,8 @@
 #include "cli.h"
 #include "utils/helpers.h"
 #include "event_loop.h"
+#include "tcp_listener.h"
+#include "draw/draw.h"
 
 using namespace std;
 

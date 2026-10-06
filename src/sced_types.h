@@ -4,8 +4,8 @@
  * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
-#ifndef __CED_COMMON_H
-#define __CED_COMMON_H
+#ifndef __SCED_TYPES_H
+#define __SCED_TYPES_H
 
 //important:
 //          - sum of all layers must be smaler than max_layer!
@@ -19,10 +19,8 @@
 //
 //#define CED_MAX_LAYER_CHAR 400
 
+// LAYERS
 
-/**********************************************************
-* Layers                                                  *
-**********************************************************/
 //number of total number of layers
 #define CED_MAX_LAYER                       120
 
@@ -38,15 +36,43 @@
 //layer description text: maximal number of chars for one entry
 #define CED_MAX_LAYER_CHAR                  400
 
+// EVENT
+
+typedef void (*ced_draw_cb)(void *data);
+
+typedef struct {
+  unsigned size;            // size of one item in bytes
+  unsigned char *b;         // "body" - data are stored here (here is some trick :)
+  unsigned long count;      // number of usefull items
+  unsigned long alloced;    // number of allocated items
+  ced_draw_cb draw;         // draw fucation, NOT used in CED client
+} ced_element;
+
+typedef struct {
+  ced_element *e;
+  unsigned      e_count;
+} ced_event;
+
+
+// CONNECTION
+
+// we reserve this size just before ced_element.b data
+#define HDR_SIZE 8
+
+typedef enum {
+  DRAW_EVENT=10000
+} MSG_TYPE;
+
+//header of every message, the data of the element follows it
+struct _phdr{
+  int size;             //size of the whole message, header included
+  unsigned type;        //message type: the id of an element type, or DRAW_EVENT
+  unsigned char b[4];   //start of the data
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/*
- * Register the element types. Both the client and the server
- * implement this function, and the order must be the same.
- */
-void ced_register_elements(void);
 
 typedef struct {
   float x;
@@ -251,5 +277,5 @@ typedef struct {
 #endif
 	
 
-#endif /* __CED_COMMON_H */
+#endif /* __SCED_TYPES_H */
 
