@@ -1,7 +1,5 @@
 /* "C" event display.
  * Enduser accessable API (client side)
- *
- * Alexey Zhelezov, DESY/ITEP, 2005 
  */
 
 #ifndef __SCED_ELEMENTS_H
@@ -25,14 +23,6 @@ typedef enum {
   CED_TYPE_SHIFT=0x0,
   CED_LAYER_SHIFT=0x8
 } CED_TYPE_BITS;
-
-/*
-typedef enum {
-  CED_TYPE_SHIFT=0x0,
-  CED_LAYER_SHIFT=0x0
-} CED_TYPE_BITS;
-*/
-
 
 /*
  * Hit element
@@ -118,25 +108,19 @@ void ced_geocylinder_r(float d, double z, double * center, double * rotate, unsi
 
   /** Send/Draw a box at position center (x,y,z in mm) with lengths along the 
    * axes specified in sizes.
-   * 
-   * @author A.Bulgheroni, INFN
    */
   void ced_geobox(double * sizes, double * center, unsigned int color );
   void ced_geobox_ID(double *size, double *position, unsigned int layer, unsigned int color, unsigned int lcio_id);
   void ced_geobox_r_ID(double *size, double *position, double *rotate, unsigned int layer, unsigned int color, unsigned int lcio_id);
   void rotate3d(double *vektor, double *rotate);
 
-
-   /* 
-   * @author A.Bulgheroni, INFN
-   */
   void ced_geoboxes( unsigned int nBox, CED_GeoBox * allBoxes);
 
 void ced_geobox_r(double * sizes, double * center, double * rotate, unsigned int color, unsigned int layer);
 void ced_geobox_r_solid(double * sizes, double * center, double * rotate, unsigned int color, unsigned int layer);
 
 
-void ced_describe_layer(const char *, int); //, int, int);
+void ced_describe_layer(const char *, int);
 
   typedef struct{
     char str[400];
@@ -144,18 +128,17 @@ void ced_describe_layer(const char *, int); //, int, int);
   } LAYER_TEXT; 
 
 void ced_layer_text(char *, int);
-//end hauke
 
 void ced_legend(float ene_min, float ene_max, unsigned int color_steps, unsigned int ** rgb_matrix, unsigned int ticks, char scale);
 
 void ced_cone_r(float base, float height, double *center, double *rotate, unsigned int layer, float *RGBAcolor);
-void ced_cone_r_ID(float base, float height, double *center, double *rotate, unsigned int layer, float *RGBAcolor, int lcioid); //hauke
+void ced_cone_r_ID(float base, float height, double *center, double *rotate, unsigned int layer, float *RGBAcolor, int lcioid);
 
 void ced_ellipsoid_r(double *size, double *center, double *rotate, unsigned int layer, int color);
-void ced_ellipsoid_r_ID(double *size, double *center, double *rotate, unsigned int layer, int color, int lcioid); //hauke
+void ced_ellipsoid_r_ID(double *size, double *center, double *rotate, unsigned int layer, int color, int lcioid);
 
 void ced_cluellipse_r(float radius, float height, float *center, double *rotate, unsigned int layer, int color);
-void ced_cluellipse_r_ID(float radius, float height, float *center, double *rotate, unsigned int layer, int color, int lcioid); //hauke
+void ced_cluellipse_r_ID(float radius, float height, float *center, double *rotate, unsigned int layer, int color, int lcioid);
 
 
 #ifdef __cplusplus
