@@ -33,7 +33,6 @@ extern bool select_nothing;
 extern bool ced_needs_redraw;
 extern int socket_fd;
 extern bool client_connected;
-extern float userDefinedBGColor[];
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -58,19 +57,6 @@ static enum {
 } move_mode;
 static GLfloat mouse_x=0.;
 static GLfloat mouse_y=0.;
-
-typedef GLfloat color_t[4];
-
-static color_t bgColors[] = {
-  { 0.0, 0.2, 0.4, 0.0 }, //light blue
-  { 0.0, 0.0, 0.0, 0.0 }, //black
-  { 0.2, 0.2, 0.2, 0.0 }, //gray shades
-  { 0.4, 0.4, 0.4, 0.0 },
-  { 0.6, 0.6, 0.6, 0.0 },
-  { 0.8, 0.8, 0.8, 0.0 },
-  { 1.0, 1.0, 1.0, 0.0 }  //white
-};
-static unsigned int iBGcolor = 0;
 
 void mouseWheel(int, int dir, int, int ){
     if(dir > 0){
@@ -369,22 +355,6 @@ void keypressed(unsigned char key, int x, int y) {
     ced_needs_redraw = true;
     break;
 
-    case 'b': // toggle background color
-    ++iBGcolor;
-    if (iBGcolor >= sizeof(bgColors) / sizeof(color_t)) {
-      glClearColor(userDefinedBGColor[0], userDefinedBGColor[1],
-                   userDefinedBGColor[2], userDefinedBGColor[3]);
-      iBGcolor = -1;
-      printf("using color: %s\n", "user defined");
-      ced_needs_redraw = true;
-      return;
-    } else {
-      glClearColor(bgColors[iBGcolor][0], bgColors[iBGcolor][1],
-                   bgColors[iBGcolor][2], bgColors[iBGcolor][3]);
-      ced_needs_redraw = true;
-      printf("using color %u\n", iBGcolor);
-    }
-    break;
   case 'h':
     toggleHelpWindow();
     break;

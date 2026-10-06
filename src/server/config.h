@@ -98,55 +98,6 @@
 #define CED_GEOTUBE_LINE_MAX_TRANS          1.0
 
 
-//names and values of color apairs in popup menu
-#define CED_BGCOLOR_OPTION1_NAME            "Gainsboro"
-#define CED_BGCOLOR_OPTION1_COLORCODE       0.862745,0.862745,0.862745,0
-
-#define CED_BGCOLOR_OPTION2_NAME            "Lightgray"
-#define CED_BGCOLOR_OPTION2_COLORCODE       0.827451,0.827451,0.827451,0
-
-#define CED_BGCOLOR_OPTION3_NAME            "Darkgray"
-#define CED_BGCOLOR_OPTION3_COLORCODE       0.662745,0.662745,0.662745,0
-
-#define CED_BGCOLOR_OPTION4_NAME            "Gray"
-#define CED_BGCOLOR_OPTION4_COLORCODE       0.501961,0.501961,0.501961,0
-
-#define CED_BGCOLOR_OPTION5_NAME            "Silver"
-#define CED_BGCOLOR_OPTION5_COLORCODE       0.7529,0.7529,0.7529,0
-
-#define CED_BGCOLOR_OPTION6_NAME            "Dimgray"
-#define CED_BGCOLOR_OPTION6_COLORCODE       0.4118,0.4118,0.4118,0
-
-#define CED_BGCOLOR_OPTION7_NAME            "Lightsteelblue"
-#define CED_BGCOLOR_OPTION7_COLORCODE       0.6902,0.7686 ,0.8706,0
-
-#define CED_BGCOLOR_OPTION8_NAME            "Steelblue"
-#define CED_BGCOLOR_OPTION8_COLORCODE       0.2745,0.5098,0.70588,0
-
-#define CED_BGCOLOR_OPTION9_NAME            "Seagreen"
-#define CED_BGCOLOR_OPTION9_COLORCODE       0.18039,0.54509,0.34117,0
-
-#define CED_BGCOLOR_OPTION10_NAME           "Orange"
-#define CED_BGCOLOR_OPTION10_COLORCODE      1,0.647,0,0
-
-#define CED_BGCOLOR_OPTION11_NAME           "Yellow"
-#define CED_BGCOLOR_OPTION11_COLORCODE      1,1,0,0
-
-#define CED_BGCOLOR_OPTION12_NAME           "Violett"
-#define CED_BGCOLOR_OPTION12_COLORCODE      0.9333,0.5098,0.9333,0
-
-#define CED_BGCOLOR_OPTION13_NAME           "Black"
-#define CED_BGCOLOR_OPTION13_COLORCODE      0,0,0,0
-
-#define CED_BGCOLOR_OPTION14_NAME           "Blue"
-#define CED_BGCOLOR_OPTION14_COLORCODE      0,0.2,0.4,0
-
-#define CED_BGCOLOR_OPTION15_NAME           "White"
-#define CED_BGCOLOR_OPTION15_COLORCODE      1,1,1,0
-
-
-
-
 //Color of xyz axes
 #define AXES_COLOR                          0.2,0.2,0.8
 

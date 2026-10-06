@@ -26,7 +26,6 @@
 
 #include "render.h"
 
-extern float BG_COLOR[4];
 extern GLfloat axe[][3];
 extern int showHelp;
 
@@ -44,7 +43,7 @@ extern CEDsettings setting;
 
 void init(void){
     //Set background color
-    glClearColor(BG_COLOR[0],BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // white
 
     glShadeModel(GL_SMOOTH);
 

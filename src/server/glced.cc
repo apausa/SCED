@@ -40,7 +40,6 @@ static int subLoad;
 int showHelp=0;
 float WORLD_SIZE;
 long int doubleClickTime=0;
-float BG_COLOR[4];
 extern int SELECTED_ID ;
 
 // make axe a global to be able to rescale the world volume
@@ -92,8 +91,6 @@ void defaultSettings(void){
 
     std::cout << "Set options to default settings" << std::endl;
 }
-
-float userDefinedBGColor[] = {-1.0, -1.0, -1.0, -1.0};
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
@@ -197,9 +194,6 @@ int main(int argc,char *argv[]){
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
 
-
-
-    set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)
     init();
     font_init();
 
