@@ -64,7 +64,7 @@ void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
 
 }
 
-void selectFromMenu(int id){ //hauke
+void selectFromMenu(int id){
     int anz;
     static CEDsettings backup_setting;
     static float mm_ha_backup;

@@ -53,7 +53,6 @@ void printFPS(void){
         fps++;
     }else{
         startTime=tv.tv_sec+tv.tv_usec/1000000.0;
-        //printf("FPS: %i\n", fps);
         old_fps=fps;
         fps=1;
     }
@@ -90,13 +89,6 @@ void printFPS(void){
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
     glColor3f(dark,dark,dark);
 
-
-    //void *font=GLUT_BITMAP_TIMES_ROMAN_10; //default font
-    //glRasterPos2f(-1200,-950);
-    //char *c;
-    //for (c=text; *c != '\0'; c++) {
-    //    glutBitmapCharacter(font, *c);
-    //}
 
     font_render(setting.font, -1200, -950, text);
 
@@ -173,9 +165,6 @@ void printShortcuts(void){
     int height = font_get_height(setting.font) + 2;
     int width  = font_get_width(setting.font, "A");
 
-    //float line = 12; //height of one line
-    //float column = MAX_STR_LEN*5; //width of one line
-
     float line = height; //height of one line
     float column = MAX_STR_LEN*width; //width of one line
 
@@ -246,10 +235,6 @@ void printShortcuts(void){
 
     int  world_size=1000; //static worldsize maybe will get problems in the future...
 
-    //glOrtho(0,w,h, 0,0,15*WORLD_SIZE);
-
-    //glOrtho(0,w,h,-10,0,15*WORLD_SIZE);
-
     glOrtho(0,w,h,-1*height,0,15*world_size);
 
     glMatrixMode(GL_MODELVIEW);
@@ -270,8 +255,6 @@ void printShortcuts(void){
         h*=3;
     }
 
-    //glColor4f(HELP_FRAME_FILL_COLOR);
-
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor4f(0.1,0.1,0.1,0.5);
     }else{
@@ -289,7 +272,6 @@ void printShortcuts(void){
 
 
 
-    //glColor4f(HELP_FRAME_BOARDER_COLOR);
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor4f(0.2,0.2,0.2,0.5);
     }else{
@@ -312,7 +294,6 @@ void printShortcuts(void){
     glVertex3f(w-boarder_line, h/3.-boarder_line,0);
     glEnd();
 
-    //glColor3f(HELP_FRAME_TEXT_COLOR);
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor3f(1,1,1);
     }else{
