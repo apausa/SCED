@@ -38,17 +38,8 @@ extern CEDsettings setting;
 static int subSave;
 static int subLoad;
 int showHelp=0;
-float WORLD_SIZE;
 long int doubleClickTime=0;
 extern int SELECTED_ID ;
-
-// make axe a global to be able to rescale the world volume
-GLfloat axe[][3]={
-  { 0., 0., 0., },
-  { DEFAULT_WORLD_SIZE/2, 0., 0. },
-  { 0., DEFAULT_WORLD_SIZE/2, 0. },
-  { 0., 0., DEFAULT_WORLD_SIZE/2 }
-};
 
 void defaultSettings(void){
     setting.trans=true;
@@ -82,12 +73,10 @@ void defaultSettings(void){
     setting.fixed_view=false;
 
     mm=mm_reset;
-    set_world_size(DEFAULT_WORLD_SIZE);
 
     setting.va=mm.va;
     setting.ha=mm.ha;
     setting.zoom=mm.sf;
-    setting.world_size=WORLD_SIZE;
 
     std::cout << "Set options to default settings" << std::endl;
 }
@@ -133,7 +122,6 @@ int main(int argc,char *argv[]){
     #endif
 
     mm_reset=mm;
-    WORLD_SIZE = DEFAULT_WORLD_SIZE ;
 
     SDL_Init(SDL_INIT_VIDEO);
     // SDL's Wayland backend uses EGL which defaults to OpenGL ES. The following code creates a desktop

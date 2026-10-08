@@ -21,7 +21,6 @@
 
 using namespace std;
 
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern bool ced_needs_redraw;
@@ -75,7 +74,6 @@ void selectFromMenu(int id){
             setting.z_projection=false; // no phi projection;
             mm=mm_reset;
             setting.fixed_view=false;
-            set_world_size(DEFAULT_WORLD_SIZE );
             break;
 
         case CED_RESET:
@@ -95,7 +93,6 @@ void selectFromMenu(int id){
             setting.z_projection=false; // no phi projection;
             mm=mm_reset;
             setting.fixed_view=false;
-            set_world_size(DEFAULT_WORLD_SIZE );
 
             setting.show_axes=true;
             break;

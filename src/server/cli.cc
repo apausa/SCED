@@ -7,29 +7,23 @@
 #include <netdb.h>
 
 #include "cli.h"
-#include "ui/input.h"
 
 void parseCliArgs(int argc, char *argv[]){
     int i;
     for(i=1;i<argc ; i++){
 
-      if(!strcmp( argv[i] , "-world_size" ) ) {
-        float w_size = atof(  argv[++i] )  ;
-        printf( "  setting world size to  %f " , w_size ) ;
-        mm.sf = 205.0/w_size;
-      } else if(!strcmp( argv[i] , "-h" ) ||
+      if(!strcmp( argv[i] , "-h" ) ||
          !strcmp( argv[i] , "--help" )||
          !strcmp( argv[i] , "-?" )
          ) {
 
 
       printf( "\n  CED event display server: \n\n"
-          "   Usage:  glced [-world_size LENGTH] [-trust TRUSTED_HOST]\n\n"
+          "   Usage:  glced [-trust TRUSTED_HOST]\n\n"
           "        options:  \n"
-          "              LENGTH:       Visible world-cube size in mm (default: 6000) \n"
           "              TRUSTED_HOST: Ip or name of the host who is allowed to connect to CED\n\n"
           "   Example: \n\n"
-          "     ./bin/glced -world_size 1000. -trust 192.168.11.22 > /tmp/glced.log 2>&1 & \n\n"
+          "     ./bin/glced -trust 192.168.11.22 > /tmp/glced.log 2>&1 & \n\n"
           "    "
           "   Change port (before starting glced):"
               "         export CED_PORT=<portnumber>\n\n\n"

@@ -21,6 +21,7 @@
 
 #include "overlay.h"
 #include "layers.h"
+#include "render.h"
 #include "utils/helpers.h"
 
 using namespace std;
@@ -28,7 +29,6 @@ using namespace std;
 // Owned by glced.cc.
 extern int animation_start_time;
 extern int animate_layer;
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -75,8 +75,7 @@ void printFPS(void){
     GLfloat w = (GLfloat)display_bounds.w;
     GLfloat h = (GLfloat)display_bounds.h;
 
-    int  world_size=1000; //static worldsize maybe will get problems in the future...
-    glOrtho(-world_size*w/h,world_size*w/h,-world_size,world_size, -15*world_size,15*world_size);
+    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -231,9 +230,7 @@ void printShortcuts(void){
     GLfloat w = window_width;
     GLfloat h = window_height;
 
-    int  world_size=1000; //static worldsize maybe will get problems in the future...
-
-    glOrtho(0,w,h,-1*height,0,15*world_size);
+    glOrtho(0,w,h,-1*height,0,15*WORLD_SIZE);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

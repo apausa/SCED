@@ -26,12 +26,10 @@
 
 #include "render.h"
 
-extern GLfloat axe[][3];
 extern int showHelp;
 
 extern SDL_Window *ced_sdl_window;
 
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 
@@ -76,6 +74,13 @@ static unsigned char z_bm[]={
     0x08,0x0c,0x04,0x06,0x02,0xff
 };
 
+
+static const GLfloat axe[][3]={
+  { 0., 0., 0., },
+  { WORLD_SIZE/2, 0., 0. },
+  { 0., WORLD_SIZE/2, 0. },
+  { 0., 0., WORLD_SIZE/2 }
+};
 
 static void axe_arrow(void){
     GLfloat k=WORLD_SIZE/window_height;

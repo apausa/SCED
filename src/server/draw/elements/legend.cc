@@ -5,6 +5,7 @@
 
 #include "../draw.h"
 #include "../../third_party/gl_font.h"
+#include "render.h"
 
 // Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
@@ -23,7 +24,6 @@ void ced_draw_legend(CED_Legend *legend){
     GLfloat w = (GLfloat)display_bounds.w;
     GLfloat h = (GLfloat)display_bounds.h;
 
-    int  WORLD_SIZE=1000; //static worldsize maybe will get problems in the future...
     glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
