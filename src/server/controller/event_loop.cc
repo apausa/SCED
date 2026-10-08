@@ -13,7 +13,7 @@
 #include "view/view.h"
 #include "controller/input.h"
 #include "view/overlay.h"
-#include "event.h"
+#include "model/event.h"
 
 #include "event_loop.h"
 

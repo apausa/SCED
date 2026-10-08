@@ -13,7 +13,7 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "actions.h"
 #include "input.h"

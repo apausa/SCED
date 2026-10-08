@@ -15,13 +15,13 @@
 #include <SDL3/SDL.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "third_party/fg_geometry.h"
 #include "controller/input.h"
 #include "view/overlay.h"
 #include "ui/selection.h"
-#include "event.h"
+#include "model/event.h"
 
 #include "view.h"
 

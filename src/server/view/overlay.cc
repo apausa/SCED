@@ -13,7 +13,7 @@
 #include <vector>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 #include <third_party/gl_font.h>
 
 #include "overlay.h"

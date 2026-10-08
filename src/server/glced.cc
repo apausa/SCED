@@ -12,7 +12,7 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
 #include "controller/input.h"
