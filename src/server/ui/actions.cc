@@ -38,21 +38,15 @@ static void toggle_layer(unsigned l){
 
 void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
     if(strcmp(name,"trans")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_trans[i]=source.detector_trans[i];
-        }
+        dest.detector_trans=source.detector_trans;
     }
 
     else if(strcmp(name,"cut z")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_cut_z[i]=source.detector_cut_z[i];
-        }
+        dest.detector_cut_z=source.detector_cut_z;
     }
 
     else if(strcmp(name,"cut angle")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_cut_angle[i]=source.detector_cut_angle[i];
-        }
+        dest.detector_cut_angle=source.detector_cut_angle;
     }
     else{
         std::cout << "WARNING: unknown settingtype: " << name << std::endl;
@@ -79,11 +73,9 @@ void selectFromMenu(int id){
             if(setting.persp == false){
                 selectFromMenu(GRAFIC_PERSP); //switch persp on
             }
-            for(int i = 0; i<NUMBER_DETECTOR_LAYER;i++){
-                setting.detector_trans[i]=0.8;
-                setting.detector_cut_angle[i]=0;
-                setting.detector_cut_z[i]=7000;
-            }
+            setting.detector_trans=0.8;
+            setting.detector_cut_angle=0;
+            setting.detector_cut_z=7000;
 
             for(int i = 0; i<CED_MAX_LAYER;i++){
                 setting.layer[i]=true;
@@ -137,9 +129,7 @@ void selectFromMenu(int id){
                 if(setting.persp==1){selectFromMenu(GRAFIC_PERSP); }
 
 
-                for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-                    setting.detector_cut_angle[i]=180;
-                }
+                setting.detector_cut_angle=180;
                 mm_ha_backup=mm.ha;
                 mm_va_backup = mm.va;
                 mm.ha=90.;
@@ -171,9 +161,7 @@ void selectFromMenu(int id){
 
                 setting.z_projection=true;
 
-                for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-                    setting.detector_cut_z[i]=-10;
-                }
+                setting.detector_cut_z=-10;
 
                 graphic_2_backup=setting.persp;
 

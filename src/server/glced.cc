@@ -55,11 +55,9 @@ void defaultSettings(void){
         setting.layer[i]=true; // turn all layers on
     }
 
-    for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-        setting.detector_trans[i]=0.8;
-        setting.detector_cut_angle[i]=0;
-        setting.detector_cut_z[i]=7000;
-    }
+    setting.detector_trans=0.8;
+    setting.detector_cut_angle=0;
+    setting.detector_cut_z=7000;
 
     setting.phi_projection=false;
     setting.z_projection=false;

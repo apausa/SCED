@@ -203,59 +203,47 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU(DETECTORLAYER_SHORTKEY_39, DETECTOR40);
 
   case 'z':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_cut_z[0] < 7000) {
-        setting.detector_cut_z[i] += 100;
-      }
+    if (setting.detector_cut_z < 7000) {
+      setting.detector_cut_z += 100;
     }
     ced_needs_redraw = true;
     break;
 
   case 'Z':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_cut_z[i] > -7000) {
-        setting.detector_cut_z[i] -= 100;
-      }
+    if (setting.detector_cut_z > -7000) {
+      setting.detector_cut_z -= 100;
     }
     ced_needs_redraw = true;
     break;
 
   case '<':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_trans[i] > 0.005) {
-        setting.detector_trans[i] -= 0.005;
-      } else {
-        setting.detector_trans[i] = 0;
-      }
+    if (setting.detector_trans > 0.005) {
+      setting.detector_trans -= 0.005;
+    } else {
+      setting.detector_trans = 0;
     }
     ced_needs_redraw = true;
     break;
 
   case '>':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_trans[i] < 1 - 0.005) {
-        setting.detector_trans[i] += 0.005;
-      } else {
-        setting.detector_trans[i] = 1.;
-      }
+    if (setting.detector_trans < 1 - 0.005) {
+      setting.detector_trans += 0.005;
+    } else {
+      setting.detector_trans = 1.;
     }
     ced_needs_redraw = true;
     break;
 
   case 'm':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_cut_angle[i] > 0) {
-        setting.detector_cut_angle[i] -= 0.5;
-      }
+    if (setting.detector_cut_angle > 0) {
+      setting.detector_cut_angle -= 0.5;
     }
     ced_needs_redraw = true;
     break;
 
   case 'M':
-    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-      if (setting.detector_cut_angle[i] < 360) {
-        setting.detector_cut_angle[i] += 0.5;
-      }
+    if (setting.detector_cut_angle < 360) {
+      setting.detector_cut_angle += 0.5;
     }
     ced_needs_redraw = true;
     break;
