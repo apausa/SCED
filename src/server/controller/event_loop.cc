@@ -10,10 +10,10 @@
 #include <sced_types.h>
 #include <third_party/gl_font.h>
 
-#include "render.h"
-#include "ui/input.h"
-#include "ui/overlay.h"
-#include "event.h"
+#include "view/view.h"
+#include "controller/input.h"
+#include "view/overlay.h"
+#include "model/event.h"
 
 #include "event_loop.h"
 

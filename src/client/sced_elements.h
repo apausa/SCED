@@ -15,7 +15,7 @@ extern "C" {
 
 /*
  * Register the element types. The order must be the
- * same as in the server (see draw/draw.h).
+ * same as in the server (see view/draw/draw.h).
  */
 void ced_register_elements(void);
 

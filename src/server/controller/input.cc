@@ -13,12 +13,12 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "actions.h"
 #include "input.h"
-#include "layers.h"
-#include "selection.h"
+#include "ui/layers.h"
+#include "ui/selection.h"
 
 using namespace std;
 

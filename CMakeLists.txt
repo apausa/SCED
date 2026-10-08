@@ -45,13 +45,8 @@ INSTALL( FILES ./src/client/sced_elements.h ./src/client/sced_connection.h ./src
 
 # SCED SERVER 
 
-# Collect server source files
-AUX_SOURCE_DIRECTORY( ./src/server server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/third_party server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/ui server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/draw server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/draw/elements server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/draw/elements/helpers server_sources )
+# Collect server source files, in every subdirectory (CONFIGURE_DEPENDS re-checks at build time)
+FILE( GLOB_RECURSE server_sources CONFIGURE_DEPENDS ./src/server/*.cc )
 
 # Compile server
 ADD_EXECUTABLE( sced-server ${server_sources} )

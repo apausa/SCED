@@ -14,7 +14,7 @@
 #include <iostream>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "selection.h"
 

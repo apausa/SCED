@@ -1,6 +1,6 @@
 #include <event_buffer.h>
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "draw.h"
 #include "ui/layers.h"

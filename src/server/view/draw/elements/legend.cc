@@ -2,7 +2,7 @@
 #include <cstring>
 
 #include "../draw.h"
-#include "../../third_party/gl_font.h"
+#include "third_party/gl_font.h"
 
 // Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
