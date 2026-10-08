@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
 enum {
     MOUSE_DOWN = 0,
     MOUSE_UP = 1
@@ -26,25 +20,6 @@ enum {
     KEY_END = 107,
     KEY_INSERT = 108
 };
-
-typedef struct {
-    GLfloat x;
-    GLfloat y;
-    GLfloat z;
-} Point;
-
-struct CameraState {
-    GLfloat va; // vertical angle
-    GLfloat ha; // horisontal angle
-    GLfloat sf; // scale factor
-    Point mv; // the center
-    GLfloat va_start;
-    GLfloat ha_start;
-    Point mv_start;
-};
-
-extern CameraState mm;
-extern CameraState mm_reset;
 
 void mouse(int btn, int state, int x, int y);
 void mouseWheel(int, int dir, int, int);

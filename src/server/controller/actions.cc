@@ -15,6 +15,8 @@
 #include <model/settings.h>
 
 #include "actions.h"
+#include <model/camera.h>
+
 #include "controller/input.h"
 #include "view/view.h"
 
@@ -65,7 +67,7 @@ void selectFromMenu(int id){
         case VIEW_RESET:
             setting.phi_projection = false; // no phi projection
             setting.z_projection=false; // no phi projection;
-            mm=mm_reset;
+            camera_reset();
             setting.fixed_view=false;
             break;
 
@@ -82,7 +84,7 @@ void selectFromMenu(int id){
             }
             setting.phi_projection = false; // no phi projection
             setting.z_projection=false; // no phi projection;
-            mm=mm_reset;
+            camera_reset();
             setting.fixed_view=false;
 
             setting.show_axes=true;
@@ -91,15 +93,13 @@ void selectFromMenu(int id){
         case VIEW_FRONT:
             if(setting.fixed_view){ break;}
 
-            mm.ha=180.;
-            mm.va=0.;
+            camera_set_angles(180., 0.);
             break;
 
         case VIEW_SIDE:
             if(setting.fixed_view){ break;}
 
-                mm.ha=90.;
-                mm.va=0.;
+                camera_set_angles(90., 0.);
 
             break;
 
@@ -110,8 +110,7 @@ void selectFromMenu(int id){
                 copySetting(setting, backup_setting, "cut angle");
                 if(graphic_2_backup != setting.persp){selectFromMenu(GRAFIC_PERSP); } //restore persp setting
 
-                mm.ha = mm_ha_backup;
-                mm.va = mm_va_backup;
+                camera_set_angles(mm_ha_backup, mm_va_backup);
 
                 setting.fixed_view=false;
 
@@ -130,10 +129,9 @@ void selectFromMenu(int id){
 
 
                 setting.detector_cut_angle=180;
-                mm_ha_backup=mm.ha;
-                mm_va_backup = mm.va;
-                mm.ha=90.;
-                mm.va=0.;
+                mm_ha_backup=camera_get().ha;
+                mm_va_backup=camera_get().va;
+                camera_set_angles(90., 0.);
 
                 setting.fixed_view=true;
             }
@@ -149,8 +147,7 @@ void selectFromMenu(int id){
                 if(graphic_2_backup != setting.persp){selectFromMenu(GRAFIC_PERSP); } //restore persp setting
 
 
-                mm.ha = mm_ha_backup;
-                mm.va = mm_va_backup;
+                camera_set_angles(mm_ha_backup, mm_va_backup);
 
                 setting.fixed_view=false;
             }else{ //turn projection on
@@ -169,11 +166,10 @@ void selectFromMenu(int id){
 
 
                //side view
-                mm_ha_backup=mm.ha;
-                mm_va_backup = mm.va;
+                mm_ha_backup=camera_get().ha;
+                mm_va_backup=camera_get().va;
 
-                mm.ha=180.;
-                mm.va=0.;
+                camera_set_angles(180., 0.);
 
                 setting.fixed_view=true;
             }
@@ -182,11 +178,11 @@ void selectFromMenu(int id){
 
 
         case VIEW_ZOOM_IN:
-            mm.sf += mm.sf*50.0/window_height;
+            camera_zoom_in(window_height);
             break;
 
         case VIEW_ZOOM_OUT:
-            mm.sf -= mm.sf*50.0/window_height;
+            camera_zoom_out(window_height);
             break;
 
         case LAYER_ALL:
