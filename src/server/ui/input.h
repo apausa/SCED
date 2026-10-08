@@ -40,7 +40,6 @@ struct CameraState {
     Point mv; // the center
     GLfloat va_start;
     GLfloat ha_start;
-    GLfloat sf_start;
     Point mv_start;
 };
 

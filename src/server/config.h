@@ -11,11 +11,6 @@
 /**********************************************************
 * Handling                                                *
 **********************************************************/
-//enable zoom function by right click and pull
-#define ZOOM_RIGHT_CLICK                   0
-
-//time when 2 clicks should be a double click, in 1/1000000 secounds
-#define DOUBLE_CLICK_TIME                  300000
 
 //data layer keys
 #define DATALAYER_SHORTKEY_00       '0'
@@ -105,17 +100,8 @@
 #define AXES_LINE_SIZE                      0.5
 
 
-//Help frame: Frame fill color, and transp
-#define HELP_FRAME_FILL_COLOR               0.5,1,1,0.8
-
-//Help frame: Frame boarder color and transp
-#define HELP_FRAME_BOARDER_COLOR            0.1,0.8,1.0,0.8
-
 //Help frame: Frame boarder line width
 #define HELP_FRAME_BOARDER_LINE_SIZE        3.
-
-//Help frame: Text color, and transp
-#define HELP_FRAME_TEXT_COLOR               0.0,0.0,0.0
 
 
 /**********************************************************
