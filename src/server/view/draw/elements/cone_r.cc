@@ -1,4 +1,4 @@
-#include "../../third_party/fg_geometry.h"
+#include "third_party/fg_geometry.h"
 
 #include "../draw.h"
 

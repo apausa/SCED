@@ -3,7 +3,7 @@ NAME:
     actions.h
 DESCRIPTION:
     Action-ID constants dispatched by selectFromMenu() (see
-    src/server/ui/actions.cc), the shared handler for keyboard
+    src/server/controller/actions.cc), the shared handler for keyboard
     shortcuts and the scroll wheel.
 ****************************************************************/
 

@@ -12,11 +12,11 @@
 #include <iostream>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "actions.h"
-#include "ui/input.h"
-#include "render.h"
+#include "controller/input.h"
+#include "view/view.h"
 
 using namespace std;
 

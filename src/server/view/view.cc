@@ -15,15 +15,15 @@
 #include <SDL3/SDL.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 
 #include "third_party/fg_geometry.h"
-#include "ui/input.h"
-#include "ui/overlay.h"
+#include "controller/input.h"
+#include "view/overlay.h"
 #include "ui/selection.h"
-#include "event.h"
+#include "model/event.h"
 
-#include "render.h"
+#include "view.h"
 
 //Color of xyz axes
 #define AXES_COLOR                          0.2,0.2,0.8

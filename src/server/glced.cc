@@ -12,19 +12,19 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <settings.h>
+#include <model/settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
-#include "ui/input.h"
+#include "controller/input.h"
 
 #include <iostream>
 
-#include "ui/actions.h"
-#include "render.h"
+#include "controller/actions.h"
+#include "view/view.h"
 #include "cli.h"
-#include "event_loop.h"
+#include "controller/event_loop.h"
 #include "tcp_listener.h"
-#include "draw/draw.h"
+#include "view/draw/draw.h"
 
 using namespace std;
 
