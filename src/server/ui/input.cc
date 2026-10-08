@@ -124,8 +124,6 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU('+', VIEW_ZOOM_IN);
     SELECT_FROM_MENU('-', VIEW_ZOOM_OUT);
 
-  case 27: // esc
-    exit(0);
   case 'c':
   case 'C':
     if (!ced_get_selected(x, y, &mm.mv.x, &mm.mv.y, &mm.mv.z)) {
