@@ -53,11 +53,9 @@ static unsigned omap_alloced=0;
 void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer, int type){
     double my_max_dxy =  5*max_dxy*setting.zoom;
 
-    //return;
     GLdouble winx,winy,winz;
 
     if(omap_count==omap_alloced){
-//        omap_alloced+=256;
         omap_alloced+=4096;
         omap=(CED_ObjMap*) realloc(omap,omap_alloced*sizeof(CED_ObjMap));
         if ( omap == NULL ) {
@@ -97,18 +95,6 @@ void ced_prepare_objmap(void){
     glGetDoublev(GL_MODELVIEW_MATRIX,modelM);
     glGetDoublev(GL_PROJECTION_MATRIX,projM);
 
-
-//    CED_ObjMap *p;
-//    int i;
-//    std::cout <<"begin to delete omap" << std::endl;
-//    for(i=0,p=omap;i<omap_count;i++,p++){
-//        std::cout <<"delete element: "  << i  << " (from: " << omap_count << "elements )" << std::endl;
-//        //delete[] &(p->p);
-//        delete p;
-//
-//        std::cout <<"next" << std::endl;
-//    }
-//    std::cout<<"end to delete omap" << std::endl;
     omap_count=0;
 }
 
@@ -126,18 +112,15 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
     
     y=viewport[3]-y-1; // to get correct direction
     for(i=0,p=omap,best=0;i<omap_count;i++,p++){
-        //    printf("%d %d -- %d %d\n",x,y,p->x,p->y);
         dx=abs(p->x-x);
         dy=abs(p->y-y);
         if((dx>p->max_dxy) || (dy>p->max_dxy)){
             continue;
         }
-        //d=dx+dy;
-        d=(int) pow(pow(dx,2)+pow(dy,2),0.5); //+pow(p->z,2),0.5);
+        d=(int) pow(pow(dx,2)+pow(dy,2),0.5);
         if(!best || (d<dist)){
             best=p;
             dist=d;
-            //printf("%f %f %f\n",p->p.x,p->p.y,p->p.z);
         }
     }
     if(!best){
@@ -147,7 +130,6 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
     *wy=best->p.y;
     *wz=best->p.z;
 
-    //printf("Will center in: %.1f %.1f %.1f for HIT %d\n",*wx,*wy,*wz,best->ID);
     std::cout << "Center selected hit (ID: " << best->ID << ")" << std::endl;
 
     SELECTED_ID = best->ID;
@@ -168,10 +150,7 @@ int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *i
             continue;
         }
         
-        //d=dx+dy;
-
-        d=(int) pow(pow(dx,2)+pow(dy,2),0.5); //+pow(p->z,2),0.5);
-        //d=dx+dy;
+        d=(int) pow(pow(dx,2)+pow(dy,2),0.5);
         if(!best || (d<dist)){
             best=p;
             dist=d;
@@ -180,10 +159,6 @@ int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *i
     if(!best){
         return 1;
     }
-    //std::cout << "best has z: " <<  p->z << std::endl;
-    //*wx=best->p.x;
-    //*wy=best->p.y;
-    //*wz=best->p.z;
 
     //new
     if(best->type==1){
@@ -193,14 +168,8 @@ int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *i
             if((dx>p->max_dxy) || (dy>p->max_dxy)){
                 continue;
             }
-            //if(p->type != 1){
-            //    continue;
-            //}
             
-            //d=dx+dy;
-
             d=(int) pow(pow(dx,2)+pow(dy,2)+pow(p->z/5.,2),0.5);
-            //d=dx+dy;
             if(!best || (d<dist)){
                 best=p;
                 dist=d;
@@ -220,7 +189,6 @@ int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *i
 
 
 /*************************************************************** 
-* hauke hoelbe 08.02.2010                                      *
 * A extra picking function, do the same as ced_get_selected,   *
 * without center the selected object                           *
 ***************************************************************/
@@ -237,15 +205,14 @@ int ced_picking(int x,int y,GLfloat*, GLfloat*, GLfloat*){
         if((dx>p->max_dxy) || (dy>p->max_dxy)){
             continue;
         }
-        //d=dx+dy;
-        d=(int) pow(pow(dx,2)+pow(dy,2),0.5);//+pow(p->z,2),0.5);
+        d=(int) pow(pow(dx,2)+pow(dy,2),0.5);
         if(!best || (d<dist)){
             best=p;
             dist=d;
         }
     }
     if(!best){
-        SELECTED_ID =0; //hauke
+        SELECTED_ID =0;
         return 1;
     }
     printf("Picking: HIT %d\n",best->ID);

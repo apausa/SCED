@@ -2,13 +2,7 @@
 
 #include "../draw.h"
 
-/**
- * Draws a opaque cone with a custom alpha colour channel.
- * Warning: the cone centre is the vertex (not the centre of teh base!)
- * @author: SD
- * @date: 02.09.09
- * */
-
+// Draws a opaque cone with a custom alpha colour channel. Warning: the cone centre is the vertex (not the centre of teh base!)
 void ced_draw_cone_r(CED_ConeR * cone )  {
 	if(!IS_VISIBLE(cone->layer)){
         return;
@@ -45,14 +39,6 @@ void ced_draw_cone_r(CED_ConeR * cone )  {
   	glTranslated(0.0, 0.0, -(cone->height));
 	geoSolidCone(base, height, slices, stacks);
 
-    
-
-	//glLineWidth(0.5);
-	//glutWireCone(base, height, slices*10, stacks*10);
-
-    //GLUquadricObj *q1 = gluNewQuadric();
-    //gluCylinder(q1, 0,base , height, slices, stacks);
-    //gluDeleteQuadric(q1);
 	glEnd();
 	glPopMatrix();
 }

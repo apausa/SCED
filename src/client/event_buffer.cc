@@ -1,8 +1,5 @@
 /* "C" event display.
- * Event buffer.
- *
-*ik
- * Alexey Zhelezov, DESY/ITEP, 2005 */
+ * Event buffer. */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,8 +7,6 @@
 #include <event_buffer.h>
 
 #include <iostream>
-
-//static ced_event eve = {0,0};
 
 ced_event eve = {0,0};
 
@@ -33,32 +28,19 @@ void ced_reset(void){
   
   for(i=0;i<eve.e_count;i++){
     eve.e[i].count=0;
-   // if( eve.e[i].alloced > 0){
-   //     eve.e[i].alloced=0; //hauke: 15.12.11
-   //     //free(eve.e[i].b-HDR_SIZE);
-   // }
   }
 }
 
 void ced_buf_alloc(ced_element *pe,unsigned count){
   if(!pe->b){
-
-    //std::cout << "malloc  requestet: " << count*pe->size+HDR_SIZE << "bytes" << std::endl;
     pe->b=(unsigned char *) malloc(count*pe->size+HDR_SIZE);
-    //printf("malloc: ask for NEW %lu bytes pointer: %p\n ", count*pe->size+HDR_SIZE, pe->b); //hauke
-    if(pe->b==NULL){ //hauke
+    if(pe->b==NULL){
         printf("ERROR: malloc failed!\n");
         exit(1);
     }
   }else{
-    //free(pe->b-HDR_SIZE);
-    //pe->b=(unsigned char *) malloc(count*pe->size+HDR_SIZE);
-
-    //std::cout << "realloc requestet: " << count*pe->size+HDR_SIZE << "bytes" << std::endl;
     pe->b=(unsigned char *) realloc(pe->b-HDR_SIZE,count*pe->size+HDR_SIZE);
-
-    //printf("malloc: ask for %lu bytes, pointer: %p\n", count*pe->size+HDR_SIZE,pe->b);//hauke
-    if(pe->b==NULL){ //hauke
+    if(pe->b==NULL){
         printf("ERROR: malloc failed!\n");
         exit(1);
     }

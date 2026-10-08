@@ -1,8 +1,5 @@
 /* "C" event display.
- * Communications related part. 
- *
-*ik
- * Alexey Zhelezov, DESY/ITEP, 2005 */
+ * Communications related part. */
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
 #else
@@ -25,7 +22,6 @@
 #include "ui/actions.h"
 #include "render.h"
 #include "cli.h"
-#include "utils/helpers.h"
 #include "event_loop.h"
 #include "tcp_listener.h"
 #include "draw/draw.h"
@@ -37,23 +33,12 @@ int animation_start_time = 0;
 int animate_layer = -1;
 int last_selected_layer;
 extern CEDsettings setting;
-extern CEDsettings setting_old[5];
 
 static int subSave;
 static int subLoad;
 int showHelp=0;
-float WORLD_SIZE;
 long int doubleClickTime=0;
-float BG_COLOR[4];
 extern int SELECTED_ID ;
-
-//fg - make axe a global to be able to rescale the world volume
-GLfloat axe[][3]={
-  { 0., 0., 0., },
-  { DEFAULT_WORLD_SIZE/2, 0., 0. },
-  { 0., DEFAULT_WORLD_SIZE/2, 0. },
-  { 0., 0., DEFAULT_WORLD_SIZE/2 }
-};
 
 void defaultSettings(void){
     setting.trans=true;
@@ -87,17 +72,13 @@ void defaultSettings(void){
     setting.fixed_view=false;
 
     mm=mm_reset;
-    set_world_size(DEFAULT_WORLD_SIZE);
 
     setting.va=mm.va;
     setting.ha=mm.ha;
     setting.zoom=mm.sf;
-    setting.world_size=WORLD_SIZE;
 
     std::cout << "Set options to default settings" << std::endl;
 }
-
-float userDefinedBGColor[] = {-1.0, -1.0, -1.0, -1.0};
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
@@ -140,7 +121,6 @@ int main(int argc,char *argv[]){
     #endif
 
     mm_reset=mm;
-    WORLD_SIZE = DEFAULT_WORLD_SIZE ;
 
     SDL_Init(SDL_INIT_VIDEO);
     // SDL's Wayland backend uses EGL which defaults to OpenGL ES. The following code creates a desktop
@@ -154,21 +134,6 @@ int main(int argc,char *argv[]){
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
     defaultSettings();
-
-    //set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)=0;
-
-    //set_bg_color(0.0,0.0,0.0,0.0); //set to default (black)
-    //set_bg_color(bgColors[0][0],bgColors[0][1],bgColors[0][2],bgColors[0][3]); //set to default (light blue [0.0, 0.2, 0.4, 0.0])
-
-    //graphic[1]=1; //transp
-    //graphic[2]=1; //persp
-    //cut_angle=0; //degrees
-    //phi_projection=false;
-    //projection=false;
-
-    //trans_value=0.8;
-
-
 
     parseCliArgs(argc, argv);
 
@@ -209,34 +174,15 @@ int main(int argc,char *argv[]){
     SDL_GL_SetSwapInterval(1); // vsync control
     SDL_StartTextInput(ced_sdl_window);
 
-    //glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    //glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
-    //glHint(GL_POLYGON_SMOOTH,GL_FASTEST);
-    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-    //glEnable(GL_POLYGON_SMOOTH);
     glShadeModel(GL_SMOOTH);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
 
-
-
-    set_bg_color(setting.bgcolor[0],setting.bgcolor[1],setting.bgcolor[2],setting.bgcolor[2]); //set to default (black)
-    //glClearColor(BG_COLOR[0],BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
     init();
     font_init();
-
-    //glDisable(GL_BLEND);
-
-
-    setting_old[0]=setting;
-    setting_old[1]=setting;
-    setting_old[2]=setting;
-    setting_old[3]=setting;
-    setting_old[4]=setting;
 
     animation_start_time = (int)SDL_GetTicks();
 

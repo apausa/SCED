@@ -30,7 +30,6 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz);
 int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *id, int *layer, int *type);
 
 /***************************************************************
-* hauke hoelbe 08.02.2010                                      *
 * A extra picking function, do the same as ced_get_selected,   *
 * without center the selected object                           *
 ***************************************************************/

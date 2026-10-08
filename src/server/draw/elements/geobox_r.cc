@@ -20,7 +20,6 @@ void ced_draw_geobox_r(CED_GeoBoxR * box )  {
     const unsigned int nDim   = 3;
     const unsigned int nFace  = 2;
     double face[nFace][nPoint][nDim];
-    //  unsigned int iDim, iPoint, iFace;
     unsigned int i, j;
   
     ced_color(box->color);
@@ -72,8 +71,6 @@ void ced_draw_geobox_r(CED_GeoBoxR * box )  {
     face[1][3][1] =  + (0.5 * box->sizes[1]);
     face[1][3][2] =  + (0.5 * box_z);
   
-//    glBegin(GL_LINES);
-
     glBegin(GL_TRIANGLE_STRIP);
     // drawing the first (i=0) and second (i=1) faces
     for(i = 0; i < 2; i++){

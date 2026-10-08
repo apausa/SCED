@@ -47,7 +47,6 @@ INSTALL( FILES ./src/client/sced_elements.h ./src/client/sced_connection.h ./src
 
 # Collect server source files
 AUX_SOURCE_DIRECTORY( ./src/server server_sources )
-AUX_SOURCE_DIRECTORY( ./src/server/utils server_sources )
 AUX_SOURCE_DIRECTORY( ./src/server/third_party server_sources )
 AUX_SOURCE_DIRECTORY( ./src/server/ui server_sources )
 AUX_SOURCE_DIRECTORY( ./src/server/draw server_sources )

@@ -1,7 +1,5 @@
 /* "C" event display.
- * Client side connection and event handling.
- *
- * Alexey Zhelezov, DESY/ITEP, 2005 */
+ * Client side connection and event handling. */
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -16,8 +14,6 @@
 #include <event_buffer.h>
 #include "sced_connection.h"
 
-//hauke
-//#include <stropts.h>
 #include <poll.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -28,13 +24,12 @@
 
 
 //http://www.rhyolite.com/pipermail/dcc/2004/001986.html
-#ifndef POLLRDNORM //fg: should be defined in poll.h
+#ifndef POLLRDNORM // should be defined in poll.h
 # define POLLRDNORM     0x040           /* Normal data may be read.  */
 # define POLLRDBAND     0x080           /* Priority data may be read.  */
 # define POLLWRNORM     0x100           /* Writing now will not block.  */
 # define POLLWRBAND     0x200           /* Priority data may be written.  */
 #endif
-//end hauke
 
 static int ced_fd=-1; // CED connection socket
 
@@ -42,7 +37,7 @@ static unsigned short ced_port=7927; // port No of CED (assume localhost)
 static char ced_host[30];
 
 // Return 0 if can be connected, -1 otherwise.
-/*static*/ int ced_connect(void){
+int ced_connect(void){
   static time_t last_attempt=0;
   time_t ct;
   struct sockaddr_in addr;
@@ -85,26 +80,18 @@ void ced_send_event(void){
   if(ced_connect())
     return;
   for(i=0;i<eve.e_count && !problem;i++){
-    //printf("i=%i\n",i);
     pe=eve.e+i;
     if(!pe->count)
       continue;
     
-    //unsigned hauke;
-    //printf("size of unsigned %i\n", sizeof(hauke));
     hdr=(struct _phdr *)(pe->b-HDR_SIZE); // !!! HERE is the trick :)
     hdr->type=i;
-    //printf("pe->count %i, pe->size %i\n",pe->count, pe->size);
     hdr->size=HDR_SIZE+pe->count*pe->size;
     sent_sum=0;
-    //if(hdr->size > 10000000){printf("U P S!  This data set is realy big! (%f kB)(%i counts)\n",(hdr->size)/1024.0,pe->count);}
     buf=(char *)hdr;
-    //printf("hdr->size=%i\n",hdr->size);
     while(sent_sum<hdr->size){
-        //printf("sent_sum = %i, hdr->size=%i\n",sent_sum,hdr->size);
 	    sent=write(ced_fd,buf+sent_sum,hdr->size-sent_sum);
         
-        //printf("byte: %u\n", buf[sent_sum]);
 	    if(sent<0){
             printf("send < 0\n");
 	        problem=1;
@@ -127,7 +114,6 @@ void ced_send_event(void){
 }
 
 
-//hauke
 int ced_selected_id_noblock() {
   int id=-1 ;
   struct pollfd fds[1];
@@ -157,9 +143,6 @@ void ced_client_init(const char *hostname,unsigned short port){
   struct hostent *host = gethostbyname(hostname);
   snprintf(ced_host, 30, "%u.%u.%u.%u\n",(unsigned char)host->h_addr[0] ,(unsigned char)host->h_addr[1] ,(unsigned char)host->h_addr[2] ,(unsigned char)host->h_addr[3]); 
 
-
-  //printf("ip: %s\n",  ced_host);
-  //ced_host=host->h_addr;
   ced_port=port;
   signal(SIGPIPE,SIG_IGN);
 }

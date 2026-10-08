@@ -23,8 +23,6 @@ void ced_draw_hit(CED_Hit *h){
         z=0;
     }
 
-    //printf("hit on layer: %i\n", h->layer);
-
     // time is passed to the hit data and is expected to be animated
     bool to_animate = h->time > 0.f;
     if ( to_animate && animate_layer == -1 ) animation_start_time = (int)SDL_GetTicks();
@@ -34,7 +32,6 @@ void ced_draw_hit(CED_Hit *h){
         return;
     }
 
-    //    printf("Draw hit at : %f %f %f type = %d and ced_visible_layers = %d \n",h->p.x,h->p.y,h->p.z,h->type,ced_visible_layers);
     if (to_animate){
         if ( animate_layer == -1 ) animate_layer = h->layer;
         else if ( animate_layer != int(h->layer) ){
@@ -59,13 +56,11 @@ void ced_draw_hit(CED_Hit *h){
     	case CED_HIT_BOX:
     	case CED_HIT_VXD:
     	case CED_HIT_STAR:
-    	    //glLineWidth(1.);
             glLineWidth(1.);
 
     	    glBegin(GL_LINES);
 
     	    if(h->type ==  CED_HIT_CROSS){
-    	       	 //     printf("cross type == %d \n",(h->type & CED_HIT_CROSS));
     	        d=((GLfloat)h->size)/20.;
     	        glVertex3f(x-d,y-d,z);
     	        glVertex3f(x+d,y+d,z);
@@ -73,22 +68,8 @@ void ced_draw_hit(CED_Hit *h){
     	        glVertex3f(x-d,y+d,z);       
             }
     	    else if(h->type ==  CED_HIT_STAR){
-    	       	 //     printf("cross type == %d \n",(h->type & CED_HIT_CROSS));
     	        d=((GLfloat)h->size)/20.;
 
-#if 0 // hauke's version
-    	        glVertex3f(x-d,y-d,z+d);
-    	        glVertex3f(x+d,y+d,z-d);
-    
-    	        glVertex3f(x+d,y-d,z+d);
-    	        glVertex3f(x-d,y+d,z-d);
-    
-    	        glVertex3f(x+d,y+d,z+d);
-    	        glVertex3f(x-d,y-d,z-d);
-    
-    	        glVertex3f(x-d,y+d,z+d);
-    	        glVertex3f(x+d,y-d,z-d);
-#else // vassillie's version
     	        glVertex3f(x-d,y,z);
     	        glVertex3f(x+d,y,z);
     
@@ -97,10 +78,8 @@ void ced_draw_hit(CED_Hit *h){
 
 		glVertex3f(x,y,z-d);
     	        glVertex3f(x,y,z+d);
-#endif
 	    }
     	    else if(h->type ==  CED_HIT_VXD){
-    	       	 //     printf("cross type == %d \n",(h->type & CED_HIT_CROSS));
                 d=0.005;
 #if 1
     	        glVertex3f(x-d,y-d,z+d);
@@ -115,22 +94,7 @@ void ced_draw_hit(CED_Hit *h){
     	        glVertex3f(x-d,y+d,z+d);
     	        glVertex3f(x+d,y-d,z-d);
 #endif
-//
-//               double sizes[3]={0.1, 0.1, 0.1};
-//               double center[3]={x, y, z};
-//               ced_geobox( sizes, center, 0xff00ff );
-//
-#if 0
-      std::cout << " calling ced_draw_geobox_r_solid..." << std::endl;
-      CED_GeoBoxR abox;
-      abox.sizes[0]=0.005 ; abox.sizes[1]=0.015; abox.sizes[2]=0.005;
-      abox.center[0]=x; abox.center[1]=y; abox.center[2]=z; 
-      abox.color=0xff00ff; 
-      abox.rotate[0]=0.0 ; abox.rotate[1]=0.0;  abox.rotate[2]=0.0;
-      ced_draw_geobox_r_solid(&abox);
-#endif
     	    } else {
-    	       	//      printf("star type == %d \n",(h->type & CED_HIT_STAR));
     	        d=((GLfloat)h->size)/20.;
     	        glVertex3f(x-d,y,z);
     	        glVertex3f(x+d,y,z);
@@ -150,8 +114,6 @@ void ced_draw_hit(CED_Hit *h){
 
     }
 
-
-    //glEnd();
     glEnable(GL_BLEND);
     ced_add_objmap(&h->p,5,h->lcioID,h->layer,0);
 }

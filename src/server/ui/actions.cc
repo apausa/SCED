@@ -17,17 +17,13 @@
 #include "actions.h"
 #include "ui/input.h"
 #include "render.h"
-#include "utils/helpers.h"
 
 using namespace std;
 
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern bool ced_needs_redraw;
 extern CEDsettings setting;
-
-CEDsettings setting_old[5];
 
 static void toggle_layer(unsigned l){
     if(l > CED_MAX_LAYER-1){ return; }
@@ -64,20 +60,12 @@ void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
 
 }
 
-void selectFromMenu(int id){ //hauke
+void selectFromMenu(int id){
     int anz;
     static CEDsettings backup_setting;
     static float mm_ha_backup;
     static float mm_va_backup;
     static int graphic_2_backup;
-
-    if(id != UNDO){
-        setting_old[4]=setting_old[3];
-        setting_old[3]=setting_old[2];
-        setting_old[2]=setting_old[1];
-        setting_old[1]=setting_old[0];
-        setting_old[0]=setting;
-    }
 
     switch(id){
         case VIEW_RESET:
@@ -85,7 +73,6 @@ void selectFromMenu(int id){ //hauke
             setting.z_projection=false; // no phi projection;
             mm=mm_reset;
             setting.fixed_view=false;
-            set_world_size(DEFAULT_WORLD_SIZE );
             break;
 
         case CED_RESET:
@@ -105,7 +92,6 @@ void selectFromMenu(int id){ //hauke
             setting.z_projection=false; // no phi projection;
             mm=mm_reset;
             setting.fixed_view=false;
-            set_world_size(DEFAULT_WORLD_SIZE );
 
             setting.show_axes=true;
             break;
@@ -206,15 +192,6 @@ void selectFromMenu(int id){ //hauke
 
             break;
 
-        case UNDO:
-            setting=setting_old[0];
-            setting_old[0]=setting_old[1];
-            setting_old[1]=setting_old[2];
-            setting_old[2]=setting_old[3];
-            setting_old[3]=setting_old[4];
-            setting_old[4]=setting_old[4];
-            break;
-
 
         case VIEW_ZOOM_IN:
             mm.sf += mm.sf*50.0/window_height;
@@ -227,7 +204,7 @@ void selectFromMenu(int id){ //hauke
         case LAYER_ALL:
             anz=0;
             for(int i=0;i<NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!isLayerVisible(i)){
+                if(!setting.layer[i]){
                    toggle_layer(i);
                    anz++;
                 }
@@ -242,7 +219,7 @@ void selectFromMenu(int id){ //hauke
         case DETECTOR_ALL:
             anz=0;
             for(int i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!isLayerVisible(i)){
+                if(!setting.layer[i]){
                    toggle_layer(i);
                    anz++;
                 }

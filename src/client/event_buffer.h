@@ -8,14 +8,6 @@
 
 #include <sced_types.h>
 
-//#ifdef __cplusplus
-// extern "C" {
-//#endif
-		
-
-//char trusted_hosts[50];
-//extern static char testchar;
-
 // the event being built (client) or received (server)
 extern ced_event eve;
 
@@ -52,11 +44,5 @@ unsigned ced_register_element(unsigned item_size,ced_draw_cb draw_func);
  * This will add one Dummy item to the event
  */
 void *ced_add(unsigned id);
-
-//#ifdef __cplusplus
-// }
-//#endif
-
-	
 
 #endif /* __EVENT_BUFFER_H  */

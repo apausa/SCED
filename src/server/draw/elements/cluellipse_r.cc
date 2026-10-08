@@ -45,8 +45,6 @@ void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
 	
 	/** 2. Case: unfilled */
 	
-	//glColor4f(eli->RGBAcolor[0], eli->RGBAcolor[1], eli->RGBAcolor[2], 1.0);
-	
 	glLineWidth(2.);
 	glBegin(GL_LINE_LOOP);
 	for(t = 0; t < 2*M_PI; t +=2*M_PI/(n) ){
@@ -65,9 +63,6 @@ void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
 	 
 	glRotated(90.0, 0.0, 1.0, 0.0);
 	
-	/** 1. Set the colour */
-	//glColor4f(eli->RGBAcolor[0], eli->RGBAcolor[1], eli->RGBAcolor[2], eli->RGBAcolor[3]);
-	
 	glBegin(GL_POLYGON);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	for(t = 0; t < 2*M_PI; t +=2*M_PI/(n) ){
@@ -79,8 +74,6 @@ void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
 	glEnd();
 	
 	/** 2. Case: unfilled */
-	
-	//glColor4f(eli->RGBAcolor[0], eli->RGBAcolor[1], eli->RGBAcolor[2], 1.0);
 	
 	glLineWidth(2.);
 	glBegin(GL_LINE_LOOP);
@@ -94,9 +87,6 @@ void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
 	
  	glRotated(90.0, 1.0, 0.0, 0.0);
 	
-	/** 1. Set the colour */
-	//glColor4f(eli->RGBAcolor[0], eli->RGBAcolor[1], eli->RGBAcolor[2], eli->RGBAcolor[3]);
-	
 	glBegin(GL_POLYGON);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	for(t = 0; t < 2*M_PI; t +=2*M_PI/(n) ){
@@ -108,8 +98,6 @@ void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
 	glEnd();
 	
 	/** 2. Case: unfilled */
-	
-	//glColor4f(eli->RGBAcolor[0], eli->RGBAcolor[1], eli->RGBAcolor[2], 1.0);
 	
 	glLineWidth(2.);
 	glBegin(GL_LINE_LOOP);
