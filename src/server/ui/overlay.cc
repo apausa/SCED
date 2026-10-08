@@ -117,7 +117,7 @@ void printShortcuts(void){
     shortcuts.push_back( "[z] Cut in -z-axe direction" );
     shortcuts.push_back( "[>] Increase transparency" );
     shortcuts.push_back( "[<] Decrease transparency" );
-    shortcuts.push_back( "[m] Increase detector cut angle" );
+    shortcuts.push_back( "[M] Increase detector cut angle" );
     shortcuts.push_back( "[m] Decrease detector cut angle" );
     shortcuts.push_back( "[->] Move in z-direction" );
     shortcuts.push_back( "[<-] Move in -z-direction" );
