@@ -15,7 +15,7 @@
 #include <model/settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
-#include "controller/input.h"
+#include <model/camera.h>
 
 #include <iostream>
 
@@ -61,9 +61,9 @@ void defaultSettings(void){
     setting.z_projection=false;
     setting.fixed_view=false;
 
-    mm=mm_reset;
+    camera_reset();
 
-    setting.zoom=mm.sf;
+    setting.zoom=camera_get().sf;
 
     std::cout << "Set options to default settings" << std::endl;
 }
@@ -100,8 +100,6 @@ int main(int argc,char *argv[]){
             }
         }
     #endif
-
-    mm_reset=mm;
 
     SDL_Init(SDL_INIT_VIDEO);
     // SDL's Wayland backend uses EGL which defaults to OpenGL ES. The following code creates a desktop
