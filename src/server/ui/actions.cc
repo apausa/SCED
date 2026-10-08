@@ -25,7 +25,7 @@ extern GLfloat window_height;
 extern bool ced_needs_redraw;
 extern CEDsettings setting;
 
-static void toggle_layer(unsigned l){
+void toggle_layer(unsigned l){
     if(l > CED_MAX_LAYER-1){ return; }
 
     if(setting.layer[l]){
@@ -38,21 +38,15 @@ static void toggle_layer(unsigned l){
 
 void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
     if(strcmp(name,"trans")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_trans[i]=source.detector_trans[i];
-        }
+        dest.detector_trans=source.detector_trans;
     }
 
     else if(strcmp(name,"cut z")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_cut_z[i]=source.detector_cut_z[i];
-        }
+        dest.detector_cut_z=source.detector_cut_z;
     }
 
     else if(strcmp(name,"cut angle")==0){
-        for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-            dest.detector_cut_angle[i]=source.detector_cut_angle[i];
-        }
+        dest.detector_cut_angle=source.detector_cut_angle;
     }
     else{
         std::cout << "WARNING: unknown settingtype: " << name << std::endl;
@@ -79,11 +73,9 @@ void selectFromMenu(int id){
             if(setting.persp == false){
                 selectFromMenu(GRAFIC_PERSP); //switch persp on
             }
-            for(int i = 0; i<NUMBER_DETECTOR_LAYER;i++){
-                setting.detector_trans[i]=0.8;
-                setting.detector_cut_angle[i]=0;
-                setting.detector_cut_z[i]=7000;
-            }
+            setting.detector_trans=0.8;
+            setting.detector_cut_angle=0;
+            setting.detector_cut_z=7000;
 
             for(int i = 0; i<CED_MAX_LAYER;i++){
                 setting.layer[i]=true;
@@ -137,9 +129,7 @@ void selectFromMenu(int id){
                 if(setting.persp==1){selectFromMenu(GRAFIC_PERSP); }
 
 
-                for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-                    setting.detector_cut_angle[i]=180;
-                }
+                setting.detector_cut_angle=180;
                 mm_ha_backup=mm.ha;
                 mm_va_backup = mm.va;
                 mm.ha=90.;
@@ -171,9 +161,7 @@ void selectFromMenu(int id){
 
                 setting.z_projection=true;
 
-                for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-                    setting.detector_cut_z[i]=-10;
-                }
+                setting.detector_cut_z=-10;
 
                 graphic_2_backup=setting.persp;
 
@@ -229,82 +217,6 @@ void selectFromMenu(int id){
                    toggle_layer(i);
                 }
             }
-            break;
-
-
-        case DETECTOR1:
-        case DETECTOR2:
-        case DETECTOR3:
-        case DETECTOR4:
-        case DETECTOR5:
-        case DETECTOR6:
-        case DETECTOR7:
-        case DETECTOR8:
-        case DETECTOR9:
-        case DETECTOR10:
-        case DETECTOR11:
-        case DETECTOR12:
-        case DETECTOR13:
-        case DETECTOR14:
-        case DETECTOR15:
-        case DETECTOR16:
-        case DETECTOR17:
-        case DETECTOR18:
-        case DETECTOR19:
-        case DETECTOR20:
-        case DETECTOR21:
-        case DETECTOR22:
-        case DETECTOR23:
-        case DETECTOR24:
-        case DETECTOR25:
-        case DETECTOR26:
-        case DETECTOR27:
-        case DETECTOR28:
-        case DETECTOR29:
-        case DETECTOR30:
-        case DETECTOR31:
-        case DETECTOR32:
-        case DETECTOR33:
-        case DETECTOR34:
-        case DETECTOR35:
-        case DETECTOR36:
-        case DETECTOR37:
-        case DETECTOR38:
-        case DETECTOR39:
-        case DETECTOR40:
-
-            toggle_layer(id-DETECTOR1+NUMBER_DATA_LAYER);
-
-            break;
-
-
-
-        case LAYER_0:
-        case LAYER_1:
-        case LAYER_2:
-        case LAYER_3:
-        case LAYER_4:
-        case LAYER_5:
-        case LAYER_6:
-        case LAYER_7:
-        case LAYER_8:
-        case LAYER_9:
-        case LAYER_10:
-        case LAYER_11:
-        case LAYER_12:
-        case LAYER_13:
-        case LAYER_14:
-        case LAYER_15:
-        case LAYER_16:
-        case LAYER_17:
-        case LAYER_18:
-        case LAYER_19:
-        case LAYER_20:
-        case LAYER_21:
-        case LAYER_22:
-        case LAYER_23:
-        case LAYER_24:
-            toggle_layer(id-LAYER_0);
             break;
 
         case GRAFIC_PERSP:

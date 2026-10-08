@@ -91,7 +91,9 @@ void mainLoop(SDL_GLContext gl_context) {
                     case SDLK_INSERT: special = KEY_INSERT; break;
                     default: break;
                 }
-                if (special >= 0) {
+                if (sym == SDLK_ESCAPE) {
+                    running = false;
+                } else if (special >= 0) {
                     SpecialKey(special, 0, 0);
                 } else if (ev.key.mod & SDL_KMOD_CTRL) {
                     SDL_Scancode sc = ev.key.scancode;

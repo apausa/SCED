@@ -80,6 +80,11 @@ static void tcp_server_accept(void){
 
   fd=accept(_server_fd,(struct sockaddr *)&myclient, &size);
 
+  if(fd<0){ // myclient is not filled in on failure, so check before using it
+    perror("WARNING: can't accept connection");
+    return;
+  }
+
   if(strcmp(inet_ntoa(myclient.sin_addr), "127.0.0.1")){ //not an connection from localhost
     if(strcmp(inet_ntoa(myclient.sin_addr), trusted_hosts)){
         struct hostent *hp;
@@ -101,11 +106,6 @@ static void tcp_server_accept(void){
   }else{
       printf("CED: Accepted connection from localhost\n");
       client_connected=true;
-  }
-
-  if(fd<0){
-    perror("WARNING: can't accept connection");
-    return;
   }
 
   socket_fd=fd; // client socket

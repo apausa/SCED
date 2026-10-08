@@ -1,11 +1,8 @@
-#include <SDL3/SDL.h>
-
 #include <cstdio>
 #include <cstring>
 
 #include "../draw.h"
 #include "../../third_party/gl_font.h"
-#include "render.h"
 
 // Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
@@ -19,12 +16,12 @@ void ced_draw_legend(CED_Legend *legend){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    SDL_Rect display_bounds;
-    SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &display_bounds);
-    GLfloat w = (GLfloat)display_bounds.w;
-    GLfloat h = (GLfloat)display_bounds.h;
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    GLfloat w = (GLfloat)viewport[2];
+    GLfloat h = (GLfloat)viewport[3];
 
-    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
+    glOrtho(0,w,h,0, -1,1);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -40,37 +37,39 @@ void ced_draw_legend(CED_Legend *legend){
 
 	/*
 	 * The legend position, width and height */
-	float legendThickness = 20;
-	float stripeThickness = 512/(float)color_steps;
-	float x_min = 1100;
+	float legendThickness = 24;
+	float legendHeight = 256;
+	float stripeThickness = legendHeight/(float)color_steps;
+	float x_min = w-104; // anchored to the right edge, leaves room for the tick labels
 	float x_max = x_min+legendThickness;
-	float y_min = 400;
-	float y_max = y_min+stripeThickness;
+	float y_min = 64+legendHeight; // bottom of the bar, below the title bar
+	float y_max = y_min-stripeThickness;
 
 	int tickNumber = 1; // 'middle' tick counter
 	int i;
 
+	int font = setting.font;
+
 	/** ticks */
 	char string[6];
-	int x_offset = 34;
-	int y_offset = 5;
+	int x_offset = 40;
+	float y_offset = (stripeThickness+font_get_height(font))/2;
 	float num;
 
 	/** Legend header */
 	char header [] = "GeV";
 	char footer [] = "LOG";
-	int x_offset_legend = 60;
-	int y_offset_legend = 20;
+	int x_offset_legend = 48;
+	int y_offset_legend = font_get_height(font)/2;
 
-	int font = setting.font;
-  	int tick_size = 10;
+  	int tick_size = 8;
 
 	/**
 	 *  Legend header: GeV */
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0; //ever readable color
     glColor3f(dark,dark,dark);
 
-	font_render(font, x_min-x_offset_legend, y_min+stripeThickness*color_steps-y_offset_legend, header);
+	font_render(font, x_min-x_offset_legend, y_min-stripeThickness*color_steps-y_offset_legend, header);
 	glEnd();
 
 	/**
@@ -94,10 +93,10 @@ void ced_draw_legend(CED_Legend *legend){
 
 		glBegin(GL_POLYGON);
 		glRasterPos2f(x_min, y_min);
-		glVertex3f( x_min,y_min+stripeThickness*i,0.0);
-		glVertex3f( x_max,y_min+stripeThickness*i,0.0);
-		glVertex3f( x_max,y_max+stripeThickness*i,0.0);
-		glVertex3f( x_min,y_max+stripeThickness*i,0.0);
+		glVertex3f( x_min,y_min-stripeThickness*i,0.0);
+		glVertex3f( x_max,y_min-stripeThickness*i,0.0);
+		glVertex3f( x_max,y_max-stripeThickness*i,0.0);
+		glVertex3f( x_min,y_max-stripeThickness*i,0.0);
 		glEnd();
 
 		/**
@@ -106,10 +105,10 @@ void ced_draw_legend(CED_Legend *legend){
 			glBegin(GL_POLYGON);
 			glColor3f(1.0, 1.0, 1.0);
 			glRasterPos2f(x_min, y_min);
-			glVertex3f( x_max,y_min+stripeThickness*i,0.0);
-			glVertex3f( x_max+tick_size,y_min+stripeThickness*i,0.0);
-			glVertex3f( x_max+tick_size,y_max+stripeThickness*i,0.0);
-			glVertex3f( x_max,y_max+stripeThickness*i,0.0);
+			glVertex3f( x_max,y_min-stripeThickness*i,0.0);
+			glVertex3f( x_max+tick_size,y_min-stripeThickness*i,0.0);
+			glVertex3f( x_max+tick_size,y_max-stripeThickness*i,0.0);
+			glVertex3f( x_max,y_max-stripeThickness*i,0.0);
 			glEnd();
 
 			/**
@@ -120,11 +119,11 @@ void ced_draw_legend(CED_Legend *legend){
 
 			if (i==0){
 				snprintf(string, 6,  "%.1f", ene_min);
-				font_render(font, x_min+x_offset, y_min+y_offset, string);
+				font_render(font, x_min+x_offset, y_min-y_offset, string);
 			}
 			else if (i==(color_steps-1)){
 				snprintf(string, 6, "%.1f", ene_max);
-				font_render(font, x_min+x_offset, y_min+stripeThickness*i+y_offset, string);
+				font_render(font, x_min+x_offset, y_min-stripeThickness*i-y_offset, string);
             }
 		}
 
@@ -138,10 +137,10 @@ void ced_draw_legend(CED_Legend *legend){
 			glBegin(GL_POLYGON);
 			glColor3f(1.0, 1.0, 1.0);
 			glRasterPos2f(x_min, y_min);
-			glVertex3f( x_max,y_min+stripeThickness*pos,0.0);
-			glVertex3f( x_max+tick_size,y_min+stripeThickness*pos,0.0);
-			glVertex3f( x_max+tick_size,y_max+stripeThickness*pos,0.0);
-			glVertex3f( x_max,y_max+stripeThickness*pos,0.0);
+			glVertex3f( x_max,y_min-stripeThickness*pos,0.0);
+			glVertex3f( x_max+tick_size,y_min-stripeThickness*pos,0.0);
+			glVertex3f( x_max+tick_size,y_max-stripeThickness*pos,0.0);
+			glVertex3f( x_max,y_max-stripeThickness*pos,0.0);
 			glEnd();
 
 			/** Mid-tick legend generation: LOG */
@@ -159,7 +158,7 @@ void ced_draw_legend(CED_Legend *legend){
 
 
             glColor3f(dark,dark,dark);
-			font_render(font, x_min+x_offset, y_min+stripeThickness*pos+y_offset, string);
+			font_render(font, x_min+x_offset, y_min-stripeThickness*pos-y_offset, string);
 
 			++tickNumber;
 		}

@@ -46,7 +46,7 @@ void parseCliArgs(int argc, char *argv[]){
               snprintf(trusted_hosts, 50, "%u.%u.%u.%u",(unsigned char)host->h_addr[0] ,(unsigned char)host->h_addr[1] ,(unsigned char)host->h_addr[2] ,(unsigned char)host->h_addr[3]);
               printf("Trust ip: %s\n", trusted_hosts);
           } else {
-              printf("ERROR: Host %s is unknown!\n", argv[i+1]);
+              printf("ERROR: Host %s is unknown!\n", argv[i]);
           }
       }
     }

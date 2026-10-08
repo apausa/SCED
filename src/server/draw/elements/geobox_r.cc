@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "../draw.h"
 
 /*
@@ -7,8 +5,6 @@
  */
 
 void ced_draw_geobox_r(CED_GeoBoxR * box )  {
-
-    std::cout << " ced_draw_geobox_r was called." << std::endl;
 
     if(!IS_VISIBLE(box->layer)){
         return;

@@ -1,7 +1,12 @@
 #include "../../third_party/fg_geometry.h"
 
 #include "../draw.h"
-#include <config.h>
+
+//size of the boarder line in filled (new view) of detector components.
+#define CED_GEOTUBE_LINE_WIDTH              0.3
+
+//maximal transparency of boarder lines
+#define CED_GEOTUBE_LINE_MAX_TRANS          1.0
 
 void ced_draw_geotube(CED_GeoTube *c){
     using namespace std;
@@ -12,10 +17,10 @@ void ced_draw_geotube(CED_GeoTube *c){
     double transformed_shift = c->shift;
 
 
-    double cut_angle=setting.detector_cut_angle[c->type-NUMBER_DATA_LAYER];
-    double trans_value=setting.detector_trans[c->type-NUMBER_DATA_LAYER];
+    double cut_angle=setting.detector_cut_angle;
+    double trans_value=setting.detector_trans;
 
-    double cut_z=setting.detector_cut_z[c->type-NUMBER_DATA_LAYER];
+    double cut_z=setting.detector_cut_z;
 
 
     double d_o = c->r_o;
