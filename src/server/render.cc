@@ -33,10 +33,6 @@ extern SDL_Window *ced_sdl_window;
 extern GLfloat window_width;
 extern GLfloat window_height;
 
-extern Point pick_point;
-extern Point pre_pick_point;
-extern int selected_layer;
-extern bool select_nothing;
 extern CEDsettings setting;
 
 void init(void){
@@ -154,13 +150,6 @@ void display(void){
     glRotatef(mm.ha,0.,1.0,0.); //rotate
     glTranslatef(-mm.mv.x,-mm.mv.y,-mm.mv.z); //move
 
-    if(setting.picking_highlight==true && select_nothing == false){
-        glColor3f(1,0,0);
-        glPointSize(10);
-        glBegin(GL_POINTS);
-        glVertex3f(pick_point.x,pick_point.y,pick_point.z);
-        glEnd();
-    }
     // draw static objects
     display_world(); //only axes?
 

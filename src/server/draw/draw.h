@@ -12,7 +12,6 @@
 #include <settings.h>
 
 extern CEDsettings setting;
-extern int selected_layer;
 
 #define IS_VISIBLE(x) ((x < (CED_MAX_LAYER-1) && (int)x >= 0)?setting.layer[x]:false)
 

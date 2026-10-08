@@ -24,11 +24,6 @@ using namespace std;
 
 // Owned by glced.cc.
 extern long int doubleClickTime;
-extern int last_selected_layer;
-extern int selected_layer;
-extern Point pick_point;
-extern Point pre_pick_point;
-extern bool select_nothing;
 extern bool ced_needs_redraw;
 extern int showHelp;
 extern int socket_fd;
@@ -44,7 +39,6 @@ CameraState mm = {
     { 0., 0., 0. },
     0.,
     0.,
-    1.,
     { 0., 0., 0. },
 };
 CameraState mm_reset;
@@ -52,7 +46,6 @@ CameraState mm_reset;
 static enum {
     NO_MOVE,
     TURN_XY,
-    ZOOM,
     ORIGIN
 } move_mode;
 static GLfloat mouse_x=0.;
@@ -77,7 +70,6 @@ void mouse(int btn,int state,int x,int y){
     mouse_y=y;
     mm.ha_start=mm.ha;
     mm.va_start=mm.va;
-    mm.sf_start=mm.sf;
     mm.mv_start=mm.mv;
 
     switch(btn){
@@ -87,44 +79,11 @@ void mouse(int btn,int state,int x,int y){
         //FIX IT: get the system double click time
         if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
-            last_selected_layer=-1;
             if(!ced_picking(x,y,&mm.mv.x,&mm.mv.y,&mm.mv.z)){
-
-
-                GLfloat p_x, p_y, p_z;
-                int id, layer, type;
-                if(!find_selected_object(x,y,&p_x,&p_y,&p_z, &id, &layer, &type)){ //if ==1 found hit, else clicked on background
-                    pick_point.x=p_x;
-                    pick_point.y=p_y;
-                    pick_point.z=p_z;
-
-                    select_nothing=false;
-
-                    if(type == 1){ //detector
-                        selected_layer=layer;
-                        last_selected_layer=layer;
-                        select_nothing=true;
-                    }else if(type == 0){ //data
-                        selected_layer=-1;
-                        pre_pick_point.x=p_x;
-                        pre_pick_point.y=p_y;
-                        pre_pick_point.z=p_z;
-                    }
-
-
-                    if(setting.detector_picking==false){
-                        selected_layer=-1;
-                    }
-                }
-
-
-               id = SELECTED_ID;
+               int id = SELECTED_ID;
                if(client_connected){
                     send( socket_fd , &id , sizeof(int) , 0 );
                 }
-            }else{
-                select_nothing=true;
-                selected_layer=-1;
             }
 
 
@@ -137,10 +96,6 @@ void mouse(int btn,int state,int x,int y){
         return;
         case MOUSE_RIGHT:
           ced_needs_redraw = true;
-          if(ZOOM_RIGHT_CLICK == false){
-            return;
-          }
-          move_mode=ZOOM;
           return;
         case MOUSE_MIDDLE:
           move_mode=ORIGIN;
@@ -248,108 +203,58 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU(DETECTORLAYER_SHORTKEY_39, DETECTOR40);
 
   case 'z':
-    if (last_selected_layer > 0) {
-      if (setting.detector_cut_z[last_selected_layer - NUMBER_DATA_LAYER] <
-          7000) {
-        setting.detector_cut_z[last_selected_layer - NUMBER_DATA_LAYER] += 100;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_cut_z[0] < 7000) {
-          setting.detector_cut_z[i] += 100;
-        }
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_cut_z[0] < 7000) {
+        setting.detector_cut_z[i] += 100;
       }
     }
     ced_needs_redraw = true;
     break;
 
   case 'Z':
-    if (last_selected_layer > 0) {
-      if (setting.detector_cut_z[last_selected_layer - NUMBER_DATA_LAYER] >
-          -7000) {
-        setting.detector_cut_z[last_selected_layer - NUMBER_DATA_LAYER] -= 100;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_cut_z[i] > -7000) {
-          setting.detector_cut_z[i] -= 100;
-        }
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_cut_z[i] > -7000) {
+        setting.detector_cut_z[i] -= 100;
       }
     }
     ced_needs_redraw = true;
     break;
 
   case '<':
-    if (last_selected_layer > 0) {
-      if (setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] >
-          0.005) {
-        setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] -=
-            0.005;
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_trans[i] > 0.005) {
+        setting.detector_trans[i] -= 0.005;
       } else {
-        setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] = 0;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_trans[i] > 0.005) {
-          setting.detector_trans[i] -= 0.005;
-        } else {
-          setting.detector_trans[i] = 0;
-        }
+        setting.detector_trans[i] = 0;
       }
     }
     ced_needs_redraw = true;
     break;
 
   case '>':
-    if (last_selected_layer > 0) {
-      if (setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] <
-          1 - 0.005) {
-        setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] +=
-            0.005;
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_trans[i] < 1 - 0.005) {
+        setting.detector_trans[i] += 0.005;
       } else {
-        setting.detector_trans[last_selected_layer - NUMBER_DATA_LAYER] = 1.;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_trans[i] < 1 - 0.005) {
-          setting.detector_trans[i] += 0.005;
-        } else {
-          setting.detector_trans[i] = 1.;
-        }
+        setting.detector_trans[i] = 1.;
       }
     }
     ced_needs_redraw = true;
     break;
 
   case 'm':
-    if (last_selected_layer > 0) {
-      if (setting.detector_cut_angle[last_selected_layer - NUMBER_DATA_LAYER] >
-          0) {
-        setting.detector_cut_angle[last_selected_layer - NUMBER_DATA_LAYER] -=
-            0.5;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_cut_angle[i] > 0) {
-          setting.detector_cut_angle[i] -= 0.5;
-        }
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_cut_angle[i] > 0) {
+        setting.detector_cut_angle[i] -= 0.5;
       }
     }
     ced_needs_redraw = true;
     break;
 
   case 'M':
-    if (last_selected_layer > 0) {
-      if (setting.detector_cut_angle[last_selected_layer - NUMBER_DATA_LAYER] <
-          360) {
-        setting.detector_cut_angle[last_selected_layer - NUMBER_DATA_LAYER] +=
-            0.5;
-      }
-    } else {
-      for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
-        if (setting.detector_cut_angle[i] < 360) {
-          setting.detector_cut_angle[i] += 0.5;
-        }
+    for (int i = 0; i < NUMBER_DETECTOR_LAYER; i++) {
+      if (setting.detector_cut_angle[i] < 360) {
+        setting.detector_cut_angle[i] += 0.5;
       }
     }
     ced_needs_redraw = true;
@@ -396,12 +301,6 @@ void motion(int x,int y){
       mm.va=mm.va_start+(y-mouse_y)*180./window_height;
 
       //todo
-    } else if (move_mode == ZOOM){
-        mm.sf=mm.sf_start+(y-mouse_y)*10./window_height;
-        if(mm.sf<0)
-  	  mm.sf=0.001;
-        else if(mm.sf>2000.)
-  	  mm.sf=2000.;
     } else if (move_mode == ORIGIN){
         float grad2rad=M_PI*2/360;
         float x_factor_x =  cos(mm.ha*grad2rad);

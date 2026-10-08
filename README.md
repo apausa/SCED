@@ -174,7 +174,7 @@ In any Processor:
     	//	      float x1,float y1,float z1,
     	//	      unsigned type,unsigned width,unsigned color);
 
-        // hit rendering is delayed by the time "t" (in seconds). Produce animation effect. "Show FPS" must be switched on.
+        // hit rendering is delayed by the time "t" (in seconds). Produce animation effect.
     	// void ced_hit_ID_animate(float x,float y,float z, float t, unsigned type, unsigned size, unsigned color, unsigned id);
 
 to define colors is better use gimp - it gives that crasy numbers easily
