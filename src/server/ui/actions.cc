@@ -16,7 +16,7 @@
 
 #include "actions.h"
 #include "ui/input.h"
-#include "render.h"
+#include "view/view.h"
 
 using namespace std;
 

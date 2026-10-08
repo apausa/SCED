@@ -19,11 +19,11 @@
 
 #include "third_party/fg_geometry.h"
 #include "ui/input.h"
-#include "ui/overlay.h"
+#include "view/overlay.h"
 #include "ui/selection.h"
 #include "event.h"
 
-#include "render.h"
+#include "view.h"
 
 //Color of xyz axes
 #define AXES_COLOR                          0.2,0.2,0.8

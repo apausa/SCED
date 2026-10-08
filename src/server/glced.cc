@@ -20,11 +20,11 @@
 #include <iostream>
 
 #include "ui/actions.h"
-#include "render.h"
+#include "view/view.h"
 #include "cli.h"
 #include "event_loop.h"
 #include "tcp_listener.h"
-#include "draw/draw.h"
+#include "view/draw/draw.h"
 
 using namespace std;
 
