@@ -26,8 +26,6 @@
 using namespace std;
 
 // Owned by glced.cc.
-extern int animation_start_time;
-extern int animate_layer;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -112,44 +110,6 @@ static std::string formatShortcut(int iLayer, const char key, const char *descri
 
   return truncateTo(sstr.str(), max_len);
 }
-void printEventTime(void){
-    if( animate_layer < 0 ) return;
-
-    //calculate event time:
-    float elapsed_time = 0.001*( (int)SDL_GetTicks() - animation_start_time); // in seconds, but physicswise should be in ns
-    char text[42];
-    sprintf(text, "Event time: %.3f ns", elapsed_time);
-    double dark = 1.-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2]) / 3.0;
-
-    //print on screen:
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    SDL_Rect _disp_r;
-    SDL_GetDisplayBounds(0, &_disp_r);
-    GLfloat w=(GLfloat)_disp_r.w;
-    GLfloat h=(GLfloat)_disp_r.h;
-    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glColor3f(dark,dark,dark);
-    font_render(setting.font, -600, -950, text);
-
-
-    glEnd();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-}
-
-
 void printShortcuts(void){
 
     const unsigned int MAX_STR_LEN=30;

@@ -23,6 +23,3 @@ struct CEDsettings{
     bool show_axes;
     int font; //size of text (menu, shortcuts, text in ced window)
 };
-
-extern int animation_start_time; // in ms
-extern int animate_layer;

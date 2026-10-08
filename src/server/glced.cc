@@ -29,8 +29,6 @@
 using namespace std;
 
 //*************** global variables ***************************************//
-int animation_start_time = 0;
-int animate_layer = -1;
 extern CEDsettings setting;
 
 int showHelp=0;
@@ -166,8 +164,6 @@ int main(int argc,char *argv[]){
 
     init();
     font_init();
-
-    animation_start_time = (int)SDL_GetTicks();
 
     reshape(setting.win_w, setting.win_h);
     mainLoop(gl_context);

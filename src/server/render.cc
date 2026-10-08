@@ -165,7 +165,6 @@ void display(void){
 
     draw_ced_title_bar();
     printFPS();
-    printEventTime();
 
     SDL_GL_SwapWindow(ced_sdl_window);
 
