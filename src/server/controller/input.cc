@@ -15,6 +15,7 @@
 #include <sced_types.h>
 #include <model/settings.h>
 #include <model/camera.h>
+#include <model/detector.h>
 #include <model/layers.h>
 
 #include "actions.h"
@@ -127,48 +128,32 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU('~', DETECTOR_ALL);
 
   case 'z':
-    if (setting.detector_cut_z < 7000) {
-      setting.detector_cut_z += 100;
-    }
+    detector_cut_z_up();
     ced_needs_redraw = true;
     break;
 
   case 'Z':
-    if (setting.detector_cut_z > -7000) {
-      setting.detector_cut_z -= 100;
-    }
+    detector_cut_z_down();
     ced_needs_redraw = true;
     break;
 
   case '<':
-    if (setting.detector_trans > 0.005) {
-      setting.detector_trans -= 0.005;
-    } else {
-      setting.detector_trans = 0;
-    }
+    detector_trans_down();
     ced_needs_redraw = true;
     break;
 
   case '>':
-    if (setting.detector_trans < 1 - 0.005) {
-      setting.detector_trans += 0.005;
-    } else {
-      setting.detector_trans = 1.;
-    }
+    detector_trans_up();
     ced_needs_redraw = true;
     break;
 
   case 'm':
-    if (setting.detector_cut_angle > 0) {
-      setting.detector_cut_angle -= 0.5;
-    }
+    detector_cut_angle_down();
     ced_needs_redraw = true;
     break;
 
   case 'M':
-    if (setting.detector_cut_angle < 360) {
-      setting.detector_cut_angle += 0.5;
-    }
+    detector_cut_angle_up();
     ced_needs_redraw = true;
     break;
 
