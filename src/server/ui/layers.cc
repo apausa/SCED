@@ -1,11 +1,10 @@
-#include <cstdio>
 #include <cstring>
 
 #include <sced_types.h>
 
-#include "layers.h"
+#include <model/layers.h>
 
-char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
+#include "layers.h"
 
 // Key that toggles each layer: the position in the string is the layer number.
 // Detector layers come after the NUMBER_DATA_LAYER data layers.
@@ -27,14 +26,6 @@ int layer_from_key(unsigned char key){
     return -1;
 }
 
-void addLayerDescriptionToMenu(int id, char * str){
-    if(id < 0 || id >= CED_MAX_LAYER){
-        printf("Warning: Layer id out of range\n");
-        return;
-    }
-    strncpy(layerDescription[id], str,CED_MAX_LAYER_CHAR-1);
-}
-
 void print_layer_text(CED_TEXT *obj){
-    addLayerDescriptionToMenu(obj->id, obj->text);
+    layer_set_description(obj->id, obj->text);
 }

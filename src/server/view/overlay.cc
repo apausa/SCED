@@ -14,6 +14,7 @@
 
 #include <sced_types.h>
 #include <model/settings.h>
+#include <model/layers.h>
 #include <third_party/gl_font.h>
 
 #include "overlay.h"
@@ -130,14 +131,14 @@ void printShortcuts(void){
 
 
     for(i=0;i<NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, layer_keys[i], layerDescription[i], MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, layer_keys[i], layer_description(i), MAX_STR_LEN));
     }
 
     shortcuts.push_back( " " );
     shortcuts.push_back( "DETECTOR LAYERS: " );
 
     for(i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, detec_layer_keys[-1 * NUMBER_DATA_LAYER + i], layerDescription[i], MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, detec_layer_keys[-1 * NUMBER_DATA_LAYER + i], layer_description(i), MAX_STR_LEN));
     }
 
     glMatrixMode(GL_PROJECTION);

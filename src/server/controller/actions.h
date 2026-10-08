@@ -11,9 +11,6 @@ DESCRIPTION:
 
 void selectFromMenu(int id);
 
-// Flip the visibility of one layer (0 .. CED_MAX_LAYER-1). Does not request a redraw.
-void toggle_layer(unsigned l);
-
 #define GRAFIC_PERSP                 2002
 
 #define VIEW_FRONT      21

@@ -16,6 +16,7 @@
 
 #include "actions.h"
 #include <model/camera.h>
+#include <model/layers.h>
 
 #include "controller/input.h"
 #include "view/view.h"
@@ -26,17 +27,6 @@ extern GLfloat window_width;
 extern GLfloat window_height;
 extern bool ced_needs_redraw;
 extern CEDsettings setting;
-
-void toggle_layer(unsigned l){
-    if(l > CED_MAX_LAYER-1){ return; }
-
-    if(setting.layer[l]){
-        setting.layer[l]=false;
-    }else{
-        setting.layer[l]=true;
-    }
-
-}
 
 void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
     if(strcmp(name,"trans")==0){
@@ -57,7 +47,6 @@ void copySetting(CEDsettings &dest, CEDsettings &source, const char *name){
 }
 
 void selectFromMenu(int id){
-    int anz;
     static CEDsettings backup_setting;
     static float mm_ha_backup;
     static float mm_va_backup;
@@ -79,9 +68,7 @@ void selectFromMenu(int id){
             setting.detector_cut_angle=0;
             setting.detector_cut_z=7000;
 
-            for(int i = 0; i<CED_MAX_LAYER;i++){
-                setting.layer[i]=true;
-            }
+            layers_show_all();
             setting.phi_projection = false; // no phi projection
             setting.z_projection=false; // no phi projection;
             camera_reset();
@@ -186,33 +173,11 @@ void selectFromMenu(int id){
             break;
 
         case LAYER_ALL:
-            anz=0;
-            for(int i=0;i<NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!setting.layer[i]){
-                   toggle_layer(i);
-                   anz++;
-                }
-            }
-            if(anz == 0){ //turn all layers off
-                for(int i=0;i<NUMBER_DATA_LAYER;i++){
-                   toggle_layer(i);
-                }
-            }
+            layers_toggle_all_data();
             break;
 
         case DETECTOR_ALL:
-            anz=0;
-            for(int i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!setting.layer[i]){
-                   toggle_layer(i);
-                   anz++;
-                }
-            }
-            if(anz == 0){ //turn all layers off
-                for(int i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){
-                   toggle_layer(i);
-                }
-            }
+            layers_toggle_all_detector();
             break;
 
         case GRAFIC_PERSP:
