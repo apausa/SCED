@@ -4,8 +4,6 @@
 #  include <GL/gl.h>
 #endif
 
-#include <SDL3/SDL.h>
-
 #include <cstdio>
 #include <sys/time.h>
 
@@ -52,43 +50,17 @@ void printFPS(void){
     //print on screen:
     //----------------------
 
-    //saves the matrices on the stack
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    //changes the matrices to be compatible with the old ced_draw_legend code:
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    SDL_Rect display_bounds;
-    SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &display_bounds);
-    GLfloat w = (GLfloat)display_bounds.w;
-    GLfloat h = (GLfloat)display_bounds.h;
-
-    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
     char text[400];
 
     sprintf(text, "FPS: %i", old_fps);
-
-    glLoadIdentity();
 
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
     glColor3f(dark,dark,dark);
 
 
-    font_render(setting.font, -1200, -950, text);
+    font_render(setting.font, 8, window_height - font_get_height(setting.font) - 8, text);
 
-    glEnd();
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW); // font_render() leaves GL_PROJECTION active, display() expects GL_MODELVIEW
 }
 
 std::string truncateTo(std::string str, size_t max_len) {
