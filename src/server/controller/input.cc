@@ -15,6 +15,7 @@
 #include <sced_types.h>
 #include <model/settings.h>
 #include <model/camera.h>
+#include <model/layers.h>
 
 #include "actions.h"
 #include "input.h"

@@ -3,6 +3,7 @@
 #include <sced_types.h>
 #include <third_party/gl_font.h>
 
+#include "layers.h"
 #include "settings.h"
 
 CEDsettings setting;
@@ -21,9 +22,7 @@ void defaultSettings(void){
 
     setting.font=FONT_M;
 
-    for(int i=0;i<CED_MAX_LAYER;i++){
-        setting.layer[i]=true; // turn all layers on
-    }
+    layers_show_all();
 
     setting.detector_trans=0.8;
     setting.detector_cut_angle=0;
