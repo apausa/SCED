@@ -174,7 +174,7 @@ In any Processor:
     	//	      float x1,float y1,float z1,
     	//	      unsigned type,unsigned width,unsigned color);
 
-        // hit rendering is delayed by the time "t" (in seconds). Produce animation effect.
+        // same as ced_hit_ID, with a time "t" (in seconds) attached to the hit. The server currently ignores it and draws the hit immediately.
     	// void ced_hit_ID_animate(float x,float y,float z, float t, unsigned type, unsigned size, unsigned color, unsigned id);
 
 to define colors is better use gimp - it gives that crasy numbers easily
@@ -256,16 +256,16 @@ for event in reader.get("events"):
     DDMarlinCED.drawDD4hepDetector( detector, False, std.vector[std.string]() )
 
     layer = 1  # layer under which hits are displayed
-    animated_layer = 2
+    timed_layer = 2
     size = 5  # size of the hits
     color = 0x000000  # hex color of the hits
-    # Draw all reconstructed hits in layer #1 and animate them in layer #2
+    # Draw all reconstructed hits in layer #1, and again in layer #2 with their time attached (the server does not animate them)
     for col in TRACKER_HIT_COLS + CALO_HIT_COLS:
         for hit in event.get(col):
             pos = hit.getPosition()
             t = hit.getTime()
             ced_hit_ID(pos.x, pos.y, pos.z, CED_HIT_POINT, layer, size, color, 0)
-            ced_hit_ID_animate(pos.x, pos.y, pos.z, t, CED_HIT_POINT, animated_layer, size, color, 0)
+            ced_hit_ID_animate(pos.x, pos.y, pos.z, t, CED_HIT_POINT, timed_layer, size, color, 0)
 
     ced_send_event()
 
