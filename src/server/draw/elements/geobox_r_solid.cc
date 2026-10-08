@@ -1,5 +1,4 @@
 #include "../draw.h"
-#include <config.h>
 
 /*
  * GeoBoxRSolid

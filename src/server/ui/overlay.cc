@@ -13,13 +13,15 @@
 #include <vector>
 
 #include <sced_types.h>
-#include <config.h>
 #include <settings.h>
 #include <third_party/gl_font.h>
 
 #include "overlay.h"
 #include "layers.h"
 #include "render.h"
+
+//Help frame: Frame boarder line width
+#define HELP_FRAME_BOARDER_LINE_SIZE        3.
 
 using namespace std;
 
