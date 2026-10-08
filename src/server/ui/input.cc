@@ -25,10 +25,6 @@ using namespace std;
 // Owned by glced.cc.
 extern long int doubleClickTime;
 extern int last_selected_layer;
-extern int selected_layer;
-extern Point pick_point;
-extern Point pre_pick_point;
-extern bool select_nothing;
 extern bool ced_needs_redraw;
 extern int showHelp;
 extern int socket_fd;
@@ -44,7 +40,6 @@ CameraState mm = {
     { 0., 0., 0. },
     0.,
     0.,
-    1.,
     { 0., 0., 0. },
 };
 CameraState mm_reset;
@@ -52,7 +47,6 @@ CameraState mm_reset;
 static enum {
     NO_MOVE,
     TURN_XY,
-    ZOOM,
     ORIGIN
 } move_mode;
 static GLfloat mouse_x=0.;
@@ -77,7 +71,6 @@ void mouse(int btn,int state,int x,int y){
     mouse_y=y;
     mm.ha_start=mm.ha;
     mm.va_start=mm.va;
-    mm.sf_start=mm.sf;
     mm.mv_start=mm.mv;
 
     switch(btn){
@@ -94,26 +87,8 @@ void mouse(int btn,int state,int x,int y){
                 GLfloat p_x, p_y, p_z;
                 int id, layer, type;
                 if(!find_selected_object(x,y,&p_x,&p_y,&p_z, &id, &layer, &type)){ //if ==1 found hit, else clicked on background
-                    pick_point.x=p_x;
-                    pick_point.y=p_y;
-                    pick_point.z=p_z;
-
-                    select_nothing=false;
-
                     if(type == 1){ //detector
-                        selected_layer=layer;
                         last_selected_layer=layer;
-                        select_nothing=true;
-                    }else if(type == 0){ //data
-                        selected_layer=-1;
-                        pre_pick_point.x=p_x;
-                        pre_pick_point.y=p_y;
-                        pre_pick_point.z=p_z;
-                    }
-
-
-                    if(setting.detector_picking==false){
-                        selected_layer=-1;
                     }
                 }
 
@@ -122,9 +97,6 @@ void mouse(int btn,int state,int x,int y){
                if(client_connected){
                     send( socket_fd , &id , sizeof(int) , 0 );
                 }
-            }else{
-                select_nothing=true;
-                selected_layer=-1;
             }
 
 
@@ -137,10 +109,6 @@ void mouse(int btn,int state,int x,int y){
         return;
         case MOUSE_RIGHT:
           ced_needs_redraw = true;
-          if(ZOOM_RIGHT_CLICK == false){
-            return;
-          }
-          move_mode=ZOOM;
           return;
         case MOUSE_MIDDLE:
           move_mode=ORIGIN;
@@ -396,12 +364,6 @@ void motion(int x,int y){
       mm.va=mm.va_start+(y-mouse_y)*180./window_height;
 
       //todo
-    } else if (move_mode == ZOOM){
-        mm.sf=mm.sf_start+(y-mouse_y)*10./window_height;
-        if(mm.sf<0)
-  	  mm.sf=0.001;
-        else if(mm.sf>2000.)
-  	  mm.sf=2000.;
     } else if (move_mode == ORIGIN){
         float grad2rad=M_PI*2/360;
         float x_factor_x =  cos(mm.ha*grad2rad);

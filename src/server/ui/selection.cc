@@ -21,8 +21,6 @@
 extern CEDsettings setting;
 
 int SELECTED_ID = -1;
-int SELECTED_X=0;
-int SELECTED_Y=0;
 
 /*
  * To support mouse operations with objects, we need

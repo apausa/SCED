@@ -2,7 +2,6 @@
 
 #include "../draw.h"
 #include <config.h>
-#include "ui/selection.h"
 
 void ced_draw_geotube(CED_GeoTube *c){
     using namespace std;
@@ -25,67 +24,6 @@ void ced_draw_geotube(CED_GeoTube *c){
     double z0 = transformed_shift;
     double z1 = c->z+c->shift;
     double z = z1-z0;
-
-    if(setting.detector_picking == true){
-         double tmpz, tmpr;
-
-
-         if(-1*cut_z < (transformed_shift)){
-             //make 1line in the middle
-
-             tmpz=z1; //make 1line in the middle
-             tmpr=(d_i+d_o)/2.;
-             for(double y=0;y<2*3.14-2*3.14*cut_angle/360.;y+=0.1){
-                  //z0 left end
-                   ////z1 middle
-                  //right z0-2*(z0-z1)
-                  CED_Point tmp2;
-                  tmp2.x = tmpr*sin(y);
-                  tmp2.y = tmpr*cos(y);
-                  tmp2.z = tmpz;
-                  ced_add_objmap(&tmp2,20,0,c->type,1 );
-
-             } 
-        }
-
-
-
-        tmpz=z0;
-        if(-1*cut_z > (transformed_shift)){
-             tmpz=-1*cut_z;
-        }
-
-        for(; tmpz <= z0-2*(z0-z1); tmpz+=200){
-             for(double tmprr=d_i; tmprr < d_o; tmprr+=600){
-                 for(double y=0;y<2*3.14-2*3.14*cut_angle/360.;y+=0.20){
-                      //z0 left end
-                      //z1 middle
-                      //right z0-2*(z0-z1)
-                      CED_Point tmp2;
-                      tmp2.x = tmprr*sin(y);
-                      tmp2.y = tmprr*cos(y);
-                      tmp2.z = tmpz;
-                      ced_add_objmap(&tmp2,20,0,c->type,1 );
-
-                 } 
-             }
-
-             for(double tmprr=d_i+300; tmprr < d_o; tmprr+=600){
-                 for(double y=0.1;y<2*3.14-2*3.14*cut_angle/360.;y+=0.20){
-                      //z0 left end
-                      //z1 middle
-                      //right z0-2*(z0-z1)
-                      CED_Point tmp2;
-                      tmp2.x = tmprr*sin(y);
-                      tmp2.y = tmprr*cos(y);
-                      tmp2.z = tmpz;
-                      ced_add_objmap(&tmp2,20,0,c->type,1 );
-
-                 } 
-             }
-
-        }
-   }
 
    if(-1*cut_z > (transformed_shift+2*z)){
         //component is completly in outside range
@@ -154,13 +92,8 @@ void ced_draw_geotube(CED_GeoTube *c){
                                 drawPartialCylinder(z*2, d_o, d_i+(d_o-d_i)/5, c->edges_o, cut_angle - c->rotate_o, c->rotate_o,1,0, c->rotate_i); //draw the outer cylinder
                         }
     
-                        if(c->type == unsigned(selected_layer) && setting.picking_highlight){
-                            glLineWidth(detector_lines_wide*5);
-                            glColor4f(1, 0,0,line_color[3]);
-                        }else{ 
-                            glLineWidth(detector_lines_wide);
-                            glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
-                        }
+                        glLineWidth(detector_lines_wide);
+                        glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
                         glRotatef(c->rotate_i, 0, 0, 1);
                         //draw the inner cylinder 
                         if(k==1)
@@ -183,13 +116,8 @@ void ced_draw_geotube(CED_GeoTube *c){
                         glLineWidth(detector_lines_wide);
     
     
-                        if(c->type == unsigned(selected_layer) && setting.picking_highlight){
-                            glLineWidth(detector_lines_wide*5);
-                            glColor4f(1, 0,0,line_color[3]);
-                        }else{ 
-                            glLineWidth(detector_lines_wide);
-                            glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
-                        }
+                        glLineWidth(detector_lines_wide);
+                        glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
 
                         if(k==1)
                         drawPartialLineCylinder(z*2, d_o, d_i, c->edges_o, cut_angle - c->rotate_o, c->rotate_o);
@@ -230,13 +158,8 @@ void ced_draw_geotube(CED_GeoTube *c){
                         glLineWidth(detector_lines_wide);
     
     
-                        if(c->type == unsigned(selected_layer) && setting.picking_highlight){
-                            glLineWidth(detector_lines_wide*5);
-                            glColor4f(1, 0,0,line_color[3]);
-                        }else{ 
-                            glLineWidth(detector_lines_wide);
-                            glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
-                        }
+                        glLineWidth(detector_lines_wide);
+                        glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
 
     
     
@@ -264,13 +187,8 @@ void ced_draw_geotube(CED_GeoTube *c){
     
     
                         glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
-                        if(c->type == unsigned(selected_layer) && setting.picking_highlight){
-                            glLineWidth(detector_lines_wide*5);
-                            glColor4f(1, 0,0,line_color[3]);
-                        }else{ 
-                            glLineWidth(detector_lines_wide);
-                            glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
-                        }
+                        glLineWidth(detector_lines_wide);
+                        glColor4f(line_color[0], line_color[1], line_color[2], line_color[3]);
 
                         if(k==1)
                             drawPartialLineCylinder(z*2, d_o, d_i, c->edges_o, 0,0);
@@ -284,23 +202,6 @@ void ced_draw_geotube(CED_GeoTube *c){
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //default
     }
     //end trans drawing
-    }else{ 
-       glLineWidth(1.);
-
-       ced_color(c->color);
-       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);    
-     
-       glTranslatef(0.0, 0.0, transformed_shift);
-
-       if(c->rotate_o > 0.01 ) glRotatef(c->rotate_o, 0, 0, 1);
-
-        if(c->classic_outer){
-            geoSolidCylinder(d_o, z*2, c->edges_o, 1); // @refactored: replace gluCylinder
-        }
-        if(d_i > 0 && c->classic_inner){
-            if(c->rotate_o > 0.01 ) glRotatef(c->rotate_i, 0, 0, 1);
-            geoSolidCylinder(d_i, z*2, c->edges_i, 1); // @refactored: replace gluCylinder
-        }
     }
     glPopMatrix();
 }
