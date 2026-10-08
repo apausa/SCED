@@ -19,7 +19,6 @@
 #include "actions.h"
 #include "input.h"
 #include "selection.h"
-#include "utils/helpers.h"
 
 using namespace std;
 
@@ -31,6 +30,7 @@ extern Point pick_point;
 extern Point pre_pick_point;
 extern bool select_nothing;
 extern bool ced_needs_redraw;
+extern int showHelp;
 extern int socket_fd;
 extern bool client_connected;
 extern GLfloat window_width;
@@ -356,7 +356,8 @@ void keypressed(unsigned char key, int x, int y) {
     break;
 
   case 'h':
-    toggleHelpWindow();
+    showHelp = !showHelp;
+    ced_needs_redraw = true;
     break;
   default:
     std::cerr << "Unknown keyboard shortcut: " << key << std::endl;

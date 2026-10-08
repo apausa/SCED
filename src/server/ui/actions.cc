@@ -17,7 +17,6 @@
 #include "actions.h"
 #include "ui/input.h"
 #include "render.h"
-#include "utils/helpers.h"
 
 using namespace std;
 
@@ -205,7 +204,7 @@ void selectFromMenu(int id){
         case LAYER_ALL:
             anz=0;
             for(int i=0;i<NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!isLayerVisible(i)){
+                if(!setting.layer[i]){
                    toggle_layer(i);
                    anz++;
                 }
@@ -220,7 +219,7 @@ void selectFromMenu(int id){
         case DETECTOR_ALL:
             anz=0;
             for(int i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){ //try to turn all layers on
-                if(!isLayerVisible(i)){
+                if(!setting.layer[i]){
                    toggle_layer(i);
                    anz++;
                 }

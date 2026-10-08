@@ -22,7 +22,6 @@
 #include "ui/actions.h"
 #include "render.h"
 #include "cli.h"
-#include "utils/helpers.h"
 #include "event_loop.h"
 #include "tcp_listener.h"
 #include "draw/draw.h"
