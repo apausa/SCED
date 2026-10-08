@@ -19,7 +19,6 @@
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
-extern void (*idle_func)(void);
 extern SDL_Window *ced_sdl_window;
 extern bool ced_needs_redraw;
 
@@ -144,11 +143,6 @@ void mainLoop(SDL_GLContext gl_context) {
                 ) > 0
             )
                 socket_fn();
-        }
-
-        if (idle_func) {
-            idle_func();
-            ced_needs_redraw = true;
         }
 
         if (ced_needs_redraw) {

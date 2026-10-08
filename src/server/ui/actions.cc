@@ -76,8 +76,8 @@ void selectFromMenu(int id){
             break;
 
         case CED_RESET:
-            if((setting.trans == true && setting.persp == false) || (setting.trans == false && setting.persp == true)){
-                selectFromMenu(GRAFIC_PERSP); //switch persp on in new view, switch persp off in classic view
+            if(setting.persp == false){
+                selectFromMenu(GRAFIC_PERSP); //switch persp on
             }
             for(int i = 0; i<NUMBER_DETECTOR_LAYER;i++){
                 setting.detector_trans[i]=0.8;

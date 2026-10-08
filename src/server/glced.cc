@@ -31,25 +31,19 @@ using namespace std;
 //*************** global variables ***************************************//
 int animation_start_time = 0;
 int animate_layer = -1;
-int last_selected_layer;
 extern CEDsettings setting;
 
-static int subSave;
-static int subLoad;
 int showHelp=0;
 long int doubleClickTime=0;
 extern int SELECTED_ID ;
 
 void defaultSettings(void){
-    setting.trans=true;
     setting.persp=true;
     setting.antia=false;
-    setting.picking_highlight=false;
 
     setting.win_w=500;
     setting.win_h=500;
     setting.show_axes=true;
-    setting.fps=false;
 
     for(int i=0;i<4;i++){
         setting.bgcolor[i]=1; //white
@@ -73,8 +67,6 @@ void defaultSettings(void){
 
     mm=mm_reset;
 
-    setting.va=mm.va;
-    setting.ha=mm.ha;
     setting.zoom=mm.sf;
 
     std::cout << "Set options to default settings" << std::endl;
@@ -86,18 +78,11 @@ extern bool client_connected;
 
 bool ced_needs_redraw = false;
 SDL_Window* ced_sdl_window = nullptr;
-void (*idle_func)(void) = nullptr;
 
 GLfloat window_width = 0.;
 GLfloat window_height = 0.;
 
 // ********** function definitions  (rest of file) ************************** //
-
-Point pick_point;
-Point pre_pick_point;
-int selected_layer;
-bool  select_nothing=true;
-
 
 
 int main(int argc,char *argv[]){

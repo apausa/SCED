@@ -41,11 +41,6 @@ void printFPS(void){
     struct timeval tv;
 
 
-    if(setting.fps == false){
-        return;
-    }
-
-
     gettimeofday(&tv, 0);
 
     if(tv.tv_sec+tv.tv_usec/1000000.0-startTime < 1.0){
