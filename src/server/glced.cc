@@ -29,8 +29,6 @@
 using namespace std;
 
 //*************** global variables ***************************************//
-int animation_start_time = 0;
-int animate_layer = -1;
 extern CEDsettings setting;
 
 int showHelp=0;
@@ -55,11 +53,9 @@ void defaultSettings(void){
         setting.layer[i]=true; // turn all layers on
     }
 
-    for(int i=0;i<NUMBER_DETECTOR_LAYER;i++){
-        setting.detector_trans[i]=0.8;
-        setting.detector_cut_angle[i]=0;
-        setting.detector_cut_z[i]=7000;
-    }
+    setting.detector_trans=0.8;
+    setting.detector_cut_angle=0;
+    setting.detector_cut_z=7000;
 
     setting.phi_projection=false;
     setting.z_projection=false;
@@ -168,8 +164,6 @@ int main(int argc,char *argv[]){
 
     init();
     font_init();
-
-    animation_start_time = (int)SDL_GetTicks();
 
     reshape(setting.win_w, setting.win_h);
     mainLoop(gl_context);

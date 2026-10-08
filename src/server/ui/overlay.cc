@@ -4,8 +4,6 @@
 #  include <GL/gl.h>
 #endif
 
-#include <SDL3/SDL.h>
-
 #include <cstdio>
 #include <sys/time.h>
 
@@ -15,7 +13,6 @@
 #include <vector>
 
 #include <sced_types.h>
-#include <config.h>
 #include <settings.h>
 #include <third_party/gl_font.h>
 
@@ -23,11 +20,12 @@
 #include "layers.h"
 #include "render.h"
 
+//Help frame: Frame boarder line width
+#define HELP_FRAME_BOARDER_LINE_SIZE        3.
+
 using namespace std;
 
 // Owned by glced.cc.
-extern int animation_start_time;
-extern int animate_layer;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -54,43 +52,17 @@ void printFPS(void){
     //print on screen:
     //----------------------
 
-    //saves the matrices on the stack
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    //changes the matrices to be compatible with the old ced_draw_legend code:
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    SDL_Rect display_bounds;
-    SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &display_bounds);
-    GLfloat w = (GLfloat)display_bounds.w;
-    GLfloat h = (GLfloat)display_bounds.h;
-
-    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
     char text[400];
 
     sprintf(text, "FPS: %i", old_fps);
-
-    glLoadIdentity();
 
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
     glColor3f(dark,dark,dark);
 
 
-    font_render(setting.font, -1200, -950, text);
+    font_render(setting.font, 8, window_height - font_get_height(setting.font) - 8, text);
 
-    glEnd();
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW); // font_render() leaves GL_PROJECTION active, display() expects GL_MODELVIEW
 }
 
 std::string truncateTo(std::string str, size_t max_len) {
@@ -112,44 +84,6 @@ static std::string formatShortcut(int iLayer, const char key, const char *descri
 
   return truncateTo(sstr.str(), max_len);
 }
-void printEventTime(void){
-    if( animate_layer < 0 ) return;
-
-    //calculate event time:
-    float elapsed_time = 0.001*( (int)SDL_GetTicks() - animation_start_time); // in seconds, but physicswise should be in ns
-    char text[42];
-    sprintf(text, "Event time: %.3f ns", elapsed_time);
-    double dark = 1.-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2]) / 3.0;
-
-    //print on screen:
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    SDL_Rect _disp_r;
-    SDL_GetDisplayBounds(0, &_disp_r);
-    GLfloat w=(GLfloat)_disp_r.w;
-    GLfloat h=(GLfloat)_disp_r.h;
-    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glColor3f(dark,dark,dark);
-    font_render(setting.font, -600, -950, text);
-
-
-    glEnd();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-}
-
-
 void printShortcuts(void){
 
     const unsigned int MAX_STR_LEN=30;
@@ -183,7 +117,7 @@ void printShortcuts(void){
     shortcuts.push_back( "[z] Cut in -z-axe direction" );
     shortcuts.push_back( "[>] Increase transparency" );
     shortcuts.push_back( "[<] Decrease transparency" );
-    shortcuts.push_back( "[m] Increase detector cut angle" );
+    shortcuts.push_back( "[M] Increase detector cut angle" );
     shortcuts.push_back( "[m] Decrease detector cut angle" );
     shortcuts.push_back( "[->] Move in z-direction" );
     shortcuts.push_back( "[<-] Move in -z-direction" );

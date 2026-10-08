@@ -9,9 +9,9 @@
 struct CEDsettings{
     bool persp;         //perspectivic view or flat projection
     bool antia;         //anti aliasing
-    double detector_trans[NUMBER_DETECTOR_LAYER];
-    double detector_cut_angle[NUMBER_DETECTOR_LAYER];
-    double detector_cut_z[NUMBER_DETECTOR_LAYER];
+    double detector_trans;
+    double detector_cut_angle;
+    double detector_cut_z;
     bool layer[CED_MAX_LAYER];
     bool phi_projection;
     bool z_projection;
@@ -23,6 +23,3 @@ struct CEDsettings{
     bool show_axes;
     int font; //size of text (menu, shortcuts, text in ced window)
 };
-
-extern int animation_start_time; // in ms
-extern int animate_layer;

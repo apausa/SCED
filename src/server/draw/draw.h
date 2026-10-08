@@ -13,7 +13,7 @@
 
 extern CEDsettings setting;
 
-#define IS_VISIBLE(x) ((x < (CED_MAX_LAYER-1) && (int)x >= 0)?setting.layer[x]:false)
+#define IS_VISIBLE(x) ((x < CED_MAX_LAYER && (int)x >= 0)?setting.layer[x]:false)
 
 // Register the element types with their draw functions. The order must be
 // the same as in the client (see sced_elements.h).
