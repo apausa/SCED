@@ -23,3 +23,6 @@ struct CEDsettings{
     bool show_axes;
     int font; //size of text (menu, shortcuts, text in ced window)
 };
+
+// Sets every field to its start-up value.
+void defaultSettings(void);
