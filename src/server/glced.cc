@@ -31,7 +31,6 @@ using namespace std;
 //*************** global variables ***************************************//
 int animation_start_time = 0;
 int animate_layer = -1;
-int last_selected_layer;
 extern CEDsettings setting;
 
 int showHelp=0;
@@ -39,7 +38,6 @@ long int doubleClickTime=0;
 extern int SELECTED_ID ;
 
 void defaultSettings(void){
-    setting.trans=true;
     setting.persp=true;
     setting.antia=false;
 

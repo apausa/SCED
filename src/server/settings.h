@@ -7,7 +7,6 @@
  * (grid vs. surface view, projection, per-layer visibility/cuts, etc).
  */
 struct CEDsettings{
-    bool trans;         //grid or surface view
     bool persp;         //perspectivic view or flat projection
     bool antia;         //anti aliasing
     double detector_trans[NUMBER_DETECTOR_LAYER];

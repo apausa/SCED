@@ -134,58 +134,6 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
     return 0;
 }
 
-int find_selected_object(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz, int *id, int *layer, int *type){
-    CED_ObjMap *p,*best;
-    unsigned i;
-    int dx,dy;
-    int d,dist=0; // calculate dist as |x-x'|+|y-y'|
-    
-    y=viewport[3]-y-1; // to get correct direction
-    for(i=0,p=omap,best=0;i<omap_count;i++,p++){
-        dx=abs(p->x-x);
-        dy=abs(p->y-y);
-        if((dx>p->max_dxy) || (dy>p->max_dxy)){
-            continue;
-        }
-        
-        d=(int) pow(pow(dx,2)+pow(dy,2),0.5);
-        if(!best || (d<dist)){
-            best=p;
-            dist=d;
-        }
-    }
-    if(!best){
-        return 1;
-    }
-
-    //new
-    if(best->type==1){
-        for(i=0,p=omap,best=0;i<omap_count;i++,p++){
-            dx=abs(p->x-x);
-            dy=abs(p->y-y);
-            if((dx>p->max_dxy) || (dy>p->max_dxy)){
-                continue;
-            }
-            
-            d=(int) pow(pow(dx,2)+pow(dy,2)+pow(p->z/5.,2),0.5);
-            if(!best || (d<dist)){
-                best=p;
-                dist=d;
-            }
-        }
-    }
-    //end new
-    *wx=best->p.x;
-    *wy=best->p.y;
-    *wz=best->p.z;
-
-    *id = best->ID;
-    *layer = best->layer;
-    *type = best->type;
-    return 0;
-}
-
-
 /*************************************************************** 
 * A extra picking function, do the same as ced_get_selected,   *
 * without center the selected object                           *
