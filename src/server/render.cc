@@ -183,9 +183,9 @@ void display(void){
     draw_ced_title_bar();
     printFPS();
 
-    SDL_GL_SwapWindow(ced_sdl_window);
-
     glPopMatrix();
+
+    SDL_GL_SwapWindow(ced_sdl_window);
 }
 
 void reshape(int w,int h){
