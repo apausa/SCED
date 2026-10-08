@@ -11,7 +11,7 @@
 #include <third_party/gl_font.h>
 
 #include "view/view.h"
-#include "ui/input.h"
+#include "controller/input.h"
 #include "view/overlay.h"
 #include "event.h"
 

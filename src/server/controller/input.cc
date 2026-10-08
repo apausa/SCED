@@ -17,8 +17,8 @@
 
 #include "actions.h"
 #include "input.h"
-#include "layers.h"
-#include "selection.h"
+#include "ui/layers.h"
+#include "ui/selection.h"
 
 using namespace std;
 

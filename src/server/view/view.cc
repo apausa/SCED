@@ -18,7 +18,7 @@
 #include <settings.h>
 
 #include "third_party/fg_geometry.h"
-#include "ui/input.h"
+#include "controller/input.h"
 #include "view/overlay.h"
 #include "ui/selection.h"
 #include "event.h"

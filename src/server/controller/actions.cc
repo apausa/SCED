@@ -15,7 +15,7 @@
 #include <settings.h>
 
 #include "actions.h"
-#include "ui/input.h"
+#include "controller/input.h"
 #include "view/view.h"
 
 using namespace std;
