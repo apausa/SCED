@@ -7,8 +7,6 @@
 
 #define PORT  0x1234
 
-CEDsettings setting;
-
 static unsigned HIT_ID=0;
 static unsigned LINE_ID=0;
 static unsigned GEOT_ID=0;

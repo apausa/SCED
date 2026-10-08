@@ -15,7 +15,6 @@
 #include <model/settings.h>
 #include <SDL3/SDL.h>
 #include <third_party/gl_font.h>
-#include <model/camera.h>
 
 #include <iostream>
 
@@ -34,39 +33,6 @@ extern CEDsettings setting;
 int showHelp=0;
 long int doubleClickTime=0;
 extern int SELECTED_ID ;
-
-void defaultSettings(void){
-    setting.persp=true;
-    setting.antia=false;
-
-    setting.win_w=500;
-    setting.win_h=500;
-    setting.show_axes=true;
-
-    for(int i=0;i<4;i++){
-        setting.bgcolor[i]=1; //white
-    }
-
-    setting.font=FONT_M;
-
-    for(int i=0;i<CED_MAX_LAYER;i++){
-        setting.layer[i]=true; // turn all layers on
-    }
-
-    setting.detector_trans=0.8;
-    setting.detector_cut_angle=0;
-    setting.detector_cut_z=7000;
-
-    setting.phi_projection=false;
-    setting.z_projection=false;
-    setting.fixed_view=false;
-
-    camera_reset();
-
-    setting.zoom=camera_get().sf;
-
-    std::cout << "Set options to default settings" << std::endl;
-}
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
