@@ -21,14 +21,13 @@
 
 #include "overlay.h"
 #include "layers.h"
-#include "utils/helpers.h"
+#include "render.h"
 
 using namespace std;
 
 // Owned by glced.cc.
 extern int animation_start_time;
 extern int animate_layer;
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -53,7 +52,6 @@ void printFPS(void){
         fps++;
     }else{
         startTime=tv.tv_sec+tv.tv_usec/1000000.0;
-        //printf("FPS: %i\n", fps);
         old_fps=fps;
         fps=1;
     }
@@ -76,8 +74,7 @@ void printFPS(void){
     GLfloat w = (GLfloat)display_bounds.w;
     GLfloat h = (GLfloat)display_bounds.h;
 
-    int  world_size=1000; //static worldsize maybe will get problems in the future...
-    glOrtho(-world_size*w/h,world_size*w/h,-world_size,world_size, -15*world_size,15*world_size);
+    glOrtho(-WORLD_SIZE*w/h,WORLD_SIZE*w/h,-WORLD_SIZE,WORLD_SIZE, -15*WORLD_SIZE,15*WORLD_SIZE);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -90,13 +87,6 @@ void printFPS(void){
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
     glColor3f(dark,dark,dark);
 
-
-    //void *font=GLUT_BITMAP_TIMES_ROMAN_10; //default font
-    //glRasterPos2f(-1200,-950);
-    //char *c;
-    //for (c=text; *c != '\0'; c++) {
-    //    glutBitmapCharacter(font, *c);
-    //}
 
     font_render(setting.font, -1200, -950, text);
 
@@ -122,7 +112,7 @@ std::string truncateTo(std::string str, size_t max_len) {
 static std::string formatShortcut(int iLayer, const char key, const char *description,
                            size_t max_len) {
   std::stringstream sstr;
-  sstr << "(" << (isLayerVisible(iLayer) ? "X" : "_") << ") [" << key << "] "
+  sstr << "(" << (setting.layer[iLayer] ? "X" : "_") << ") [" << key << "] "
        << std::setfill('0') << std::setw(2) << iLayer << ": " << description;
 
   return truncateTo(sstr.str(), max_len);
@@ -173,9 +163,6 @@ void printShortcuts(void){
     int height = font_get_height(setting.font) + 2;
     int width  = font_get_width(setting.font, "A");
 
-    //float line = 12; //height of one line
-    //float column = MAX_STR_LEN*5; //width of one line
-
     float line = height; //height of one line
     float column = MAX_STR_LEN*width; //width of one line
 
@@ -188,14 +175,12 @@ void printShortcuts(void){
 
     shortcuts.push_back( "[ESC] Quit CED" );
     shortcuts.push_back( "[h] Toggle shortcut frame" );
-    shortcuts.push_back( "[CTRL+z] Undo" );
     shortcuts.push_back( "[r] Reset view" );
     shortcuts.push_back( "[R] Reset CED" );
     shortcuts.push_back( "[f] Front view" );
     shortcuts.push_back( "[s] Side view" );
     shortcuts.push_back( "[F] Front projection" );
     shortcuts.push_back( "[S] Side projection" );
-    shortcuts.push_back( "[b] Change background color" );
     shortcuts.push_back( "[+] Zoom in" );
     shortcuts.push_back( "[-] Zoom out" );
     shortcuts.push_back( "[c] Center" );
@@ -244,13 +229,7 @@ void printShortcuts(void){
     GLfloat w = window_width;
     GLfloat h = window_height;
 
-    int  world_size=1000; //static worldsize maybe will get problems in the future...
-
-    //glOrtho(0,w,h, 0,0,15*WORLD_SIZE);
-
-    //glOrtho(0,w,h,-10,0,15*WORLD_SIZE);
-
-    glOrtho(0,w,h,-1*height,0,15*world_size);
+    glOrtho(0,w,h,-1*height,0,15*WORLD_SIZE);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -270,8 +249,6 @@ void printShortcuts(void){
         h*=3;
     }
 
-    //glColor4f(HELP_FRAME_FILL_COLOR);
-
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor4f(0.1,0.1,0.1,0.5);
     }else{
@@ -289,7 +266,6 @@ void printShortcuts(void){
 
 
 
-    //glColor4f(HELP_FRAME_BOARDER_COLOR);
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor4f(0.2,0.2,0.2,0.5);
     }else{
@@ -312,7 +288,6 @@ void printShortcuts(void){
     glVertex3f(w-boarder_line, h/3.-boarder_line,0);
     glEnd();
 
-    //glColor3f(HELP_FRAME_TEXT_COLOR);
     if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
         glColor3f(1,1,1);
     }else{

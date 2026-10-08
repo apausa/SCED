@@ -1,8 +1,6 @@
 /* "C" event display.
  * Enduser accessable API (client side): connection and event handling.
  * The elements API is in sced_elements.h.
- *
- * Alexey Zhelezov, DESY/ITEP, 2005
  */
 
 #ifndef __SCED_CONNECTION_H
@@ -53,7 +51,6 @@ void ced_send_event(void);
 
 int ced_selected_id(void);
 
-//hauke
 int ced_selected_id_noblock(void);
 
 

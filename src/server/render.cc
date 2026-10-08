@@ -26,13 +26,10 @@
 
 #include "render.h"
 
-extern float BG_COLOR[4];
-extern GLfloat axe[][3];
 extern int showHelp;
 
 extern SDL_Window *ced_sdl_window;
 
-extern float WORLD_SIZE;
 extern GLfloat window_width;
 extern GLfloat window_height;
 
@@ -44,9 +41,8 @@ extern CEDsettings setting;
 
 void init(void){
     //Set background color
-    glClearColor(BG_COLOR[0],BG_COLOR[1], BG_COLOR[2], BG_COLOR[3]);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // white
 
-    //glShadeModel(GL_FLAT);
     glShadeModel(GL_SMOOTH);
 
     glClearDepth(1);
@@ -55,32 +51,13 @@ void init(void){
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear buffers
 
-    //glDepthFunc(GL_LESS);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //default
-
-    //glEnable(GL_POLYGON_STIPPLE);
-
-
-    //glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-    //glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR); //glass
-    //glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA); //locks nice, but lines diapear
-
-    //glBlendFunc(GL_ONE, GL_ZERO);
-    //glBlendFunc(GL_ONE, GL_ONE);
-    //glClearColor(0,0,0,0);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     // GL_NORMAL_ARRAY GL_COLOR_ARRAY GL_TEXTURE_COORD_ARRAY,GL_EDGE_FLAG_ARRAY
 
-    // to make round points
-    //glEnable(GL_POINT_SMOOTH);
-
     // to put text
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-
-    // To enable Alpha channel (expensive !!!)
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 // bitmaps for X,Y and Z
@@ -98,26 +75,25 @@ static unsigned char z_bm[]={
 };
 
 
+static const GLfloat axe[][3]={
+  { 0., 0., 0., },
+  { WORLD_SIZE/2, 0., 0. },
+  { 0., WORLD_SIZE/2, 0. },
+  { 0., 0., WORLD_SIZE/2 }
+};
+
 static void axe_arrow(void){
     GLfloat k=WORLD_SIZE/window_height;
     geoSolidCone(8.*k, 30.*k, 16, 5);
 }
 
 static void display_world(void){
-    /*   static GLfloat axe[][3]={ */
-    /*     { 0., 0., 0., }, */
-    /*     { WORLD_SIZE/2, 0., 0. }, */
-    /*     { 0., WORLD_SIZE/2, 0. }, */
-    /*     { 0., 0., WORLD_SIZE/2 } */
-    /*   }; */
-    //  unsigned i;
     if(setting.show_axes == false){
         return;
     }
 
 
     glColor3f(AXES_COLOR);
-    //glLineWidth(2.);
     glLineWidth(AXES_LINE_SIZE);
 
     glBegin(GL_LINES);
@@ -135,14 +111,12 @@ static void display_world(void){
 
     glColor3f(0.5,0.5,0.8);
     glPushMatrix();
-    //glTranslatef(mm.mv.x,mm.mv.y,mm.mv.z);
     glTranslatef(WORLD_SIZE/2.-WORLD_SIZE/100.,0.,0.);
     glRotatef(90.,0.0,1.0,0.0);
     axe_arrow();
     glPopMatrix();
 
     glPushMatrix();
-    //glTranslatef(mm.mv.x,mm.mv.y,mm.mv.z);
     glTranslatef(0.,WORLD_SIZE/2.-WORLD_SIZE/100.,0.);
     glRotatef(-90.,1.0,0.,0.);
     axe_arrow();
@@ -150,18 +124,14 @@ static void display_world(void){
 
 
     glPushMatrix();
-    //glTranslatef(mm.mv.x,mm.mv.y,mm.mv.z);
     glTranslatef(0.,0.,WORLD_SIZE/2.-WORLD_SIZE/100.);
     axe_arrow();
     glPopMatrix();
 
     // Draw X,Y,Z ...
-    //glColor3f(1.,1.,1.); //white labels
-    //glColor3f(0.,0.,0.); //black labels
 
     glGetDoublev(GL_COLOR_CLEAR_VALUE, setting.bgcolor);
     double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
-    //glColor3f(1-setting.bgcolor[0], 1-setting.bgcolor[1], 1-setting.bgcolor[2]);
     glColor3f(dark,dark,dark);
 
 
@@ -188,7 +158,6 @@ void display(void){
         glColor3f(1,0,0);
         glPointSize(10);
         glBegin(GL_POINTS);
-        //cout<< "point: " << pick_point.x << ", " << pick_point.y << ", " << pick_point.z << endl;
         glVertex3f(pick_point.x,pick_point.y,pick_point.z);
         glEnd();
     }
@@ -215,30 +184,12 @@ void display(void){
 }
 
 void reshape(int w,int h){
-    // printf("Reshaped: %dx%d\n",w,h);
     window_width=w;
     window_height=h;
     setting.win_w=w;
     setting.win_h=h;
 
-
-
-    //if(graphic[3]){
     if(setting.antia){
-
-        //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-        //glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-        //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-        //glHint(GL_POLYGON_SMOOTH,GL_FASTEST);
-
-        //glEnable(GL_POINT_SMOOTH);
-        //glEnable(GL_LINE_SMOOTH);
-        //glEnable(GL_POLYGON_SMOOTH);
-        //glShadeModel(GL_SMOOTH);
-
-        //glEnable(GL_BLEND);
-        //glEnable (GL_BLEND);
-        //glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         glEnable (GL_LINE_SMOOTH);
         glEnable (GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -248,7 +199,6 @@ void reshape(int w,int h){
         glDisable(GL_LINE_SMOOTH);
     }
 
-    //if(graphic[2] == 0){
     if(setting.persp == false){
 
         glViewport(0,0,w,h);
@@ -263,14 +213,6 @@ void reshape(int w,int h){
 
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();
-        //gluPerspective(60,window_width/window_height,100,500000);
-        //double plane1, plane2;
-        //plane1=100.0*mm.sf;
-        //plane2=50000.0*mm.sf;
-        //gluPerspective(60,window_width/window_height,plane1,plane2);
-        //gluPerspective(60,window_width/window_height,100.0,50000.0*mm.sf+50000/mm.sf);
-
-        //gluPerspective(45,window_width/window_height,100.0,50000.0*mm.sf+50000/mm.sf);
         glLoadMatrixf(glm::value_ptr(glm::perspective(
             glm::radians((GLfloat)CAMERA_FIELD_OF_VIEW),
             window_width/window_height,
@@ -278,37 +220,9 @@ void reshape(int w,int h){
             (GLfloat)(CAMERA_MAX_DISTANCE)
         )));
 
-        //gluPerspective(170,window_width/window_height,100.0,50000.0*mm.sf+50000/mm.sf);
-
-
-        //std::cout  << "clipping planes: " << plane1 << " bis " << plane2<< std::endl;
-
-
         glMatrixMode( GL_MODELVIEW );
 
         glLoadIdentity();
-
-        //glClearDepth(1.0);
-        //glEnable(GL_DEPTH_TEST);
-        //glDepthFunc(GL_LEQUAL);
-        //glDepthFunc(GL_LESS);
-
-
-
-
-        //glEnable (GL_LINE_SMOOTH);
-
-        //glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-
-
-        //    glShadeModel(GL_SMOOTH);
-
-        //glDepthMask(GL_TRUE);
-
-        // //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        // //glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
-        //glBlendFunc(GL_ONE, GL_ZERO);
-        //glEnable(GL_BLEND);
 
         glMultMatrixf(glm::value_ptr(glm::lookAt(
             glm::vec3(CAMERA_POSITION),

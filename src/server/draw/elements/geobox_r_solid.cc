@@ -7,8 +7,6 @@
 
 void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 
-//   std::cout << " ced_draw_geobox_r_solid was called." << std::endl;
-
 	if(!IS_VISIBLE(box->layer)){
 		return;
     }
@@ -18,11 +16,6 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 	const unsigned int nDim   = 3;
 	const unsigned int nFace  = 2;
 	double face[nFace][nPoint][nDim];
-	//  unsigned int iDim, iPoint, iFace;
-	
-	
-	//ced_color(box->color);
-	//glLineWidth(2);
 	
 	glPushMatrix(); // push the matrix onto the matrix stack and pop it off (preserving the original matrix)
 	
@@ -68,13 +61,11 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 	//  drawing the first face
 
 
-	//ced_color(box->color);
     double trans=0.5;
     if(box->layer < NUMBER_DETECTOR_LAYER){
        trans=setting.detector_trans[box->layer]; 
     }
     GLfloat face_color[4]={static_cast<GLfloat>(((box->color>>16)&0xff)/255.0),static_cast<GLfloat>(((box->color>>8)&0xff)/255.0),static_cast<GLfloat>(((box->color)&0xff)/255.0), static_cast<GLfloat>(trans)};
-    //GLfloat line_color[4]={((c->color>>16)&0xff)/255.0/2.0+(1.0-setting.bgcolor[0])/2.0,((c->color>>8)&0xff)/255.0/2.0+(1.0-setting.bgcolor[1])/2.0,((c->color)&0xff)/255.0/2.0+(1.0-setting.bgcolor[2])/2.0, (1-setting.trans_value)+CED_GEOTUBE_LINE_MAX_TRANS}; //lines in detector color mixed with anti background color
     glColor4f(face_color[0], face_color[1], face_color[2], face_color[3]);
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 
@@ -84,8 +75,6 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
  
 	glBegin(GL_POLYGON);
 
-   // glBegin(GL_QUADS);
-	
 	glVertex3f( (float) face[0][0][0], (float) face[0][0][1],  (float) face[0][0][2] );
 	glVertex3f( (float) face[0][1][0], (float) face[0][1][1],  (float) face[0][1][2] );
 	glVertex3f( (float) face[0][2][0], (float) face[0][2][1],  (float) face[0][2][2] );

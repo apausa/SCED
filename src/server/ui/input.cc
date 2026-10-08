@@ -19,7 +19,6 @@
 #include "actions.h"
 #include "input.h"
 #include "selection.h"
-#include "utils/helpers.h"
 
 using namespace std;
 
@@ -31,9 +30,9 @@ extern Point pick_point;
 extern Point pre_pick_point;
 extern bool select_nothing;
 extern bool ced_needs_redraw;
+extern int showHelp;
 extern int socket_fd;
 extern bool client_connected;
-extern float userDefinedBGColor[];
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
@@ -41,7 +40,7 @@ extern CEDsettings setting;
 CameraState mm = {
     30.,
     150.,
-    0.1, //hauke decrease zoom, //SJA:FIXED set redraw scale a lot smaller
+    0.1, // decrease zoom, set redraw scale a lot smaller
     { 0., 0., 0. },
     0.,
     0.,
@@ -59,20 +58,7 @@ static enum {
 static GLfloat mouse_x=0.;
 static GLfloat mouse_y=0.;
 
-typedef GLfloat color_t[4];
-
-static color_t bgColors[] = {
-  { 0.0, 0.2, 0.4, 0.0 }, //light blue
-  { 0.0, 0.0, 0.0, 0.0 }, //black
-  { 0.2, 0.2, 0.2, 0.0 }, //gray shades
-  { 0.4, 0.4, 0.4, 0.0 },
-  { 0.6, 0.6, 0.6, 0.0 },
-  { 0.8, 0.8, 0.8, 0.0 },
-  { 1.0, 1.0, 1.0, 0.0 }  //white
-};
-static unsigned int iBGcolor = 0;
-
-void mouseWheel(int, int dir, int, int ){ //hauke
+void mouseWheel(int, int dir, int, int ){
     if(dir > 0){
         selectFromMenu(VIEW_ZOOM_IN);
     }else{
@@ -81,7 +67,6 @@ void mouseWheel(int, int dir, int, int ){ //hauke
 }
 
 void mouse(int btn,int state,int x,int y){
-    //hauke
     struct timeval tv;
 
     if(state!=MOUSE_DOWN){
@@ -95,21 +80,14 @@ void mouse(int btn,int state,int x,int y){
     mm.sf_start=mm.sf;
     mm.mv_start=mm.mv;
 
-    //double angle;
     switch(btn){
     case MOUSE_LEFT:
-        //reshape((int)window_width, (int)window_height);
         ced_needs_redraw = true;
-
-
-
-        //hauke
         gettimeofday(&tv, 0);
         //FIX IT: get the system double click time
         if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
             last_selected_layer=-1;
-            //printf("Double Click %f\n", tv.tv_sec*1000000+tv.tv_usec-doubleClickTime);
             if(!ced_picking(x,y,&mm.mv.x,&mm.mv.y,&mm.mv.z)){
 
 
@@ -151,7 +129,6 @@ void mouse(int btn,int state,int x,int y){
 
 
         }else{
-            //printf("Single Click\n");
             if(setting.fixed_view == 0){ //dont rotate the view when in side or front projection
                 move_mode=TURN_XY;
             }
@@ -166,12 +143,6 @@ void mouse(int btn,int state,int x,int y){
           move_mode=ZOOM;
           return;
         case MOUSE_MIDDLE:
-          //cout << "middle button clicked" << endl;
-          //#ifdef __APPLE__
-          //    move_mode=ZOOM;
-          //#else
-          //    move_mode=ORIGIN;
-	      //#endif
           move_mode=ORIGIN;
           return;
         default:
@@ -186,11 +157,7 @@ void mouse(int btn,int state,int x,int y){
 
 
 void keypressed(unsigned char key, int x, int y) {
-  // SM-H: TODO: socket list for communicating with client
-  // struct __glutSocketList *sock;
-  // if(key==0x1A ){ //ctrl+z
-
-  // if(key=='u' ){ //ctrl+z
+  // TODO: socket list for communicating with client
 
   switch (key) {
     SELECT_FROM_MENU('r', VIEW_RESET);
@@ -202,13 +169,10 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU('+', VIEW_ZOOM_IN);
     SELECT_FROM_MENU('-', VIEW_ZOOM_OUT);
 
-    SELECT_FROM_MENU(26, UNDO);
-    SELECT_FROM_MENU('x', UNDO);
   case 27: // esc
     exit(0);
   case 'c':
   case 'C':
-    // selectFromMenu(VIEW_CENTER);
     if (!ced_get_selected(x, y, &mm.mv.x, &mm.mv.y, &mm.mv.z)) {
       ced_needs_redraw = true;
     }
@@ -391,24 +355,9 @@ void keypressed(unsigned char key, int x, int y) {
     ced_needs_redraw = true;
     break;
 
-    case 'b': // toggle background color
-    ++iBGcolor;
-    if (iBGcolor >= sizeof(bgColors) / sizeof(color_t)) {
-      glClearColor(userDefinedBGColor[0], userDefinedBGColor[1],
-                   userDefinedBGColor[2], userDefinedBGColor[3]);
-      iBGcolor = -1;
-      printf("using color: %s\n", "user defined");
-      ced_needs_redraw = true;
-      return;
-    } else {
-      glClearColor(bgColors[iBGcolor][0], bgColors[iBGcolor][1],
-                   bgColors[iBGcolor][2], bgColors[iBGcolor][3]);
-      ced_needs_redraw = true;
-      printf("using color %u\n", iBGcolor);
-    }
-    break;
   case 'h':
-    toggleHelpWindow();
+    showHelp = !showHelp;
+    ced_needs_redraw = true;
     break;
   default:
     std::cerr << "Unknown keyboard shortcut: " << key << std::endl;
@@ -439,14 +388,10 @@ void SpecialKey( int key, int, int ){
 
 
 void motion(int x,int y){
-    // printf("Mouse moved: %dx%d %f\n",x,y,angle_z);
     if((move_mode == NO_MOVE) || !window_width || !window_height)
       return;
 
     if(move_mode == TURN_XY){
-      //    angle_y=correct_angle(start_angle_y-(x-mouse_x)*180./window_width);
-      //    turn_xy((x-mouse_x)*M_PI/window_height,
-      //           (y-mouse_y)*M_PI/window_width);
       mm.ha=mm.ha_start+(x-mouse_x)*180./window_width;
       mm.va=mm.va_start+(y-mouse_y)*180./window_height;
 
@@ -458,15 +403,6 @@ void motion(int x,int y){
         else if(mm.sf>2000.)
   	  mm.sf=2000.;
     } else if (move_mode == ORIGIN){
-        //cout << "move" << endl;
-        /*
-        //old code: do not work with rotate
-        mm.mv.x=mm.mv_start.x-(x-mouse_x)*WORLD_SIZE/window_width
-        mm.mv.y=mm.mv_start.y+(y-mouse_y)*WORLD_SIZE/window_height
-        */
-
-
-//        float grad2rad=3.141*2/360;
         float grad2rad=M_PI*2/360;
         float x_factor_x =  cos(mm.ha*grad2rad);
         float x_factor_y =  cos((mm.va-90)*grad2rad)*cos((mm.ha+90)*grad2rad);
@@ -475,21 +411,12 @@ void motion(int x,int y){
         float z_factor_x =  cos((mm.ha-90)*grad2rad);
         float z_factor_y = -cos(mm.ha*grad2rad)*cos((mm.va+90)*grad2rad);
 
-        //float scale_factor=2200/mm.sf/exp(log(window_width*window_height)/2) ;
         float scale_factor=580/mm.sf/exp(log(window_width*window_height)/2.5) ;
 
-
-        //mm.mv.x=mm.mv_start.x- (x-mouse_x)*WORLD_SIZE/window_width*10*x_factor_x - (y-mouse_y)*WORLD_SIZE/window_width*10*x_factor_y;
-        //mm.mv.y=mm.mv_start.y- (x-mouse_x)*WORLD_SIZE/window_width*10*y_factor_x - (y-mouse_y)*WORLD_SIZE/window_width*10*y_factor_y;
-        //mm.mv.z=mm.mv_start.z - (x-mouse_x)*WORLD_SIZE/window_width*10*z_factor_x - (y-mouse_y)*WORLD_SIZE/window_width*10*z_factor_y;
 
         mm.mv.x=mm.mv_start.x- scale_factor*(x-mouse_x)*x_factor_x - scale_factor*(y-mouse_y)*x_factor_y;
         mm.mv.y=mm.mv_start.y- scale_factor*(x-mouse_x)*y_factor_x - scale_factor*(y-mouse_y)*y_factor_y;
         mm.mv.z=mm.mv_start.z -scale_factor*(x-mouse_x)*z_factor_x - scale_factor*(y-mouse_y)*z_factor_y;
-
-
-        //printf("y_factor_x = %f, y_factor_y=%f\n", y_factor_x, y_factor_y);
-        //printf("mm.ha = %f, mm.va = %f\n",mm.ha, mm.va);
     }
     ced_needs_redraw = true;
 }
