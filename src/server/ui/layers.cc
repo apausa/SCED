@@ -2,8 +2,6 @@
 
 #include <sced_types.h>
 
-#include <model/layers.h>
-
 #include "layers.h"
 
 // Key that toggles each layer: the position in the string is the layer number.
@@ -24,8 +22,4 @@ int layer_from_key(unsigned char key){
         return NUMBER_DATA_LAYER + (p - detec_layer_keys);
     }
     return -1;
-}
-
-void print_layer_text(CED_TEXT *obj){
-    layer_set_description(obj->id, obj->text);
 }

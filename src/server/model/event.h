@@ -32,4 +32,14 @@ int ced_process_input(void *data);
  */
 const ced_event &get_event(void);
 
+/*
+ * The type of the element that carries layer
+ * descriptions (CED_TEXT). When an event is
+ * completed, its descriptions are handed to
+ * layer_set_description().
+ *
+ * To be called when the elements are registered.
+ */
+void set_text_type(unsigned type);
+
 #endif /* __EVENT_H  */
