@@ -16,9 +16,9 @@
 
 #include <sced_types.h>
 #include <model/settings.h>
+#include <model/camera.h>
 
 #include "third_party/fg_geometry.h"
-#include "controller/input.h"
 #include "view/overlay.h"
 #include "ui/selection.h"
 #include "model/event.h"
@@ -38,7 +38,9 @@
 #define CAMERA_MIN_DISTANCE                 100
 
 //Camera max distance (hint: min and max should be close together)
-#define CAMERA_MAX_DISTANCE                 50000.0*mm.sf+50000/mm.sf
+static double camera_max_distance(const CameraState &cam){
+    return 50000.0*cam.sf+50000/cam.sf;
+}
 
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
@@ -156,16 +158,34 @@ static void display_world(void){
     glBitmap(8,12,4,6,0,0,z_bm);
 }
 
+
+// Visits every element type with a draw callback calling it
+static void ced_do_draw_event(void){
+    const ced_event &ceve = get_event();
+    unsigned int i,j;
+    ced_element *pe;
+    unsigned char *pdata;
+    for(i=0;i<ceve.e_count;i++){
+        pe=ceve.e+i;
+        if(!pe->draw)
+            continue;
+        for(pdata=pe->b,j=0;j<pe->count;j++,pdata+=pe->size)
+            (*(pe->draw))(pdata);
+    }
+}
+
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 
-    setting.zoom=mm.sf;
-    glScalef(mm.sf,mm.sf,mm.sf); //zoom
+    const CameraState &cam = camera_get();
 
-    glRotatef(mm.va,1.,0.,0.); //rotate
-    glRotatef(mm.ha,0.,1.0,0.); //rotate
-    glTranslatef(-mm.mv.x,-mm.mv.y,-mm.mv.z); //move
+    setting.zoom=cam.sf;
+    glScalef(cam.sf,cam.sf,cam.sf); //zoom
+
+    glRotatef(cam.va,1.,0.,0.); //rotate
+    glRotatef(cam.ha,0.,1.0,0.); //rotate
+    glTranslatef(-cam.mv.x,-cam.mv.y,-cam.mv.z); //move
 
     // draw static objects
     display_world(); //only axes?
@@ -222,7 +242,7 @@ void reshape(int w,int h){
             glm::radians((GLfloat)CAMERA_FIELD_OF_VIEW),
             window_width/window_height,
             (GLfloat)CAMERA_MIN_DISTANCE,
-            (GLfloat)(CAMERA_MAX_DISTANCE)
+            (GLfloat)(camera_max_distance(camera_get()))
         )));
 
         glMatrixMode( GL_MODELVIEW );

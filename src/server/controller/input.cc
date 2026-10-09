@@ -14,6 +14,9 @@
 
 #include <sced_types.h>
 #include <model/settings.h>
+#include <model/camera.h>
+#include <model/detector.h>
+#include <model/layers.h>
 
 #include "actions.h"
 #include "input.h"
@@ -31,17 +34,6 @@ extern bool client_connected;
 extern GLfloat window_width;
 extern GLfloat window_height;
 extern CEDsettings setting;
-
-CameraState mm = {
-    30.,
-    150.,
-    0.1, // decrease zoom, set redraw scale a lot smaller
-    { 0., 0., 0. },
-    0.,
-    0.,
-    { 0., 0., 0. },
-};
-CameraState mm_reset;
 
 static enum {
     NO_MOVE,
@@ -68,9 +60,7 @@ void mouse(int btn,int state,int x,int y){
     }
     mouse_x=x;
     mouse_y=y;
-    mm.ha_start=mm.ha;
-    mm.va_start=mm.va;
-    mm.mv_start=mm.mv;
+    camera_drag_begin();
 
     switch(btn){
     case MOUSE_LEFT:
@@ -79,7 +69,7 @@ void mouse(int btn,int state,int x,int y){
         //FIX IT: get the system double click time
         if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
-            if(!ced_picking(x,y,&mm.mv.x,&mm.mv.y,&mm.mv.z)){
+            if(!ced_picking(x,y,nullptr,nullptr,nullptr)){
                int id = SELECTED_ID;
                if(client_connected){
                     send( socket_fd , &id , sizeof(int) , 0 );
@@ -126,7 +116,9 @@ void keypressed(unsigned char key, int x, int y) {
 
   case 'c':
   case 'C':
-    if (!ced_get_selected(x, y, &mm.mv.x, &mm.mv.y, &mm.mv.z)) {
+    GLfloat wx, wy, wz;
+    if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
+      camera_center_on(wx, wy, wz);
       ced_needs_redraw = true;
     }
     break;
@@ -136,48 +128,32 @@ void keypressed(unsigned char key, int x, int y) {
     SELECT_FROM_MENU('~', DETECTOR_ALL);
 
   case 'z':
-    if (setting.detector_cut_z < 7000) {
-      setting.detector_cut_z += 100;
-    }
+    detector_cut_z_up();
     ced_needs_redraw = true;
     break;
 
   case 'Z':
-    if (setting.detector_cut_z > -7000) {
-      setting.detector_cut_z -= 100;
-    }
+    detector_cut_z_down();
     ced_needs_redraw = true;
     break;
 
   case '<':
-    if (setting.detector_trans > 0.005) {
-      setting.detector_trans -= 0.005;
-    } else {
-      setting.detector_trans = 0;
-    }
+    detector_trans_down();
     ced_needs_redraw = true;
     break;
 
   case '>':
-    if (setting.detector_trans < 1 - 0.005) {
-      setting.detector_trans += 0.005;
-    } else {
-      setting.detector_trans = 1.;
-    }
+    detector_trans_up();
     ced_needs_redraw = true;
     break;
 
   case 'm':
-    if (setting.detector_cut_angle > 0) {
-      setting.detector_cut_angle -= 0.5;
-    }
+    detector_cut_angle_down();
     ced_needs_redraw = true;
     break;
 
   case 'M':
-    if (setting.detector_cut_angle < 360) {
-      setting.detector_cut_angle += 0.5;
-    }
+    detector_cut_angle_up();
     ced_needs_redraw = true;
     break;
 
@@ -200,17 +176,17 @@ void keypressed(unsigned char key, int x, int y) {
 void SpecialKey( int key, int, int ){
    switch (key) {
    case KEY_RIGHT:
-    mm.mv.z+=50.;
+    camera_shift_z(50.);
     break;
    case KEY_LEFT:
-    mm.mv.z-=50.;
+    camera_shift_z(-50.);
     break;
 
    case KEY_UP:
-    mm.mv.y+=50.;
+    camera_shift_y(50.);
     break;
    case KEY_DOWN:
-    mm.mv.y-=50.;
+    camera_shift_y(-50.);
     break;
 
    default:
@@ -225,25 +201,11 @@ void motion(int x,int y){
       return;
 
     if(move_mode == TURN_XY){
-      mm.ha=mm.ha_start+(x-mouse_x)*180./window_width;
-      mm.va=mm.va_start+(y-mouse_y)*180./window_height;
+      camera_rotate((x-mouse_x)*180./window_width, (y-mouse_y)*180./window_height);
 
       //todo
     } else if (move_mode == ORIGIN){
-        float grad2rad=M_PI*2/360;
-        float x_factor_x =  cos(mm.ha*grad2rad);
-        float x_factor_y =  cos((mm.va-90)*grad2rad)*cos((mm.ha+90)*grad2rad);
-        float y_factor_x =  0;
-        float y_factor_y = -cos(mm.va*grad2rad);
-        float z_factor_x =  cos((mm.ha-90)*grad2rad);
-        float z_factor_y = -cos(mm.ha*grad2rad)*cos((mm.va+90)*grad2rad);
-
-        float scale_factor=580/mm.sf/exp(log(window_width*window_height)/2.5) ;
-
-
-        mm.mv.x=mm.mv_start.x- scale_factor*(x-mouse_x)*x_factor_x - scale_factor*(y-mouse_y)*x_factor_y;
-        mm.mv.y=mm.mv_start.y- scale_factor*(x-mouse_x)*y_factor_x - scale_factor*(y-mouse_y)*y_factor_y;
-        mm.mv.z=mm.mv_start.z -scale_factor*(x-mouse_x)*z_factor_x - scale_factor*(y-mouse_y)*z_factor_y;
+        camera_pan(x-mouse_x, y-mouse_y, window_width, window_height);
     }
     ced_needs_redraw = true;
 }
