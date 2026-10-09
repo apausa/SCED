@@ -6,13 +6,7 @@
 #ifndef __EVENT_H
 #define __EVENT_H
 
-/*
- * To be called in paint function
- *
- * It calls user defined functions for
- * each item of all elements types.
- */
-void ced_do_draw_event(void);
+#include <sced_types.h>
 
 /*
  * Server side function.
@@ -30,5 +24,12 @@ void ced_do_draw_event(void);
  *          <do redraw>
  */
 int ced_process_input(void *data);
+
+/*
+ * The event on screen: the last one completed
+ * by a DRAW_EVENT message. It stays valid until
+ * the next DRAW_EVENT is processed.
+ */
+const ced_event &get_event(void);
 
 #endif /* __EVENT_H  */
