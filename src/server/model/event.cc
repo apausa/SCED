@@ -41,17 +41,8 @@ static void ced_event_copy(ced_event *trg){
   trg->e_count=eve.e_count;
 }
 
-void ced_do_draw_event(void){
-  unsigned int i,j;
-  ced_element *pe;
-  unsigned char *pdata;
-  for(i=0;i<ceve.e_count;i++){
-    pe=ceve.e+i;
-    if(!pe->draw)
-      continue;
-    for(pdata=pe->b,j=0;j<pe->count;j++,pdata+=pe->size)
-      (*(pe->draw))(pdata);
-  }
+const ced_event &get_event(void){
+  return ceve;
 }
 
 int ced_process_input(void *data){

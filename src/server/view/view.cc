@@ -158,6 +158,22 @@ static void display_world(void){
     glBitmap(8,12,4,6,0,0,z_bm);
 }
 
+
+// Visits every element type with a draw callback calling it
+static void ced_do_draw_event(void){
+    const ced_event &ceve = get_event();
+    unsigned int i,j;
+    ced_element *pe;
+    unsigned char *pdata;
+    for(i=0;i<ceve.e_count;i++){
+        pe=ceve.e+i;
+        if(!pe->draw)
+            continue;
+        for(pdata=pe->b,j=0;j<pe->count;j++,pdata+=pe->size)
+            (*(pe->draw))(pdata);
+    }
+}
+
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
