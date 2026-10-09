@@ -6,9 +6,12 @@
 
 #include <event_buffer.h>
 #include "event.h"
+#include "layers.h"
 
 // NOT used in CED client
 static ced_event ceve = {0,0}; // current event on screen
+
+static unsigned text_type = (unsigned)-1; // element type of the layer descriptions
 
 static void ced_event_copy(ced_event *trg){
   unsigned i;
@@ -45,6 +48,25 @@ const ced_event &get_event(void){
   return ceve;
 }
 
+void set_text_type(unsigned type){
+  text_type=type;
+}
+
+
+//  Visits each TEXT type passing them to layer_set_description
+static void describe_layers(void){
+  unsigned long j;
+  ced_element *pe;
+  unsigned char *pdata;
+  if(text_type>=ceve.e_count)
+    return;
+  pe=ceve.e+text_type;
+  for(pdata=pe->b,j=0;j<pe->count;j++,pdata+=pe->size){
+    CED_TEXT *text=(CED_TEXT *)pdata;
+    layer_set_description(text->id,text->text);
+  }
+}
+
 int ced_process_input(void *data){
   struct _phdr *hdr = (_phdr*) data;
   unsigned count;
@@ -58,6 +80,7 @@ int ced_process_input(void *data){
   if(hdr->type == DRAW_EVENT){
     ced_event_copy(&ceve);
     ced_reset();
+    describe_layers();
     return 1;
   }
   if(hdr->type>=eve.e_count){
