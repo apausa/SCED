@@ -1,13 +1,11 @@
 #include <event_buffer.h>
 #include <sced_types.h>
 #include <model/settings.h>
+#include <model/event.h>
 
 #include "draw.h"
-#include "ui/layers.h"
 
 #define PORT  0x1234
-
-CEDsettings setting;
 
 static unsigned HIT_ID=0;
 static unsigned LINE_ID=0;
@@ -46,7 +44,8 @@ void ced_register_elements(void){
   //10
   CLUELLIPSE_ID =ced_register_element(sizeof(CED_CluEllipseR),(ced_draw_cb)ced_draw_cluellipse_r);
   //11
-  TEXT_ID       =ced_register_element(sizeof(CED_TEXT),(ced_draw_cb)print_layer_text);
+  TEXT_ID       =ced_register_element(sizeof(CED_TEXT),0);
+  set_text_type(TEXT_ID);
   //12
   LEGEND_ID  =ced_register_element(sizeof(CED_Legend),(ced_draw_cb)ced_draw_legend);
   //13
