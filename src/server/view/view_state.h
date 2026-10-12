@@ -6,6 +6,20 @@ struct SDL_Window;
 void view_set_window(SDL_Window *window);
 SDL_Window *view_window(void);
 
+struct ViewSize {
+    int w; // pixel
+    int h;
+};
+
+// The window size. It is 500x500 until reshape() is given another size.
+ViewSize get_window_size(void);
+
+// Called by reshape().
+void set_window_size(int w, int h);
+
+// Runs reshape() again with the current window size.
+void window_reshape(void);
+
 // Ask for a frame. The loop draws it on its next pass.
 void view_request_redraw(void);
 

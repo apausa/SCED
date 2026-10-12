@@ -38,9 +38,6 @@ extern int socket_fd;
 extern void (*socket_fn)(void);
 extern bool client_connected;
 
-GLfloat window_width = 0.;
-GLfloat window_height = 0.;
-
 // ********** function definitions  (rest of file) ************************** //
 
 
@@ -93,8 +90,8 @@ int main(int argc,char *argv[]){
 
     SDL_Window *window = SDL_CreateWindow(
         "C Event Display (CED)",
-        setting.win_w,
-        setting.win_h,
+        get_window_size().w,
+        get_window_size().h,
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_BORDERLESS
     );
     view_set_window(window);
@@ -127,7 +124,7 @@ int main(int argc,char *argv[]){
     init();
     font_init();
 
-    reshape(setting.win_w, setting.win_h);
+    window_reshape();
     mainLoop(gl_context);
 
     return 0;
