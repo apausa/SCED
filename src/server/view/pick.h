@@ -11,7 +11,7 @@
 /*
  * To be called from drawing functions
  */
-void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer=0, int type=0);
+void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID);
 
 /*
  * Fill matrixes with current world coordinates

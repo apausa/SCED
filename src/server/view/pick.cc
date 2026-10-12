@@ -28,11 +28,8 @@ static GLint    viewport[4];
 
 typedef struct {
     unsigned int ID;
-    unsigned int layer;
-    unsigned int type;
     int x; // in window
     int y;
-    int z;
     int max_dxy; // after this distance, ignore this object
     CED_Point p; // object real coordinates (can't use pointer...)
 } CED_ObjMap;
@@ -44,10 +41,10 @@ static unsigned omap_alloced=0;
 /*
  * To be called from drawing functions
  */
-void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer, int type){
+void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID){
     double my_max_dxy =  5*max_dxy*camera_get().sf;
 
-    GLdouble winx,winy,winz;
+    GLdouble winx,winy;
 
     if(omap_count==omap_alloced){
         omap_alloced+=4096;
@@ -68,14 +65,10 @@ void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int laye
 
         winx = win.x;
         winy = win.y;
-        winz = win.z;
     }
     omap[omap_count].ID=ID;
-    omap[omap_count].type=type;
-    omap[omap_count].layer=layer;
     omap[omap_count].x=(int)winx;
     omap[omap_count].y=(int)winy;
-    omap[omap_count].z=(int)(1000. * winz);
     omap[omap_count].max_dxy=int(my_max_dxy+0.5);
     omap[omap_count++].p=*p;
 }
