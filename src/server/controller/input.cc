@@ -21,7 +21,6 @@
 #include "actions.h"
 #include "input.h"
 #include "keymap.h"
-#include "ui/layers.h"
 #include "view/pick.h"
 #include "view/view_state.h"
 

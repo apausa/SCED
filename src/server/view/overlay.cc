@@ -18,7 +18,6 @@
 #include <third_party/gl_font.h>
 
 #include "overlay.h"
-#include "ui/layers.h"
 #include "view.h"
 #include "view_state.h"
 
@@ -76,14 +75,23 @@ std::string truncateTo(std::string str, size_t max_len) {
   return str;
 }
 
-// The general shortcuts, as "[key] text" rows. The controller hands them in once.
+// The general shortcuts, as "[key] description" rows, and the layer keys. The controller hands them in once.
 static vector<string> general_shortcuts;
+static string data_layer_keys;
+static string detector_layer_keys;
 
-void overlay_set_shortcuts(const ShortcutHelp *rows, int count){
+void overlay_set_shortcuts(
+    const ShortcutHelp *rows,
+    int count,
+    const char *data_keys,
+    const char *detector_keys
+){
     general_shortcuts.clear();
     for(int i=0;i<count;i++){
         general_shortcuts.push_back(string("[") + rows[i].key + "] " + rows[i].description);
     }
+    data_layer_keys = data_keys;
+    detector_layer_keys = detector_keys;
 }
 
 static std::string formatShortcut(int iLayer, const char key, const char *description,
@@ -120,14 +128,14 @@ void printShortcuts(void){
 
 
     for(i=0;i<NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, layer_keys[i], layer_description(i), MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, data_layer_keys[i], layer_description(i), MAX_STR_LEN));
     }
 
     shortcuts.push_back( " " );
     shortcuts.push_back( "DETECTOR LAYERS: " );
 
     for(i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, detec_layer_keys[-1 * NUMBER_DATA_LAYER + i], layer_description(i), MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, detector_layer_keys[-1 * NUMBER_DATA_LAYER + i], layer_description(i), MAX_STR_LEN));
     }
 
     glMatrixMode(GL_PROJECTION);
