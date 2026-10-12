@@ -11,6 +11,7 @@
 #include <third_party/gl_font.h>
 
 #include "view/view.h"
+#include "view/view_state.h"
 #include "controller/input.h"
 #include "view/overlay.h"
 #include "model/event.h"
@@ -19,12 +20,10 @@
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
-extern SDL_Window *ced_sdl_window;
-extern bool ced_needs_redraw;
 
 void input_data(void *data){
     if(ced_process_input(data)>0){
-        ced_needs_redraw = true;
+        view_request_redraw();
     }
 }
 
@@ -55,7 +54,7 @@ SDL_HitTestResult SDLCALL ced_window_hit_test(SDL_Window *win, const SDL_Point *
 
 void mainLoop(SDL_GLContext gl_context) {
     bool running = true;
-    ced_needs_redraw = true;
+    view_request_redraw();
 
     while (running) {
         SDL_Event ev;
@@ -69,7 +68,7 @@ void mainLoop(SDL_GLContext gl_context) {
             case SDL_EVENT_WINDOW_RESIZED: // Replaces glutReshapeFunc(reshape)
             case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
                 reshape(ev.window.data1, ev.window.data2);
-                ced_needs_redraw = true;
+                view_request_redraw();
                 break;
 
             case SDL_EVENT_TEXT_INPUT: // Printable characters (replaces glutKeyboardFunc(keypressed))
@@ -147,18 +146,17 @@ void mainLoop(SDL_GLContext gl_context) {
                 socket_fn();
         }
 
-        if (ced_needs_redraw) {
+        if (view_take_redraw_request()) {
             display();
-            ced_needs_redraw = false;
         } else {
             SDL_Delay(1);
         }
     }
 
     font_clean();
-    SDL_StopTextInput(ced_sdl_window);
+    SDL_StopTextInput(view_window());
     SDL_GL_DestroyContext(gl_context);
-    SDL_DestroyWindow(ced_sdl_window);
-    ced_sdl_window = nullptr;
+    SDL_DestroyWindow(view_window());
+    view_set_window(nullptr);
     SDL_Quit();
 }

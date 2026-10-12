@@ -16,12 +16,7 @@ struct CEDsettings{
     bool phi_projection;
     bool z_projection;
     bool fixed_view;
-    int win_h; //height of the window (pixel)
-    int win_w; //wight of the window (pixel)
-    double zoom;
-    double bgcolor[4];
     bool show_axes;
-    int font; //size of text (menu, shortcuts, text in ced window)
 };
 
 // Sets every field to its start-up value.

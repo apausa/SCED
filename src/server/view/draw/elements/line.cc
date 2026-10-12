@@ -1,5 +1,5 @@
 #include "../draw.h"
-#include "ui/selection.h"
+#include "view/pick.h"
 
 /*
  * Line element
@@ -41,6 +41,6 @@ void ced_draw_line(CED_Line *h){
 
   	glEnd();
 
-    ced_add_objmap(&h->p0,5,h->lcioID,h->type,0 );
-    ced_add_objmap(&h->p1,5,h->lcioID,h->type,0);
+    ced_add_objmap(&h->p0,5,h->lcioID);
+    ced_add_objmap(&h->p1,5,h->lcioID);
 }

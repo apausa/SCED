@@ -20,15 +20,13 @@
 #include "overlay.h"
 #include "ui/layers.h"
 #include "view.h"
+#include "view_state.h"
 
 //Help frame: Frame boarder line width
 #define HELP_FRAME_BOARDER_LINE_SIZE        3.
 
 using namespace std;
 
-// Owned by glced.cc.
-extern GLfloat window_width;
-extern GLfloat window_height;
 extern CEDsettings setting;
 
 void printFPS(void){
@@ -57,11 +55,12 @@ void printFPS(void){
 
     sprintf(text, "FPS: %i", old_fps);
 
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0;
     glColor3f(dark,dark,dark);
 
 
-    font_render(setting.font, 8, window_height - font_get_height(setting.font) - 8, text);
+    font_render(8, get_window_size().h - font_get_height() - 8, text);
 
     glMatrixMode(GL_MODELVIEW); // font_render() leaves GL_PROJECTION active, display() expects GL_MODELVIEW
 }
@@ -90,8 +89,8 @@ void printShortcuts(void){
     const unsigned int MAX_STR_LEN=30;
     int i;
 
-    int height = font_get_height(setting.font) + 2;
-    int width  = font_get_width(setting.font, "A");
+    int height = font_get_height() + 2;
+    int width  = font_get_width("A");
 
     float line = height; //height of one line
     float column = MAX_STR_LEN*width; //width of one line
@@ -156,8 +155,9 @@ void printShortcuts(void){
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    GLfloat w = window_width;
-    GLfloat h = window_height;
+    GLfloat w = get_window_size().w;
+    GLfloat h = get_window_size().h;
+    const double *bg = get_background_color();
 
     glOrtho(0,w,h,-1*height,0,15*WORLD_SIZE);
 
@@ -179,7 +179,7 @@ void printShortcuts(void){
         h*=3;
     }
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor4f(0.1,0.1,0.1,0.5);
     }else{
         glColor4f(0.9,0.9,0.9,0.5);
@@ -196,7 +196,7 @@ void printShortcuts(void){
 
 
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor4f(0.2,0.2,0.2,0.5);
     }else{
         glColor4f(0.8,0.8,0.8,0.5);
@@ -218,7 +218,7 @@ void printShortcuts(void){
     glVertex3f(w-boarder_line, h/3.-boarder_line,0);
     glEnd();
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor3f(1,1,1);
     }else{
         glColor3f(0,0,0);
@@ -229,7 +229,7 @@ void printShortcuts(void){
 
 
     for(i=0;(unsigned) i<shortcuts.size();i++){
-       font_render(setting.font, int(i/ITEMS_PER_COLUMN)*column+boarder_quad+5, (i%ITEMS_PER_COLUMN)*line+boarder_quad+10, shortcuts[i].c_str());
+       font_render(int(i/ITEMS_PER_COLUMN)*column+boarder_quad+5, (i%ITEMS_PER_COLUMN)*line+boarder_quad+10, shortcuts[i].c_str());
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -241,8 +241,8 @@ void printShortcuts(void){
 }
 
 void draw_ced_title_bar(void){
-    GLfloat w = window_width;
-    GLfloat h = window_height;
+    GLfloat w = get_window_size().w;
+    GLfloat h = get_window_size().h;
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -265,7 +265,7 @@ void draw_ced_title_bar(void){
     glEnd();
 
     glColor3f(0.80f, 0.80f, 0.80f); // Set color to light gray
-    font_render(setting.font, 6, 3, "C Event Display (CED)"); // Draw the header title
+    font_render(6, 3, "C Event Display (CED)"); // Draw the header title
 
     glEnable(GL_DEPTH_TEST); // Turn on depth testing, so the 3D scene renders normally on the next frame
 

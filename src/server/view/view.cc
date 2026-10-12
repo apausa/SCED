@@ -20,7 +20,8 @@
 
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
-#include "ui/selection.h"
+#include "view/view_state.h"
+#include "view/pick.h"
 #include "model/event.h"
 
 #include "view.h"
@@ -45,18 +46,12 @@ static double camera_max_distance(const CameraState &cam){
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
 
-extern int showHelp;
-
-extern SDL_Window *ced_sdl_window;
-
-extern GLfloat window_width;
-extern GLfloat window_height;
-
 extern CEDsettings setting;
 
 void init(void){
     //Set background color
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // white
+    const double *bg = get_background_color();
+    glClearColor(bg[0], bg[1], bg[2], bg[3]);
 
     glShadeModel(GL_SMOOTH);
 
@@ -98,7 +93,7 @@ static const GLfloat axe[][3]={
 };
 
 static void axe_arrow(void){
-    GLfloat k=WORLD_SIZE/window_height;
+    GLfloat k=WORLD_SIZE/get_window_size().h;
     geoSolidCone(8.*k, 30.*k, 16, 5);
 }
 
@@ -145,8 +140,8 @@ static void display_world(void){
 
     // Draw X,Y,Z ...
 
-    glGetDoublev(GL_COLOR_CLEAR_VALUE, setting.bgcolor);
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0;
     glColor3f(dark,dark,dark);
 
 
@@ -180,7 +175,6 @@ void display(void){
 
     const CameraState &cam = camera_get();
 
-    setting.zoom=cam.sf;
     glScalef(cam.sf,cam.sf,cam.sf); //zoom
 
     glRotatef(cam.va,1.,0.,0.); //rotate
@@ -195,7 +189,7 @@ void display(void){
     ced_do_draw_event();
 
 
-    if(showHelp == 1){
+    if(view_help_shown()){
         printShortcuts();
     }
 
@@ -205,14 +199,11 @@ void display(void){
 
     glPopMatrix();
 
-    SDL_GL_SwapWindow(ced_sdl_window);
+    SDL_GL_SwapWindow(view_window());
 }
 
 void reshape(int w,int h){
-    window_width=w;
-    window_height=h;
-    setting.win_w=w;
-    setting.win_h=h;
+    set_window_size(w, h);
 
     if(setting.antia){
         glEnable (GL_LINE_SMOOTH);
@@ -240,7 +231,7 @@ void reshape(int w,int h){
         glLoadIdentity();
         glLoadMatrixf(glm::value_ptr(glm::perspective(
             glm::radians((GLfloat)CAMERA_FIELD_OF_VIEW),
-            window_width/window_height,
+            (GLfloat)w/h,
             (GLfloat)CAMERA_MIN_DISTANCE,
             (GLfloat)(camera_max_distance(camera_get()))
         )));
