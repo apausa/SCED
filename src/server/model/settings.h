@@ -18,7 +18,6 @@ struct CEDsettings{
     bool fixed_view;
     double zoom;
     bool show_axes;
-    int font; //size of text (menu, shortcuts, text in ced window)
 };
 
 // Sets every field to its start-up value.
