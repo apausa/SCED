@@ -5,6 +5,7 @@ static SDL_Window *sdl_window = nullptr;
 static ViewSize window_size = {500, 500};
 static bool needs_redraw = false;
 static bool show_help = false;
+static const double background_color[4] = {1, 1, 1, 1}; // white
 
 void view_set_window(SDL_Window *window){
     sdl_window = window;
@@ -43,4 +44,8 @@ void view_toggle_help(void){
 
 bool view_help_shown(void){
     return show_help;
+}
+
+const double *get_background_color(void){
+    return background_color;
 }

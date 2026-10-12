@@ -17,7 +17,6 @@ struct CEDsettings{
     bool z_projection;
     bool fixed_view;
     double zoom;
-    double bgcolor[4];
     bool show_axes;
     int font; //size of text (menu, shortcuts, text in ced window)
 };

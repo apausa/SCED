@@ -55,7 +55,8 @@ void printFPS(void){
 
     sprintf(text, "FPS: %i", old_fps);
 
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0;
     glColor3f(dark,dark,dark);
 
 
@@ -156,6 +157,7 @@ void printShortcuts(void){
 
     GLfloat w = get_window_size().w;
     GLfloat h = get_window_size().h;
+    const double *bg = get_background_color();
 
     glOrtho(0,w,h,-1*height,0,15*WORLD_SIZE);
 
@@ -177,7 +179,7 @@ void printShortcuts(void){
         h*=3;
     }
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor4f(0.1,0.1,0.1,0.5);
     }else{
         glColor4f(0.9,0.9,0.9,0.5);
@@ -194,7 +196,7 @@ void printShortcuts(void){
 
 
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor4f(0.2,0.2,0.2,0.5);
     }else{
         glColor4f(0.8,0.8,0.8,0.5);
@@ -216,7 +218,7 @@ void printShortcuts(void){
     glVertex3f(w-boarder_line, h/3.-boarder_line,0);
     glEnd();
 
-    if((setting.bgcolor[0] + setting.bgcolor[1] + setting.bgcolor[2]) < 0.5*3){
+    if((bg[0] + bg[1] + bg[2]) < 0.5*3){
         glColor3f(1,1,1);
     }else{
         glColor3f(0,0,0);
