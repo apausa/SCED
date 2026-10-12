@@ -17,16 +17,13 @@
 #include <model/projection.h>
 
 #include "controller/input.h"
-#include "view/view.h"
+#include "view/view_state.h"
 
-extern GLfloat window_width;
-extern GLfloat window_height;
-extern bool ced_needs_redraw;
 extern CEDsettings setting;
 
 // Hack: call the resize function to overwrite the perspective settings.
 static void reshape_view(void){
-    reshape((int)window_width, (int)window_height);
+    window_reshape();
 }
 
 void selectFromMenu(int id){
@@ -75,11 +72,11 @@ void selectFromMenu(int id){
             break;
 
         case VIEW_ZOOM_IN:
-            camera_zoom_in(window_height);
+            camera_zoom_in(get_window_size().h);
             break;
 
         case VIEW_ZOOM_OUT:
-            camera_zoom_out(window_height);
+            camera_zoom_out(get_window_size().h);
             break;
 
         case LAYER_ALL:
@@ -91,6 +88,6 @@ void selectFromMenu(int id){
             break;
     }
 
-    ced_needs_redraw = true;
+    view_request_redraw();
 
 }

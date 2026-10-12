@@ -1,4 +1,5 @@
 #include "third_party/fg_geometry.h"
+#include "view/view_state.h"
 
 #include "../draw.h"
 
@@ -52,9 +53,9 @@ void ced_draw_geotube(CED_GeoTube *c){
         float detector_lines_wide=CED_GEOTUBE_LINE_WIDTH;
         
 
-        glGetDoublev(GL_COLOR_CLEAR_VALUE, setting.bgcolor);
+        const double *bg = get_background_color();
 
-        GLfloat line_color[4]={static_cast<GLfloat>(((c->color>>16)&0xff)/255.0/2.0+(1.0-setting.bgcolor[0])/2.0),static_cast<GLfloat>(((c->color>>8)&0xff)/255.0/2.0+(1.0-setting.bgcolor[1])/2.0),static_cast<GLfloat>(((c->color)&0xff)/255.0/2.0+(1.0-setting.bgcolor[2])/2.0), static_cast<GLfloat>((1-trans_value)+CED_GEOTUBE_LINE_MAX_TRANS)}; //lines in detector color mixed with anti background color
+        GLfloat line_color[4]={static_cast<GLfloat>(((c->color>>16)&0xff)/255.0/2.0+(1.0-bg[0])/2.0),static_cast<GLfloat>(((c->color>>8)&0xff)/255.0/2.0+(1.0-bg[1])/2.0),static_cast<GLfloat>(((c->color)&0xff)/255.0/2.0+(1.0-bg[2])/2.0), static_cast<GLfloat>((1-trans_value)+CED_GEOTUBE_LINE_MAX_TRANS)}; //lines in detector color mixed with anti background color
 
 
         glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA); //locks nice, but lines diapear, so switch it off after drawing

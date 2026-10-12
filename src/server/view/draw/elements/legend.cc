@@ -3,6 +3,7 @@
 
 #include "../draw.h"
 #include "third_party/gl_font.h"
+#include "view/view_state.h"
 
 // Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
@@ -48,41 +49,40 @@ void ced_draw_legend(CED_Legend *legend){
 	int tickNumber = 1; // 'middle' tick counter
 	int i;
 
-	int font = setting.font;
-
 	/** ticks */
 	char string[6];
 	int x_offset = 40;
-	float y_offset = (stripeThickness+font_get_height(font))/2;
+	float y_offset = (stripeThickness+font_get_height())/2;
 	float num;
 
 	/** Legend header */
 	char header [] = "GeV";
 	char footer [] = "LOG";
 	int x_offset_legend = 48;
-	int y_offset_legend = font_get_height(font)/2;
+	int y_offset_legend = font_get_height()/2;
 
   	int tick_size = 8;
 
 	/**
 	 *  Legend header: GeV */
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0; //ever readable color
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0; //ever readable color
     glColor3f(dark,dark,dark);
 
-	font_render(font, x_min-x_offset_legend, y_min-stripeThickness*color_steps-y_offset_legend, header);
+	font_render(x_min-x_offset_legend, y_min-stripeThickness*color_steps-y_offset_legend, header);
 	glEnd();
 
 	/**
 	 *  Legend footer: LOG or LIN */
 	switch(scale){
 		case 'a': default:
-			font_render(font, x_min-x_offset_legend, y_min-y_offset_legend, footer);
+			font_render(x_min-x_offset_legend, y_min-y_offset_legend, footer);
 			glEnd();
 		break;
 		/** LIN */
 		case 'b':
 			strncpy( footer, "LIN", 4 );
-			font_render(font, x_min-x_offset_legend, y_min-y_offset_legend, footer);
+			font_render(x_min-x_offset_legend, y_min-y_offset_legend, footer);
 			glEnd();
 		break;
 	}
@@ -119,11 +119,11 @@ void ced_draw_legend(CED_Legend *legend){
 
 			if (i==0){
 				snprintf(string, 6,  "%.1f", ene_min);
-				font_render(font, x_min+x_offset, y_min-y_offset, string);
+				font_render(x_min+x_offset, y_min-y_offset, string);
 			}
 			else if (i==(color_steps-1)){
 				snprintf(string, 6, "%.1f", ene_max);
-				font_render(font, x_min+x_offset, y_min-stripeThickness*i-y_offset, string);
+				font_render(x_min+x_offset, y_min-stripeThickness*i-y_offset, string);
             }
 		}
 
@@ -158,7 +158,7 @@ void ced_draw_legend(CED_Legend *legend){
 
 
             glColor3f(dark,dark,dark);
-			font_render(font, x_min+x_offset, y_min-stripeThickness*pos-y_offset, string);
+			font_render(x_min+x_offset, y_min-stripeThickness*pos-y_offset, string);
 
 			++tickNumber;
 		}

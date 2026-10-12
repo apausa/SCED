@@ -21,18 +21,15 @@
 #include "actions.h"
 #include "input.h"
 #include "ui/layers.h"
-#include "ui/selection.h"
+#include "view/pick.h"
+#include "view/view_state.h"
 
 using namespace std;
 
 // Owned by glced.cc.
 extern long int doubleClickTime;
-extern bool ced_needs_redraw;
-extern int showHelp;
 extern int socket_fd;
 extern bool client_connected;
-extern GLfloat window_width;
-extern GLfloat window_height;
 extern CEDsettings setting;
 
 static enum {
@@ -64,13 +61,13 @@ void mouse(int btn,int state,int x,int y){
 
     switch(btn){
     case MOUSE_LEFT:
-        ced_needs_redraw = true;
+        view_request_redraw();
         gettimeofday(&tv, 0);
         //FIX IT: get the system double click time
         if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
-            if(!ced_picking(x,y,nullptr,nullptr,nullptr)){
-               int id = SELECTED_ID;
+            int id;
+            if(!ced_picking(x,y,&id)){
                if(client_connected){
                     send( socket_fd , &id , sizeof(int) , 0 );
                 }
@@ -85,7 +82,7 @@ void mouse(int btn,int state,int x,int y){
         doubleClickTime=tv.tv_sec*1000000+tv.tv_usec;
         return;
         case MOUSE_RIGHT:
-          ced_needs_redraw = true;
+          view_request_redraw();
           return;
         case MOUSE_MIDDLE:
           move_mode=ORIGIN;
@@ -119,7 +116,7 @@ void keypressed(unsigned char key, int x, int y) {
     GLfloat wx, wy, wz;
     if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
       camera_center_on(wx, wy, wz);
-      ced_needs_redraw = true;
+      view_request_redraw();
     }
     break;
 
@@ -129,43 +126,43 @@ void keypressed(unsigned char key, int x, int y) {
 
   case 'z':
     detector_cut_z_up();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case 'Z':
     detector_cut_z_down();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case '<':
     detector_trans_down();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case '>':
     detector_trans_up();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case 'm':
     detector_cut_angle_down();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case 'M':
     detector_cut_angle_up();
-    ced_needs_redraw = true;
+    view_request_redraw();
     break;
 
   case 'h':
-    showHelp = !showHelp;
-    ced_needs_redraw = true;
+    view_toggle_help();
+    view_request_redraw();
     break;
   default: {
     int layer = layer_from_key(key);
     if (layer >= 0) {
       toggle_layer(layer);
-      ced_needs_redraw = true;
+      view_request_redraw();
     } else {
       std::cerr << "Unknown keyboard shortcut: " << key << std::endl;
     }
@@ -192,20 +189,21 @@ void SpecialKey( int key, int, int ){
    default:
       return;
    }
-   ced_needs_redraw = true;
+   view_request_redraw();
 }
 
 
 void motion(int x,int y){
-    if((move_mode == NO_MOVE) || !window_width || !window_height)
+    ViewSize window = get_window_size();
+    if((move_mode == NO_MOVE) || !window.w || !window.h)
       return;
 
     if(move_mode == TURN_XY){
-      camera_rotate((x-mouse_x)*180./window_width, (y-mouse_y)*180./window_height);
+      camera_rotate((x-mouse_x)*180./window.w, (y-mouse_y)*180./window.h);
 
       //todo
     } else if (move_mode == ORIGIN){
-        camera_pan(x-mouse_x, y-mouse_y, window_width, window_height);
+        camera_pan(x-mouse_x, y-mouse_y, window.w, window.h);
     }
-    ced_needs_redraw = true;
+    view_request_redraw();
 }

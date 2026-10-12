@@ -14,13 +14,9 @@
 #include <iostream>
 
 #include <sced_types.h>
-#include <model/settings.h>
+#include <model/camera.h>
 
-#include "selection.h"
-
-extern CEDsettings setting;
-
-int SELECTED_ID = -1;
+#include "pick.h"
 
 /*
  * To support mouse operations with objects, we need
@@ -32,11 +28,8 @@ static GLint    viewport[4];
 
 typedef struct {
     unsigned int ID;
-    unsigned int layer;
-    unsigned int type;
     int x; // in window
     int y;
-    int z;
     int max_dxy; // after this distance, ignore this object
     CED_Point p; // object real coordinates (can't use pointer...)
 } CED_ObjMap;
@@ -48,10 +41,10 @@ static unsigned omap_alloced=0;
 /*
  * To be called from drawing functions
  */
-void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer, int type){
-    double my_max_dxy =  5*max_dxy*setting.zoom;
+void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID){
+    double my_max_dxy =  5*max_dxy*camera_get().sf;
 
-    GLdouble winx,winy,winz;
+    GLdouble winx,winy;
 
     if(omap_count==omap_alloced){
         omap_alloced+=4096;
@@ -72,14 +65,10 @@ void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int laye
 
         winx = win.x;
         winy = win.y;
-        winz = win.z;
     }
     omap[omap_count].ID=ID;
-    omap[omap_count].type=type;
-    omap[omap_count].layer=layer;
     omap[omap_count].x=(int)winx;
     omap[omap_count].y=(int)winy;
-    omap[omap_count].z=(int)(1000. * winz);
     omap[omap_count].max_dxy=int(my_max_dxy+0.5);
     omap[omap_count++].p=*p;
 }
@@ -130,7 +119,6 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
 
     std::cout << "Center selected hit (ID: " << best->ID << ")" << std::endl;
 
-    SELECTED_ID = best->ID;
     return 0;
 }
 
@@ -138,7 +126,7 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
 * A extra picking function, do the same as ced_get_selected,   *
 * without center the selected object                           *
 ***************************************************************/
-int ced_picking(int x,int y,GLfloat*, GLfloat*, GLfloat*){
+int ced_picking(int x,int y,int *id){
     CED_ObjMap *p,*best;
     unsigned i;
     int dx,dy;
@@ -158,12 +146,11 @@ int ced_picking(int x,int y,GLfloat*, GLfloat*, GLfloat*){
         }
     }
     if(!best){
-        SELECTED_ID =0;
         return 1;
     }
     printf("Picking: HIT %d\n",best->ID);
 
-    SELECTED_ID = best->ID;
+    *id = best->ID;
     return 0;
 }
 

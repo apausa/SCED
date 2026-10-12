@@ -11,7 +11,7 @@
 /*
  * To be called from drawing functions
  */
-void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer=0, int type=0);
+void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID);
 
 /*
  * Fill matrixes with current world coordinates
@@ -29,8 +29,7 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz);
 
 /***************************************************************
 * A extra picking function, do the same as ced_get_selected,   *
-* without center the selected object                           *
+* without center the selected object. If return zero, will     *
+* set the ID of the picked object.                             *
 ***************************************************************/
-int ced_picking(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz);
-
-extern int SELECTED_ID;
+int ced_picking(int x,int y,int *id);

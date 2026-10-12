@@ -1,5 +1,5 @@
 #include "../draw.h"
-#include "ui/selection.h"
+#include "view/pick.h"
 
 /*
  * Hit element
@@ -97,5 +97,5 @@ void ced_draw_hit(CED_Hit *h){
     }
 
     glEnable(GL_BLEND);
-    ced_add_objmap(&h->p,5,h->lcioID,h->layer,0);
+    ced_add_objmap(&h->p,5,h->lcioID);
 }
