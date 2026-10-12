@@ -175,7 +175,6 @@ void display(void){
 
     const CameraState &cam = camera_get();
 
-    setting.zoom=cam.sf;
     glScalef(cam.sf,cam.sf,cam.sf); //zoom
 
     glRotatef(cam.va,1.,0.,0.); //rotate

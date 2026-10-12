@@ -16,7 +16,6 @@ struct CEDsettings{
     bool phi_projection;
     bool z_projection;
     bool fixed_view;
-    double zoom;
     bool show_axes;
 };
 
