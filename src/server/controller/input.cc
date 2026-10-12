@@ -20,6 +20,7 @@
 
 #include "actions.h"
 #include "input.h"
+#include "keymap.h"
 #include "ui/layers.h"
 #include "view/pick.h"
 #include "view/view_state.h"
@@ -92,27 +93,25 @@ void mouse(int btn,int state,int x,int y){
     }
 }
 
-#define SELECT_FROM_MENU(key, action)                                          \
-  case key:                                                                    \
-    selectFromMenu(action);                                                    \
-    break
-
-
 void keypressed(unsigned char key, int x, int y) {
   // TODO: socket list for communicating with client
 
-  switch (key) {
-    SELECT_FROM_MENU('r', VIEW_RESET);
-    SELECT_FROM_MENU('R', CED_RESET);
-    SELECT_FROM_MENU('f', VIEW_FRONT);
-    SELECT_FROM_MENU('F', TOGGLE_Z_PROJECTION);
-    SELECT_FROM_MENU('s', VIEW_SIDE);
-    SELECT_FROM_MENU('S', TOGGLE_PHI_PROJECTION);
-    SELECT_FROM_MENU('+', VIEW_ZOOM_IN);
-    SELECT_FROM_MENU('-', VIEW_ZOOM_OUT);
+  int action = keymap_action(key);
+  switch (action) {
+  case VIEW_RESET:
+  case CED_RESET:
+  case VIEW_FRONT:
+  case VIEW_SIDE:
+  case TOGGLE_Z_PROJECTION:
+  case TOGGLE_PHI_PROJECTION:
+  case VIEW_ZOOM_IN:
+  case VIEW_ZOOM_OUT:
+  case LAYER_ALL:
+  case DETECTOR_ALL:
+    selectFromMenu(action);
+    break;
 
-  case 'c':
-  case 'C':
+  case VIEW_CENTER:
     GLfloat wx, wy, wz;
     if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
       camera_center_on(wx, wy, wz);
@@ -120,41 +119,37 @@ void keypressed(unsigned char key, int x, int y) {
     }
     break;
 
-    SELECT_FROM_MENU('`', LAYER_ALL);
-
-    SELECT_FROM_MENU('~', DETECTOR_ALL);
-
-  case 'z':
+  case DETECTOR_CUT_Z_UP:
     detector_cut_z_up();
     view_request_redraw();
     break;
 
-  case 'Z':
+  case DETECTOR_CUT_Z_DOWN:
     detector_cut_z_down();
     view_request_redraw();
     break;
 
-  case '<':
+  case DETECTOR_TRANS_DOWN:
     detector_trans_down();
     view_request_redraw();
     break;
 
-  case '>':
+  case DETECTOR_TRANS_UP:
     detector_trans_up();
     view_request_redraw();
     break;
 
-  case 'm':
+  case DETECTOR_CUT_ANGLE_DOWN:
     detector_cut_angle_down();
     view_request_redraw();
     break;
 
-  case 'M':
+  case DETECTOR_CUT_ANGLE_UP:
     detector_cut_angle_up();
     view_request_redraw();
     break;
 
-  case 'h':
+  case HELP_TOGGLE:
     view_toggle_help();
     view_request_redraw();
     break;
