@@ -20,15 +20,13 @@
 #include "overlay.h"
 #include "ui/layers.h"
 #include "view.h"
+#include "view_state.h"
 
 //Help frame: Frame boarder line width
 #define HELP_FRAME_BOARDER_LINE_SIZE        3.
 
 using namespace std;
 
-// Owned by glced.cc.
-extern GLfloat window_width;
-extern GLfloat window_height;
 extern CEDsettings setting;
 
 void printFPS(void){
@@ -61,7 +59,7 @@ void printFPS(void){
     glColor3f(dark,dark,dark);
 
 
-    font_render(setting.font, 8, window_height - font_get_height(setting.font) - 8, text);
+    font_render(setting.font, 8, get_window_size().h - font_get_height(setting.font) - 8, text);
 
     glMatrixMode(GL_MODELVIEW); // font_render() leaves GL_PROJECTION active, display() expects GL_MODELVIEW
 }
@@ -156,8 +154,8 @@ void printShortcuts(void){
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    GLfloat w = window_width;
-    GLfloat h = window_height;
+    GLfloat w = get_window_size().w;
+    GLfloat h = get_window_size().h;
 
     glOrtho(0,w,h,-1*height,0,15*WORLD_SIZE);
 
@@ -241,8 +239,8 @@ void printShortcuts(void){
 }
 
 void draw_ced_title_bar(void){
-    GLfloat w = window_width;
-    GLfloat h = window_height;
+    GLfloat w = get_window_size().w;
+    GLfloat h = get_window_size().h;
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();

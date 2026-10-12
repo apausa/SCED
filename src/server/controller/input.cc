@@ -30,8 +30,6 @@ using namespace std;
 extern long int doubleClickTime;
 extern int socket_fd;
 extern bool client_connected;
-extern GLfloat window_width;
-extern GLfloat window_height;
 extern CEDsettings setting;
 
 static enum {
@@ -196,15 +194,16 @@ void SpecialKey( int key, int, int ){
 
 
 void motion(int x,int y){
-    if((move_mode == NO_MOVE) || !window_width || !window_height)
+    ViewSize window = get_window_size();
+    if((move_mode == NO_MOVE) || !window.w || !window.h)
       return;
 
     if(move_mode == TURN_XY){
-      camera_rotate((x-mouse_x)*180./window_width, (y-mouse_y)*180./window_height);
+      camera_rotate((x-mouse_x)*180./window.w, (y-mouse_y)*180./window.h);
 
       //todo
     } else if (move_mode == ORIGIN){
-        camera_pan(x-mouse_x, y-mouse_y, window_width, window_height);
+        camera_pan(x-mouse_x, y-mouse_y, window.w, window.h);
     }
     view_request_redraw();
 }

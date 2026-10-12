@@ -46,9 +46,6 @@ static double camera_max_distance(const CameraState &cam){
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
 
-extern GLfloat window_width;
-extern GLfloat window_height;
-
 extern CEDsettings setting;
 
 void init(void){
@@ -95,7 +92,7 @@ static const GLfloat axe[][3]={
 };
 
 static void axe_arrow(void){
-    GLfloat k=WORLD_SIZE/window_height;
+    GLfloat k=WORLD_SIZE/get_window_size().h;
     geoSolidCone(8.*k, 30.*k, 16, 5);
 }
 
@@ -206,10 +203,7 @@ void display(void){
 }
 
 void reshape(int w,int h){
-    window_width=w;
-    window_height=h;
-    setting.win_w=w;
-    setting.win_h=h;
+    set_window_size(w, h);
 
     if(setting.antia){
         glEnable (GL_LINE_SMOOTH);
@@ -237,7 +231,7 @@ void reshape(int w,int h){
         glLoadIdentity();
         glLoadMatrixf(glm::value_ptr(glm::perspective(
             glm::radians((GLfloat)CAMERA_FIELD_OF_VIEW),
-            window_width/window_height,
+            (GLfloat)w/h,
             (GLfloat)CAMERA_MIN_DISTANCE,
             (GLfloat)(camera_max_distance(camera_get()))
         )));
