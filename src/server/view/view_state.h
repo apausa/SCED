@@ -31,6 +31,3 @@ bool view_help_shown(void);
 
 // The background colour (what glClear() paints), as r, g, b, a.
 const double *get_background_color(void);
-
-// The id of the font all text is drawn with (see third_party/gl_font.h).
-int get_font(void);

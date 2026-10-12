@@ -32,9 +32,7 @@
 #include <fontconfig/fontconfig.h>
 #include "gl_font.h"
 
-static TTF_Font *_font_s = NULL;
-static TTF_Font *_font_m = NULL;
-static TTF_Font *_font_l = NULL;
+static TTF_Font *_font = NULL;
 
 static void _SDL_GL_Enter2DMode(int width, int height)
 {
@@ -169,16 +167,6 @@ static const char *_font_resolve(void)
     return path[0] ? path : NULL;
 }
 
-// Map a font ID to its loaded TTF_Font
-static TTF_Font *_font_get(int font_id)
-{
-    switch (font_id) {
-        case FONT_S: return _font_s;
-        case FONT_M: return _font_m;
-        default: return _font_l;
-    }
-}
-
 void font_init()
 {
     if (!TTF_Init()) {
@@ -193,20 +181,17 @@ void font_init()
         return;
     }
 
-    _font_s = TTF_OpenFont(path, FONT_S);
-    _font_m = TTF_OpenFont(path, FONT_M);
-    _font_l = TTF_OpenFont(path, FONT_L);
+    _font = TTF_OpenFont(path, FONT_SIZE);
 }
 
-void font_render(int font_id, float x, float y, const char *text)
+void font_render(float x, float y, const char *text)
 {
     GLfloat col[4];
-    TTF_Font *font = _font_get(font_id);
 
     glGetFloatv(GL_CURRENT_COLOR, col); // read the current GL draw color
 
     SDL_Color color = {(Uint8)(col[0]*255), (Uint8)(col[1]*255), (Uint8)(col[2]*255), 255};
-    SDL_Surface *surf = TTF_RenderText_Blended(font, text, 0, color); // rasterize text to a CPU surface
+    SDL_Surface *surf = TTF_RenderText_Blended(_font, text, 0, color); // rasterize text to a CPU surface
 
     if (!surf) return;
 
@@ -233,36 +218,26 @@ void font_render(int font_id, float x, float y, const char *text)
     _SDL_GL_Leave2DMode();
 }
 
-int font_get_height(int font_id)
+int font_get_height()
 {
-    TTF_Font *font = _font_get(font_id);
-
     int w = 0, h = 0;
-    TTF_GetStringSize(font, "A", 0, &w, &h);
+    TTF_GetStringSize(_font, "A", 0, &w, &h);
 
     return h;
 }
 
-int font_get_width(int font_id, const char *text)
+int font_get_width(const char *text)
 {
-    TTF_Font *font = _font_get(font_id);
-
     int w = 0, h = 0;
-    TTF_GetStringSize(font, text, 0, &w, &h);
+    TTF_GetStringSize(_font, text, 0, &w, &h);
 
     return w;
 }
 
 void font_clean()
 {
-    TTF_CloseFont(_font_s);
-    _font_s = NULL;
-
-    TTF_CloseFont(_font_m);
-    _font_m = NULL;
-
-    TTF_CloseFont(_font_l);
-    _font_l = NULL;
+    TTF_CloseFont(_font);
+    _font = NULL;
 
     TTF_Quit();
     FcFini();

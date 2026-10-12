@@ -60,7 +60,7 @@ void printFPS(void){
     glColor3f(dark,dark,dark);
 
 
-    font_render(get_font(), 8, get_window_size().h - font_get_height(get_font()) - 8, text);
+    font_render(8, get_window_size().h - font_get_height() - 8, text);
 
     glMatrixMode(GL_MODELVIEW); // font_render() leaves GL_PROJECTION active, display() expects GL_MODELVIEW
 }
@@ -89,8 +89,8 @@ void printShortcuts(void){
     const unsigned int MAX_STR_LEN=30;
     int i;
 
-    int height = font_get_height(get_font()) + 2;
-    int width  = font_get_width(get_font(), "A");
+    int height = font_get_height() + 2;
+    int width  = font_get_width("A");
 
     float line = height; //height of one line
     float column = MAX_STR_LEN*width; //width of one line
@@ -229,7 +229,7 @@ void printShortcuts(void){
 
 
     for(i=0;(unsigned) i<shortcuts.size();i++){
-       font_render(get_font(), int(i/ITEMS_PER_COLUMN)*column+boarder_quad+5, (i%ITEMS_PER_COLUMN)*line+boarder_quad+10, shortcuts[i].c_str());
+       font_render(int(i/ITEMS_PER_COLUMN)*column+boarder_quad+5, (i%ITEMS_PER_COLUMN)*line+boarder_quad+10, shortcuts[i].c_str());
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -265,7 +265,7 @@ void draw_ced_title_bar(void){
     glEnd();
 
     glColor3f(0.80f, 0.80f, 0.80f); // Set color to light gray
-    font_render(get_font(), 6, 3, "C Event Display (CED)"); // Draw the header title
+    font_render(6, 3, "C Event Display (CED)"); // Draw the header title
 
     glEnable(GL_DEPTH_TEST); // Turn on depth testing, so the 3D scene renders normally on the next frame
 
