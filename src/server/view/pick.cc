@@ -18,8 +18,6 @@
 
 #include "pick.h"
 
-int SELECTED_ID = -1;
-
 /*
  * To support mouse operations with objects, we need
  * object screen coordinates.
@@ -128,7 +126,6 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
 
     std::cout << "Center selected hit (ID: " << best->ID << ")" << std::endl;
 
-    SELECTED_ID = best->ID;
     return 0;
 }
 
@@ -136,7 +133,7 @@ int ced_get_selected(int x,int y,GLfloat *wx,GLfloat *wy,GLfloat *wz){
 * A extra picking function, do the same as ced_get_selected,   *
 * without center the selected object                           *
 ***************************************************************/
-int ced_picking(int x,int y,GLfloat*, GLfloat*, GLfloat*){
+int ced_picking(int x,int y,int *id){
     CED_ObjMap *p,*best;
     unsigned i;
     int dx,dy;
@@ -156,12 +153,11 @@ int ced_picking(int x,int y,GLfloat*, GLfloat*, GLfloat*){
         }
     }
     if(!best){
-        SELECTED_ID =0;
         return 1;
     }
     printf("Picking: HIT %d\n",best->ID);
 
-    SELECTED_ID = best->ID;
+    *id = best->ID;
     return 0;
 }
 
