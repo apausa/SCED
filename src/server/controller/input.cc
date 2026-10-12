@@ -21,7 +21,7 @@
 #include "actions.h"
 #include "input.h"
 #include "ui/layers.h"
-#include "ui/selection.h"
+#include "view/pick.h"
 #include "view/view_state.h"
 
 using namespace std;

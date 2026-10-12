@@ -1,5 +1,5 @@
 #include "../draw.h"
-#include "ui/selection.h"
+#include "view/pick.h"
 
 /*
  * Hit element
