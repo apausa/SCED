@@ -66,8 +66,8 @@ void mouse(int btn,int state,int x,int y){
         //FIX IT: get the system double click time
         if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
-            if(!ced_picking(x,y,nullptr,nullptr,nullptr)){
-               int id = SELECTED_ID;
+            int id;
+            if(!ced_picking(x,y,&id)){
                if(client_connected){
                     send( socket_fd , &id , sizeof(int) , 0 );
                 }
