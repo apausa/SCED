@@ -1,3 +1,5 @@
+#include <third_party/gl_font.h>
+
 #include "view.h"
 #include "view_state.h"
 
@@ -6,6 +8,7 @@ static ViewSize window_size = {500, 500};
 static bool needs_redraw = false;
 static bool show_help = false;
 static const double background_color[4] = {1, 1, 1, 1}; // white
+static const int font = FONT_M;
 
 void view_set_window(SDL_Window *window){
     sdl_window = window;
@@ -48,4 +51,8 @@ bool view_help_shown(void){
 
 const double *get_background_color(void){
     return background_color;
+}
+
+int get_font(void){
+    return font;
 }

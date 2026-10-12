@@ -49,7 +49,7 @@ void ced_draw_legend(CED_Legend *legend){
 	int tickNumber = 1; // 'middle' tick counter
 	int i;
 
-	int font = setting.font;
+	int font = get_font();
 
 	/** ticks */
 	char string[6];

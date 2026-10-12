@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include <sced_types.h>
-#include <third_party/gl_font.h>
 
 #include "layers.h"
 #include "settings.h"
@@ -13,8 +12,6 @@ void defaultSettings(void){
     setting.antia=false;
 
     setting.show_axes=true;
-
-    setting.font=FONT_M;
 
     layers_show_all();
 
