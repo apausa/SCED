@@ -23,6 +23,7 @@
 #include "view/view_state.h"
 #include "cli.h"
 #include "controller/event_loop.h"
+#include "controller/keymap.h"
 #include "tcp_listener.h"
 #include "view/draw/draw.h"
 
@@ -76,6 +77,7 @@ int main(int argc,char *argv[]){
     parseCliArgs(argc, argv);
 
     ced_register_elements();
+    initialize_shortcuts();
 
     char *p;
     p = getenv ( "CED_PORT" );

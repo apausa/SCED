@@ -76,6 +76,16 @@ std::string truncateTo(std::string str, size_t max_len) {
   return str;
 }
 
+// The general shortcuts, as "[key] text" rows. The controller hands them in once.
+static vector<string> general_shortcuts;
+
+void overlay_set_shortcuts(const ShortcutHelp *rows, int count){
+    general_shortcuts.clear();
+    for(int i=0;i<count;i++){
+        general_shortcuts.push_back(string("[") + rows[i].key + "] " + rows[i].description);
+    }
+}
+
 static std::string formatShortcut(int iLayer, const char key, const char *description,
                            size_t max_len) {
   std::stringstream sstr;
@@ -102,27 +112,7 @@ void printShortcuts(void){
     shortcuts.push_back( "GENERAL SHORTCUTS:" );
 
 
-    shortcuts.push_back( "[ESC] Quit CED" );
-    shortcuts.push_back( "[h] Toggle shortcut frame" );
-    shortcuts.push_back( "[r] Reset view" );
-    shortcuts.push_back( "[R] Reset CED" );
-    shortcuts.push_back( "[f] Front view" );
-    shortcuts.push_back( "[s] Side view" );
-    shortcuts.push_back( "[F] Front projection" );
-    shortcuts.push_back( "[S] Side projection" );
-    shortcuts.push_back( "[+] Zoom in" );
-    shortcuts.push_back( "[-] Zoom out" );
-    shortcuts.push_back( "[c] Center" );
-    shortcuts.push_back( "[Z] Cut in z-axe direction" );
-    shortcuts.push_back( "[z] Cut in -z-axe direction" );
-    shortcuts.push_back( "[>] Increase transparency" );
-    shortcuts.push_back( "[<] Decrease transparency" );
-    shortcuts.push_back( "[M] Increase detector cut angle" );
-    shortcuts.push_back( "[m] Decrease detector cut angle" );
-    shortcuts.push_back( "[->] Move in z-direction" );
-    shortcuts.push_back( "[<-] Move in -z-direction" );
-    shortcuts.push_back( "[`] Toggle all data layers" );
-    shortcuts.push_back( "[~] Toggle all detector layers" );
+    shortcuts.insert(shortcuts.end(), general_shortcuts.begin(), general_shortcuts.end());
 
 
     shortcuts.push_back( "  " );
