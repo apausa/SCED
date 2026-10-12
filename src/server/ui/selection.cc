@@ -14,11 +14,9 @@
 #include <iostream>
 
 #include <sced_types.h>
-#include <model/settings.h>
+#include <model/camera.h>
 
 #include "selection.h"
-
-extern CEDsettings setting;
 
 int SELECTED_ID = -1;
 
@@ -49,7 +47,7 @@ static unsigned omap_alloced=0;
  * To be called from drawing functions
  */
 void ced_add_objmap(CED_Point *p,int max_dxy, unsigned int ID, unsigned int layer, int type){
-    double my_max_dxy =  5*max_dxy*setting.zoom;
+    double my_max_dxy =  5*max_dxy*camera_get().sf;
 
     GLdouble winx,winy,winz;
 
