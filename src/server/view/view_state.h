@@ -28,3 +28,6 @@ bool view_take_redraw_request(void);
 
 void view_toggle_help(void);
 bool view_help_shown(void);
+
+// The background colour (what glClear() paints), as r, g, b, a.
+const double *get_background_color(void);

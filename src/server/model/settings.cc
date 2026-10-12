@@ -14,10 +14,6 @@ void defaultSettings(void){
 
     setting.show_axes=true;
 
-    for(int i=0;i<4;i++){
-        setting.bgcolor[i]=1; //white
-    }
-
     setting.font=FONT_M;
 
     layers_show_all();

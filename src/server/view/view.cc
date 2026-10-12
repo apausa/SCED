@@ -50,7 +50,8 @@ extern CEDsettings setting;
 
 void init(void){
     //Set background color
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // white
+    const double *bg = get_background_color();
+    glClearColor(bg[0], bg[1], bg[2], bg[3]);
 
     glShadeModel(GL_SMOOTH);
 
@@ -139,8 +140,8 @@ static void display_world(void){
 
     // Draw X,Y,Z ...
 
-    glGetDoublev(GL_COLOR_CLEAR_VALUE, setting.bgcolor);
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0;
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0;
     glColor3f(dark,dark,dark);
 
 

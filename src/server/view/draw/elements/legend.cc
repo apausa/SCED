@@ -3,6 +3,7 @@
 
 #include "../draw.h"
 #include "third_party/gl_font.h"
+#include "view/view_state.h"
 
 // Draws the energy spectrum legend
 void ced_draw_legend(CED_Legend *legend){
@@ -66,7 +67,8 @@ void ced_draw_legend(CED_Legend *legend){
 
 	/**
 	 *  Legend header: GeV */
-    double dark=1.0-(setting.bgcolor[0]+setting.bgcolor[1]+setting.bgcolor[2])/3.0; //ever readable color
+    const double *bg = get_background_color();
+    double dark=1.0-(bg[0]+bg[1]+bg[2])/3.0; //ever readable color
     glColor3f(dark,dark,dark);
 
 	font_render(font, x_min-x_offset_legend, y_min-stripeThickness*color_steps-y_offset_legend, header);
