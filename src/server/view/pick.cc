@@ -16,7 +16,7 @@
 #include <sced_types.h>
 #include <model/camera.h>
 
-#include "selection.h"
+#include "pick.h"
 
 int SELECTED_ID = -1;
 

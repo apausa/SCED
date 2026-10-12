@@ -21,7 +21,7 @@
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
 #include "view/view_state.h"
-#include "ui/selection.h"
+#include "view/pick.h"
 #include "model/event.h"
 
 #include "view.h"
