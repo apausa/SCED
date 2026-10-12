@@ -20,6 +20,7 @@
 
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
+#include "view/view_state.h"
 #include "ui/selection.h"
 #include "model/event.h"
 
@@ -44,10 +45,6 @@ static double camera_max_distance(const CameraState &cam){
 
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
-
-extern int showHelp;
-
-extern SDL_Window *ced_sdl_window;
 
 extern GLfloat window_width;
 extern GLfloat window_height;
@@ -195,7 +192,7 @@ void display(void){
     ced_do_draw_event();
 
 
-    if(showHelp == 1){
+    if(view_help_shown()){
         printShortcuts();
     }
 
@@ -205,7 +202,7 @@ void display(void){
 
     glPopMatrix();
 
-    SDL_GL_SwapWindow(ced_sdl_window);
+    SDL_GL_SwapWindow(view_window());
 }
 
 void reshape(int w,int h){

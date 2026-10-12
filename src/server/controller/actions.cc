@@ -18,10 +18,10 @@
 
 #include "controller/input.h"
 #include "view/view.h"
+#include "view/view_state.h"
 
 extern GLfloat window_width;
 extern GLfloat window_height;
-extern bool ced_needs_redraw;
 extern CEDsettings setting;
 
 // Hack: call the resize function to overwrite the perspective settings.
@@ -91,6 +91,6 @@ void selectFromMenu(int id){
             break;
     }
 
-    ced_needs_redraw = true;
+    view_request_redraw();
 
 }

@@ -20,6 +20,7 @@
 
 #include "controller/actions.h"
 #include "view/view.h"
+#include "view/view_state.h"
 #include "cli.h"
 #include "controller/event_loop.h"
 #include "tcp_listener.h"
@@ -30,16 +31,12 @@ using namespace std;
 //*************** global variables ***************************************//
 extern CEDsettings setting;
 
-int showHelp=0;
 long int doubleClickTime=0;
 extern int SELECTED_ID ;
 
 extern int socket_fd;
 extern void (*socket_fn)(void);
 extern bool client_connected;
-
-bool ced_needs_redraw = false;
-SDL_Window* ced_sdl_window = nullptr;
 
 GLfloat window_width = 0.;
 GLfloat window_height = 0.;
@@ -94,16 +91,17 @@ int main(int argc,char *argv[]){
     }
 
 
-    ced_sdl_window = SDL_CreateWindow(
+    SDL_Window *window = SDL_CreateWindow(
         "C Event Display (CED)",
         setting.win_w,
         setting.win_h,
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_BORDERLESS
     );
+    view_set_window(window);
 
-    SDL_SetWindowHitTest(ced_sdl_window, ced_window_hit_test, nullptr); // Implement drag and resize via hit-testing since the window is now borderless
+    SDL_SetWindowHitTest(window, ced_window_hit_test, nullptr); // Implement drag and resize via hit-testing since the window is now borderless
 
-    SDL_GLContext gl_context = SDL_GL_CreateContext(ced_sdl_window); // SDL separates window creation from context creation
+    SDL_GLContext gl_context = SDL_GL_CreateContext(window); // SDL separates window creation from context creation
     
     if (!gl_context) {
         fprintf(
@@ -111,13 +109,13 @@ int main(int argc,char *argv[]){
             "SDL_GL_CreateContext failed: %s\n",
             SDL_GetError()
         );
-        SDL_DestroyWindow(ced_sdl_window);
+        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
 
     SDL_GL_SetSwapInterval(1); // vsync control
-    SDL_StartTextInput(ced_sdl_window);
+    SDL_StartTextInput(window);
 
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_LINE_SMOOTH);
