@@ -2,7 +2,7 @@
 #include "projection.h"
 #include "settings.h"
 
-extern CEDsettings setting;
+static CEDsettings &setting = settings_edit();
 
 static double cut_angle_backup;
 static double cut_z_backup;

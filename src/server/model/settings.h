@@ -22,5 +22,8 @@ struct CEDsettings{
 // Sets every field to its start-up value.
 void defaultSettings(void);
 
-// The current settings. The view and the controller only read them; the model changes them.
+// The current settings. The view and the controller only read them.
 const CEDsettings &settings_get(void);
+
+// The same settings, writable. Only the files in model/ may call this.
+CEDsettings &settings_edit(void);
