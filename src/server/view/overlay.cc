@@ -13,7 +13,6 @@
 #include <vector>
 
 #include <sced_types.h>
-#include <model/settings.h>
 #include <model/layers.h>
 #include <third_party/gl_font.h>
 
@@ -25,8 +24,6 @@
 #define HELP_FRAME_BOARDER_LINE_SIZE        3.
 
 using namespace std;
-
-extern CEDsettings setting;
 
 void printFPS(void){
     //calculate fps:
@@ -97,7 +94,7 @@ void overlay_set_shortcuts(
 static std::string formatShortcut(int iLayer, const char key, const char *description,
                            size_t max_len) {
   std::stringstream sstr;
-  sstr << "(" << (setting.layer[iLayer] ? "X" : "_") << ") [" << key << "] "
+  sstr << "(" << (layer_visible(iLayer) ? "X" : "_") << ") [" << key << "] "
        << std::setfill('0') << std::setw(2) << iLayer << ": " << description;
 
   return truncateTo(sstr.str(), max_len);

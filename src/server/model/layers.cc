@@ -4,19 +4,22 @@
 #include <sced_types.h>
 
 #include "layers.h"
-#include "settings.h"
 
-extern CEDsettings setting;
+static bool visible[CED_MAX_LAYER];
 
 static char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
+
+bool layer_visible(int layer){
+    return layer >= 0 && layer < CED_MAX_LAYER && visible[layer];
+}
 
 void toggle_layer(unsigned l){
     if(l > CED_MAX_LAYER-1){ return; }
 
-    if(setting.layer[l]){
-        setting.layer[l]=false;
+    if(visible[l]){
+        visible[l]=false;
     }else{
-        setting.layer[l]=true;
+        visible[l]=true;
     }
 
 }
@@ -24,7 +27,7 @@ void toggle_layer(unsigned l){
 static void toggle_all(int first, int end){
     int anz=0;
     for(int i=first;i<end;i++){ //try to turn all layers on
-        if(!setting.layer[i]){
+        if(!visible[i]){
            toggle_layer(i);
            anz++;
         }
@@ -46,7 +49,7 @@ void layers_toggle_all_detector(void){
 
 void layers_show_all(void){
     for(int i=0;i<CED_MAX_LAYER;i++){
-        setting.layer[i]=true; // turn all layers on
+        visible[i]=true; // turn all layers on
     }
 }
 

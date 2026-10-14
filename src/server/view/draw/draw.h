@@ -9,11 +9,6 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <model/settings.h>
-
-extern CEDsettings setting;
-
-#define IS_VISIBLE(x) ((x < CED_MAX_LAYER && (int)x >= 0)?setting.layer[x]:false)
 
 // Register the element types with their draw functions. The order must be
 // the same as in the client (see sced_elements.h).

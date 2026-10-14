@@ -5,7 +5,6 @@
 #include <SDL3/SDL.h>
 
 #include <sced_types.h>
-#include <third_party/gl_font.h>
 
 #include "view/view.h"
 #include "view/view_state.h"
@@ -47,7 +46,7 @@ SDL_HitTestResult SDLCALL ced_window_hit_test(SDL_Window *win, const SDL_Point *
     return SDL_HITTEST_NORMAL;
 }
 
-void mainLoop(SDL_GLContext gl_context) {
+void mainLoop(void) {
     bool running = true;
     view_request_redraw();
 
@@ -132,11 +131,4 @@ void mainLoop(SDL_GLContext gl_context) {
             SDL_Delay(1);
         }
     }
-
-    font_clean();
-    SDL_StopTextInput(view_window());
-    SDL_GL_DestroyContext(gl_context);
-    SDL_DestroyWindow(view_window());
-    view_set_window(nullptr);
-    SDL_Quit();
 }

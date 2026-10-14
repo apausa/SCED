@@ -8,6 +8,15 @@
  * projection_take_persp_changed() and reshapes the view if it says true.
  */
 
+// The state of the view. The view and the controller read it.
+bool projection_persp(void); // perspective, or orthographic
+bool projection_phi(void);   // the phi projection is on
+bool projection_z(void);     // the z projection is on
+bool projection_fixed(void); // a projection is on, so the view angles cannot be changed
+
+// The start-up state: perspective on, no projection.
+void projection_reset(void);
+
 void projection_view_front(void);
 void projection_view_side(void);
 

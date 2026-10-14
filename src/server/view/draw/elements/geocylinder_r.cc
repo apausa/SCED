@@ -1,12 +1,13 @@
 #include "third_party/fg_geometry.h"
 
 #include "../draw.h"
+#include <model/layers.h>
 
 /*
  * GeoCylinder
  */
 void ced_draw_geocylinder_r(CED_GeoCylinderR *c){
-    if(!IS_VISIBLE(c->layer)){
+    if(!layer_visible(c->layer)){
         return;
     }
 

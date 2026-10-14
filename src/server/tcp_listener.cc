@@ -2,7 +2,7 @@
  * Server (GLUT) side.
  */
 
-char trusted_hosts[50]; 
+static char trusted_hosts[50];
 
 #include "tcp_listener.h"
 #include <stdlib.h>
@@ -171,4 +171,8 @@ void net_poll(void){
       socket_fn();
     }
   }
+}
+
+void net_trust_host(const char *ip){
+  snprintf(trusted_hosts, sizeof(trusted_hosts), "%s", ip);
 }

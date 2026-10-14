@@ -1,6 +1,5 @@
 #include <event_buffer.h>
 #include <sced_types.h>
-#include <model/settings.h>
 #include <model/event.h>
 
 #include "draw.h"

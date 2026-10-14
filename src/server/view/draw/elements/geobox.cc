@@ -78,7 +78,6 @@ void ced_draw_geobox(CED_GeoBox * box )  {
     glEnd();
   
     glDepthMask(GL_TRUE);
-    glDisable(GL_LINE_SMOOTH);
 
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 

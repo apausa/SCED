@@ -15,8 +15,8 @@
 #include <SDL3/SDL.h>
 
 #include <sced_types.h>
-#include <model/settings.h>
 #include <model/camera.h>
+#include <model/projection.h>
 
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
@@ -25,6 +25,12 @@
 #include "model/event.h"
 
 #include "view.h"
+
+//Draw the xyz axes
+#define SHOW_AXES                           true
+
+//Smooth points and lines
+#define ANTIALIASING                        true
 
 //Color of xyz axes
 #define AXES_COLOR                          0.2,0.2,0.8
@@ -46,9 +52,9 @@ static double camera_max_distance(const CameraState &cam){
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
 
-extern CEDsettings setting;
-
 void init(void){
+    glEnable(GL_BLEND);
+
     //Set background color
     const double *bg = get_background_color();
     glClearColor(bg[0], bg[1], bg[2], bg[3]);
@@ -98,7 +104,7 @@ static void axe_arrow(void){
 }
 
 static void display_world(void){
-    if(setting.show_axes == false){
+    if(SHOW_AXES == false){
         return;
     }
 
@@ -170,6 +176,15 @@ static void ced_do_draw_event(void){
 }
 
 void display(void){
+    // Smooth points and lines, unless anti-aliasing is off.
+    if(ANTIALIASING){
+        glEnable(GL_POINT_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
+    }else{
+        glDisable(GL_POINT_SMOOTH);
+        glDisable(GL_LINE_SMOOTH);
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 
@@ -205,17 +220,7 @@ void display(void){
 void reshape(int w,int h){
     set_window_size(w, h);
 
-    if(setting.antia){
-        glEnable (GL_LINE_SMOOTH);
-        glEnable (GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    }else{
-        glDisable(GL_POINT_SMOOTH);
-        glDisable(GL_LINE_SMOOTH);
-    }
-
-    if(setting.persp == false){
+    if(projection_persp() == false){
 
         glViewport(0,0,w,h);
         glMatrixMode(GL_PROJECTION);
