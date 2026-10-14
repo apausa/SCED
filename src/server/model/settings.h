@@ -7,11 +7,7 @@
  * (grid vs. surface view, projection, per-layer visibility/cuts, etc).
  */
 struct CEDsettings{
-    bool persp;         //perspectivic view or flat projection
     bool antia;         //anti aliasing
-    bool phi_projection;
-    bool z_projection;
-    bool fixed_view;
     bool show_axes;
 };
 

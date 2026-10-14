@@ -17,6 +17,7 @@
 #include <sced_types.h>
 #include <model/settings.h>
 #include <model/camera.h>
+#include <model/projection.h>
 
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
@@ -214,7 +215,7 @@ void display(void){
 void reshape(int w,int h){
     set_window_size(w, h);
 
-    if(settings_get().persp == false){
+    if(projection_persp() == false){
 
         glViewport(0,0,w,h);
         glMatrixMode(GL_PROJECTION);
