@@ -9,6 +9,8 @@ char trusted_hosts[50];
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/select.h>
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
@@ -22,9 +24,9 @@ char trusted_hosts[50];
 static int _server_fd = -1;
 static void (*_on_event)(void *) = nullptr;
 
-int socket_fd = -1; 
-void (*socket_fn)(void) = nullptr;
-bool client_connected=false;
+static int socket_fd = -1;
+static void (*socket_fn)(void) = nullptr;
+static bool client_connected=false;
 
 static void tcp_server_accept(void); // forward declaration
 
@@ -156,5 +158,17 @@ int tcp_server(unsigned short port,
 void net_send_selected_id(int id){
   if(client_connected){
     send(socket_fd, &id, sizeof(int), 0);
+  }
+}
+
+void net_poll(void){
+  if(socket_fd >= 0 && socket_fn){
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(socket_fd, &fds);
+    struct timeval tv = {0, 0};
+    if(select(socket_fd + 1, &fds, NULL, NULL, &tv) > 0){
+      socket_fn();
+    }
   }
 }

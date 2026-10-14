@@ -32,10 +32,6 @@ using namespace std;
 //*************** global variables ***************************************//
 extern CEDsettings setting;
 
-extern int socket_fd;
-extern void (*socket_fn)(void);
-extern bool client_connected;
-
 // ********** function definitions  (rest of file) ************************** //
 
 
