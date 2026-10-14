@@ -1,7 +1,7 @@
 #include "detector.h"
 #include "settings.h"
 
-extern CEDsettings setting;
+static CEDsettings &setting = settings_edit();
 
 void detector_reset(void){
     setting.detector_trans=0.8;

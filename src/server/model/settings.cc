@@ -6,9 +6,13 @@
 #include "layers.h"
 #include "settings.h"
 
-CEDsettings setting;
+static CEDsettings setting;
 
 const CEDsettings &settings_get(void){
+    return setting;
+}
+
+CEDsettings &settings_edit(void){
     return setting;
 }
 

@@ -6,7 +6,7 @@
 #include "layers.h"
 #include "settings.h"
 
-extern CEDsettings setting;
+static CEDsettings &setting = settings_edit();
 
 static char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
 
