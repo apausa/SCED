@@ -9,9 +9,6 @@
 struct CEDsettings{
     bool persp;         //perspectivic view or flat projection
     bool antia;         //anti aliasing
-    double detector_trans;
-    double detector_cut_angle;
-    double detector_cut_z;
     bool phi_projection;
     bool z_projection;
     bool fixed_view;

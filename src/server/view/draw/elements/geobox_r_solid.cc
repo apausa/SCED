@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/detector.h>
 #include <model/layers.h>
 
 /*
@@ -61,7 +62,7 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 	//  drawing the first face
 
 
-    double trans=settings_get().detector_trans;
+    double trans=detector_trans();
     GLfloat face_color[4]={static_cast<GLfloat>(((box->color>>16)&0xff)/255.0),static_cast<GLfloat>(((box->color>>8)&0xff)/255.0),static_cast<GLfloat>(((box->color)&0xff)/255.0), static_cast<GLfloat>(trans)};
     glColor4f(face_color[0], face_color[1], face_color[2], face_color[3]);
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
