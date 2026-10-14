@@ -50,8 +50,6 @@ static double camera_max_distance(const CameraState &cam){
 extern CEDsettings setting;
 
 void init(void){
-    glEnable(GL_POINT_SMOOTH);
-    glEnable(GL_LINE_SMOOTH);
     glEnable(GL_BLEND);
 
     //Set background color
@@ -177,6 +175,15 @@ static void ced_do_draw_event(void){
 }
 
 void display(void){
+    // Smooth points and lines, unless anti-aliasing is off.
+    if(setting.antia){
+        glEnable(GL_POINT_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
+    }else{
+        glDisable(GL_POINT_SMOOTH);
+        glDisable(GL_LINE_SMOOTH);
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
 
@@ -211,16 +218,6 @@ void display(void){
 
 void reshape(int w,int h){
     set_window_size(w, h);
-
-    if(setting.antia){
-        glEnable (GL_LINE_SMOOTH);
-        glEnable (GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glHint (GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-    }else{
-        glDisable(GL_POINT_SMOOTH);
-        glDisable(GL_LINE_SMOOTH);
-    }
 
     if(setting.persp == false){
 
