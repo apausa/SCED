@@ -95,7 +95,7 @@ void overlay_set_shortcuts(
 static std::string formatShortcut(int iLayer, const char key, const char *description,
                            size_t max_len) {
   std::stringstream sstr;
-  sstr << "(" << (settings_get().layer[iLayer] ? "X" : "_") << ") [" << key << "] "
+  sstr << "(" << (layer_visible(iLayer) ? "X" : "_") << ") [" << key << "] "
        << std::setfill('0') << std::setw(2) << iLayer << ": " << description;
 
   return truncateTo(sstr.str(), max_len);

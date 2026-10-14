@@ -6,6 +6,9 @@
  * are detector. Nothing here requests a redraw.
  */
 
+// Whether a layer is shown. Layers outside 0 .. CED_MAX_LAYER-1 never are.
+bool layer_visible(int layer);
+
 // Flip the visibility of one layer (0 .. CED_MAX_LAYER-1).
 void toggle_layer(unsigned l);
 

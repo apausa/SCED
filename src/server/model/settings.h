@@ -12,7 +12,6 @@ struct CEDsettings{
     double detector_trans;
     double detector_cut_angle;
     double detector_cut_z;
-    bool layer[CED_MAX_LAYER];
     bool phi_projection;
     bool z_projection;
     bool fixed_view;
