@@ -4,9 +4,6 @@
 
 #include <SDL3/SDL.h>
 
-#include <sys/select.h>
-#include <sys/time.h>
-
 #include <sced_types.h>
 #include <third_party/gl_font.h>
 
@@ -15,11 +12,9 @@
 #include "controller/input.h"
 #include "view/overlay.h"
 #include "model/event.h"
+#include "tcp_listener.h"
 
 #include "event_loop.h"
-
-extern int socket_fd;
-extern void (*socket_fn)(void);
 
 void input_data(void *data){
     if(ced_process_input(data)>0){
@@ -129,22 +124,7 @@ void mainLoop(SDL_GLContext gl_context) {
             }
         }
 
-        //  Replace GLUT bult-in socket monitoring with a non-blocking check for incoming client data
-        if (socket_fd >= 0 && socket_fn) {
-            fd_set fds;
-            FD_ZERO(&fds);
-            FD_SET(socket_fd, &fds);
-            struct timeval tv = {0, 0};
-            if (select(
-                    socket_fd + 1,
-                    &fds,
-                    NULL,
-                    NULL,
-                    &tv
-                ) > 0
-            )
-                socket_fn();
-        }
+        net_poll();
 
         if (view_take_redraw_request()) {
             display();
