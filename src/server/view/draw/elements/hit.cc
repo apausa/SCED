@@ -11,13 +11,13 @@ void ced_draw_hit(CED_Hit *h){
     float y = h->p.y;
     float z = h->p.z;
 
-    if(setting.phi_projection){
+    if(settings_get().phi_projection){
         //phi_projection is on
         y = y > 0 ? sqrt(x*x + y*y) : -1*sqrt(x*x + y*y);
         x = 0; 
     }
    
-    if(setting.z_projection){
+    if(settings_get().z_projection){
         z=0;
     }
 

@@ -21,3 +21,6 @@ struct CEDsettings{
 
 // Sets every field to its start-up value.
 void defaultSettings(void);
+
+// The current settings. The view and the controller only read them; the model changes them.
+const CEDsettings &settings_get(void);

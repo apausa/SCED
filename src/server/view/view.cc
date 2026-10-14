@@ -46,8 +46,6 @@ static double camera_max_distance(const CameraState &cam){
 //Where the camera stands
 #define CAMERA_POSITION                     0,0,2000
 
-extern CEDsettings setting;
-
 void init(void){
     glEnable(GL_BLEND);
 
@@ -100,7 +98,7 @@ static void axe_arrow(void){
 }
 
 static void display_world(void){
-    if(setting.show_axes == false){
+    if(settings_get().show_axes == false){
         return;
     }
 
@@ -173,7 +171,7 @@ static void ced_do_draw_event(void){
 
 void display(void){
     // Smooth points and lines, unless anti-aliasing is off.
-    if(setting.antia){
+    if(settings_get().antia){
         glEnable(GL_POINT_SMOOTH);
         glEnable(GL_LINE_SMOOTH);
     }else{
@@ -216,7 +214,7 @@ void display(void){
 void reshape(int w,int h){
     set_window_size(w, h);
 
-    if(setting.persp == false){
+    if(settings_get().persp == false){
 
         glViewport(0,0,w,h);
         glMatrixMode(GL_PROJECTION);
