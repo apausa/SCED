@@ -19,7 +19,6 @@
 #include <model/camera.h>
 
 #include "third_party/fg_geometry.h"
-#include "third_party/gl_font.h"
 #include "view/overlay.h"
 #include "view/view_state.h"
 #include "view/pick.h"
@@ -71,8 +70,6 @@ void init(void){
 
     // to put text
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-
-    font_init();
 }
 
 // bitmaps for X,Y and Z

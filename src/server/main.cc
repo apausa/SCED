@@ -7,6 +7,7 @@
 
 #include <SDL3/SDL.h>
 #include <model/settings.h>
+#include <third_party/gl_font.h>
 
 #include "cli.h"
 #include "controller/event_loop.h"
@@ -91,9 +92,17 @@ int main(int argc,char *argv[]){
     SDL_StartTextInput(window);
 
     init();
+    font_init();
 
     window_reshape();
-    mainLoop(gl_context);
+    mainLoop();
+
+    font_clean();
+    SDL_StopTextInput(window);
+    SDL_GL_DestroyContext(gl_context);
+    SDL_DestroyWindow(window);
+    view_set_window(nullptr);
+    SDL_Quit();
 
     return 0;
 }
