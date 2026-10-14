@@ -1,17 +1,7 @@
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
 #include <sys/time.h>
 
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
-#include <math.h>
 
-#include <sced_types.h>
 #include <model/settings.h>
 #include <model/camera.h>
 #include <model/detector.h>
@@ -24,8 +14,6 @@
 #include "view/pick.h"
 #include "view/view_state.h"
 
-using namespace std;
-
 extern CEDsettings setting;
 
 static enum {
@@ -33,8 +21,8 @@ static enum {
     TURN_XY,
     ORIGIN
 } move_mode;
-static GLfloat mouse_x=0.;
-static GLfloat mouse_y=0.;
+static float mouse_x=0.;
+static float mouse_y=0.;
 
 // Two left presses closer together than this are a double click.
 static const long int DOUBLE_CLICK_TIME_US = 300000;
@@ -109,7 +97,7 @@ void keypressed(unsigned char key, int x, int y) {
     break;
 
   case VIEW_CENTER:
-    GLfloat wx, wy, wz;
+    float wx, wy, wz;
     if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
       camera_center_on(wx, wy, wz);
       view_request_redraw();
