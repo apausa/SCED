@@ -13,7 +13,6 @@
 #include <vector>
 
 #include <sced_types.h>
-#include <model/settings.h>
 #include <model/layers.h>
 #include <third_party/gl_font.h>
 

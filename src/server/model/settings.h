@@ -1,21 +1,4 @@
 #pragma once
 
-#include <sced_types.h>
-
-/*
- * Global display/view state for the glced server
- * (grid vs. surface view, projection, per-layer visibility/cuts, etc).
- */
-struct CEDsettings{
-    bool antia;         //anti aliasing
-    bool show_axes;
-};
-
-// Sets every field to its start-up value.
+// Puts every part of the model in its start-up state.
 void defaultSettings(void);
-
-// The current settings. The view and the controller only read them.
-const CEDsettings &settings_get(void);
-
-// The same settings, writable. Only the files in model/ may call this.
-CEDsettings &settings_edit(void);

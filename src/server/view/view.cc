@@ -15,7 +15,6 @@
 #include <SDL3/SDL.h>
 
 #include <sced_types.h>
-#include <model/settings.h>
 #include <model/camera.h>
 #include <model/projection.h>
 
@@ -26,6 +25,12 @@
 #include "model/event.h"
 
 #include "view.h"
+
+//Draw the xyz axes
+#define SHOW_AXES                           true
+
+//Smooth points and lines
+#define ANTIALIASING                        true
 
 //Color of xyz axes
 #define AXES_COLOR                          0.2,0.2,0.8
@@ -99,7 +104,7 @@ static void axe_arrow(void){
 }
 
 static void display_world(void){
-    if(settings_get().show_axes == false){
+    if(SHOW_AXES == false){
         return;
     }
 
@@ -172,7 +177,7 @@ static void ced_do_draw_event(void){
 
 void display(void){
     // Smooth points and lines, unless anti-aliasing is off.
-    if(settings_get().antia){
+    if(ANTIALIASING){
         glEnable(GL_POINT_SMOOTH);
         glEnable(GL_LINE_SMOOTH);
     }else{
