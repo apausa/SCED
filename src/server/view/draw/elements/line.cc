@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/layers.h>
 #include "view/pick.h"
 
 /*
@@ -6,7 +7,7 @@
  */
 
 void ced_draw_line(CED_Line *h){
-    if(!IS_VISIBLE(h->type)){
+    if(!layer_visible(h->type)){
         return;
     }
 

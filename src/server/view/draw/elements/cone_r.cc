@@ -1,10 +1,11 @@
 #include "third_party/fg_geometry.h"
 
 #include "../draw.h"
+#include <model/layers.h>
 
 // Draws a opaque cone with a custom alpha colour channel. Warning: the cone centre is the vertex (not the centre of teh base!)
 void ced_draw_cone_r(CED_ConeR * cone )  {
-	if(!IS_VISIBLE(cone->layer)){
+	if(!layer_visible(cone->layer)){
         return;
     }
 

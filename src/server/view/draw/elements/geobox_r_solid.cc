@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/layers.h>
 
 /*
  * GeoBoxRSolid
@@ -6,7 +7,7 @@
 
 void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 
-	if(!IS_VISIBLE(box->layer)){
+	if(!layer_visible(box->layer)){
 		return;
     }
 	// a box has 8 vertices, four belonging to the first surface facing

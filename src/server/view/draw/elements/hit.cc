@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/layers.h>
 #include "view/pick.h"
 
 /*
@@ -21,7 +22,7 @@ void ced_draw_hit(CED_Hit *h){
         z=0;
     }
 
-    if(!IS_VISIBLE(h->layer)){
+    if(!layer_visible(h->layer)){
         return;
     }
 

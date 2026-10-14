@@ -2,6 +2,7 @@
 #include "view/view_state.h"
 
 #include "../draw.h"
+#include <model/layers.h>
 
 //size of the boarder line in filled (new view) of detector components.
 #define CED_GEOTUBE_LINE_WIDTH              0.3
@@ -11,7 +12,7 @@
 
 void ced_draw_geotube(CED_GeoTube *c){
     using namespace std;
-    if(!IS_VISIBLE(c->type)){
+    if(!layer_visible(c->type)){
         return;
     }
 

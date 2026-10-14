@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/layers.h>
 
 /*
  * GeoBoxR 
@@ -6,7 +7,7 @@
 
 void ced_draw_geobox_r(CED_GeoBoxR * box )  {
 
-    if(!IS_VISIBLE(box->layer)){
+    if(!layer_visible(box->layer)){
         return;
     }
 
