@@ -304,7 +304,6 @@ void drawPartialLineCylinder(
     glPopMatrix(); //get the saved matrix back
 
     glDepthMask(GL_TRUE);
-    glDisable(GL_LINE_SMOOTH);
 
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 

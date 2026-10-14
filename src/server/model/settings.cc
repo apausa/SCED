@@ -9,7 +9,7 @@ CEDsettings setting;
 
 void defaultSettings(void){
     setting.persp=true;
-    setting.antia=false;
+    setting.antia=true;
 
     setting.show_axes=true;
 
