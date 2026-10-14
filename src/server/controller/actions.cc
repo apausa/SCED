@@ -2,7 +2,6 @@
  * Split out of glced.cc: this is the handler invoked for every
  * keyboard shortcut and scroll-wheel action. */
 
-#include <model/settings.h>
 #include <model/camera.h>
 #include <model/detector.h>
 #include <model/layers.h>

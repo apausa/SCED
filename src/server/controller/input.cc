@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include <model/settings.h>
 #include <model/camera.h>
 #include <model/detector.h>
 #include <model/layers.h>

@@ -9,7 +9,6 @@
 #include <math.h>
 
 #include <sced_types.h>
-#include <model/settings.h>
 
 // Register the element types with their draw functions. The order must be
 // the same as in the client (see sced_elements.h).
