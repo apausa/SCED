@@ -23,4 +23,11 @@
  */
 int tcp_server(unsigned short port, void (*user_func)(void *data));
 
+/*
+ * Server side function.
+ * Send the id of the picked element to the client, as a plain int.
+ * Does nothing if no client is connected.
+ */
+void net_send_selected_id(int id);
+
 #endif /* __TCP_LISTENER_H  */
