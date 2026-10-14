@@ -32,8 +32,6 @@ using namespace std;
 //*************** global variables ***************************************//
 extern CEDsettings setting;
 
-long int doubleClickTime=0;
-
 extern int socket_fd;
 extern void (*socket_fn)(void);
 extern bool client_connected;
