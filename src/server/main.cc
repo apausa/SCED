@@ -1,5 +1,5 @@
-/* "C" event display.
- * Communications related part. */
+/* "C" event display server: sets up the environment, the SDL window and the
+ * OpenGL context, wires the model, view and controller together and runs the loop. */
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
 #else
@@ -9,31 +9,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <math.h>
+#include <string>
 
-#include <sced_types.h>
-#include <model/settings.h>
 #include <SDL3/SDL.h>
+#include <model/settings.h>
 #include <third_party/gl_font.h>
 
-#include <iostream>
-
-#include "controller/actions.h"
-#include "view/view.h"
-#include "view/view_state.h"
 #include "cli.h"
 #include "controller/event_loop.h"
 #include "controller/keymap.h"
 #include "tcp_listener.h"
 #include "view/draw/draw.h"
-
-using namespace std;
-
-//*************** global variables ***************************************//
-extern CEDsettings setting;
-
-// ********** function definitions  (rest of file) ************************** //
-
+#include "view/view.h"
+#include "view/view_state.h"
 
 int main(int argc,char *argv[]){
     #ifndef SDL_PLATFORM_APPLE
