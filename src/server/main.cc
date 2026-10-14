@@ -6,7 +6,9 @@
 #include <string>
 
 #include <SDL3/SDL.h>
-#include <model/settings.h>
+#include <model/detector.h>
+#include <model/layers.h>
+#include <model/projection.h>
 #include <third_party/gl_font.h>
 
 #include "cli.h"
@@ -48,7 +50,10 @@ int main(int argc,char *argv[]){
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
-    defaultSettings();
+    layers_show_all();
+    detector_reset();
+    projection_reset();
+    printf("Set options to default settings\n");
 
     parseCliArgs(argc, argv);
 
