@@ -2,6 +2,7 @@
 
 #include <sced_types.h>
 
+#include "detector.h"
 #include "layers.h"
 #include "settings.h"
 
@@ -19,9 +20,7 @@ void defaultSettings(void){
 
     layers_show_all();
 
-    setting.detector_trans=0.8;
-    setting.detector_cut_angle=0;
-    setting.detector_cut_z=7000;
+    detector_reset();
 
     setting.phi_projection=false;
     setting.z_projection=false;

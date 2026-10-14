@@ -3,6 +3,12 @@
 
 extern CEDsettings setting;
 
+void detector_reset(void){
+    setting.detector_trans=0.8;
+    setting.detector_cut_angle=0;
+    setting.detector_cut_z=7000;
+}
+
 void detector_cut_z_up(void){
     if (setting.detector_cut_z < 7000) {
       setting.detector_cut_z += 100;

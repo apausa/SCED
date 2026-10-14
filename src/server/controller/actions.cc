@@ -4,13 +4,12 @@
 
 #include <model/settings.h>
 #include <model/camera.h>
+#include <model/detector.h>
 #include <model/layers.h>
 #include <model/projection.h>
 
 #include "actions.h"
 #include "view/view_state.h"
-
-extern CEDsettings setting;
 
 // reshape() builds the projection, so the view has to run it again when the perspective changes.
 static void reshape_if_persp_changed(void){
@@ -29,15 +28,11 @@ void selectFromMenu(int id){
         case CED_RESET:
             projection_set_persp(true); //switch persp on
             reshape_if_persp_changed();
-            setting.detector_trans=0.8;
-            setting.detector_cut_angle=0;
-            setting.detector_cut_z=7000;
+            detector_reset();
 
             layers_show_all();
             projection_clear();
             camera_reset();
-
-            setting.show_axes=true;
             break;
 
         case VIEW_FRONT:
