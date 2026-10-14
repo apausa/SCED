@@ -26,8 +26,6 @@
 
 using namespace std;
 
-// Owned by glced.cc.
-extern long int doubleClickTime;
 extern CEDsettings setting;
 
 static enum {
@@ -37,6 +35,10 @@ static enum {
 } move_mode;
 static GLfloat mouse_x=0.;
 static GLfloat mouse_y=0.;
+
+// Two left presses closer together than this are a double click.
+static const long int DOUBLE_CLICK_TIME_US = 300000;
+static long int doubleClickTime=0; // when the last left press happened, in microseconds
 
 void mouseWheel(int, int dir, int, int ){
     if(dir > 0){
@@ -62,7 +64,7 @@ void mouse(int btn,int state,int x,int y){
         view_request_redraw();
         gettimeofday(&tv, 0);
         //FIX IT: get the system double click time
-        if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
+        if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < DOUBLE_CLICK_TIME_US && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
             int id;
             if(!ced_picking(x,y,&id)){
