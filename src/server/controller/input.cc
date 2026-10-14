@@ -1,18 +1,7 @@
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
-#include <sys/socket.h>
 #include <sys/time.h>
 
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
-#include <math.h>
 
-#include <sced_types.h>
 #include <model/settings.h>
 #include <model/camera.h>
 #include <model/detector.h>
@@ -20,16 +9,11 @@
 
 #include "actions.h"
 #include "input.h"
-#include "ui/layers.h"
+#include "keymap.h"
+#include "tcp_listener.h"
 #include "view/pick.h"
 #include "view/view_state.h"
 
-using namespace std;
-
-// Owned by glced.cc.
-extern long int doubleClickTime;
-extern int socket_fd;
-extern bool client_connected;
 extern CEDsettings setting;
 
 static enum {
@@ -37,8 +21,12 @@ static enum {
     TURN_XY,
     ORIGIN
 } move_mode;
-static GLfloat mouse_x=0.;
-static GLfloat mouse_y=0.;
+static float mouse_x=0.;
+static float mouse_y=0.;
+
+// Two left presses closer together than this are a double click.
+static const long int DOUBLE_CLICK_TIME_US = 300000;
+static long int doubleClickTime=0; // when the last left press happened, in microseconds
 
 void mouseWheel(int, int dir, int, int ){
     if(dir > 0){
@@ -64,13 +52,11 @@ void mouse(int btn,int state,int x,int y){
         view_request_redraw();
         gettimeofday(&tv, 0);
         //FIX IT: get the system double click time
-        if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < 300000 && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
+        if( (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) < DOUBLE_CLICK_TIME_US && (tv.tv_sec*1000000+tv.tv_usec-doubleClickTime) > 5){ //1000000=1sec
 
             int id;
             if(!ced_picking(x,y,&id)){
-               if(client_connected){
-                    send( socket_fd , &id , sizeof(int) , 0 );
-                }
+                net_send_selected_id(id);
             }
 
 
@@ -92,69 +78,63 @@ void mouse(int btn,int state,int x,int y){
     }
 }
 
-#define SELECT_FROM_MENU(key, action)                                          \
-  case key:                                                                    \
-    selectFromMenu(action);                                                    \
-    break
-
-
 void keypressed(unsigned char key, int x, int y) {
   // TODO: socket list for communicating with client
 
-  switch (key) {
-    SELECT_FROM_MENU('r', VIEW_RESET);
-    SELECT_FROM_MENU('R', CED_RESET);
-    SELECT_FROM_MENU('f', VIEW_FRONT);
-    SELECT_FROM_MENU('F', TOGGLE_Z_PROJECTION);
-    SELECT_FROM_MENU('s', VIEW_SIDE);
-    SELECT_FROM_MENU('S', TOGGLE_PHI_PROJECTION);
-    SELECT_FROM_MENU('+', VIEW_ZOOM_IN);
-    SELECT_FROM_MENU('-', VIEW_ZOOM_OUT);
+  int action = keymap_action(key);
+  switch (action) {
+  case VIEW_RESET:
+  case CED_RESET:
+  case VIEW_FRONT:
+  case VIEW_SIDE:
+  case TOGGLE_Z_PROJECTION:
+  case TOGGLE_PHI_PROJECTION:
+  case VIEW_ZOOM_IN:
+  case VIEW_ZOOM_OUT:
+  case LAYER_ALL:
+  case DETECTOR_ALL:
+    selectFromMenu(action);
+    break;
 
-  case 'c':
-  case 'C':
-    GLfloat wx, wy, wz;
+  case VIEW_CENTER:
+    float wx, wy, wz;
     if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
       camera_center_on(wx, wy, wz);
       view_request_redraw();
     }
     break;
 
-    SELECT_FROM_MENU('`', LAYER_ALL);
-
-    SELECT_FROM_MENU('~', DETECTOR_ALL);
-
-  case 'z':
+  case DETECTOR_CUT_Z_UP:
     detector_cut_z_up();
     view_request_redraw();
     break;
 
-  case 'Z':
+  case DETECTOR_CUT_Z_DOWN:
     detector_cut_z_down();
     view_request_redraw();
     break;
 
-  case '<':
+  case DETECTOR_TRANS_DOWN:
     detector_trans_down();
     view_request_redraw();
     break;
 
-  case '>':
+  case DETECTOR_TRANS_UP:
     detector_trans_up();
     view_request_redraw();
     break;
 
-  case 'm':
+  case DETECTOR_CUT_ANGLE_DOWN:
     detector_cut_angle_down();
     view_request_redraw();
     break;
 
-  case 'M':
+  case DETECTOR_CUT_ANGLE_UP:
     detector_cut_angle_up();
     view_request_redraw();
     break;
 
-  case 'h':
+  case HELP_TOGGLE:
     view_toggle_help();
     view_request_redraw();
     break;

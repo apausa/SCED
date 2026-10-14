@@ -23,6 +23,7 @@
 #include "view/view_state.h"
 #include "cli.h"
 #include "controller/event_loop.h"
+#include "controller/keymap.h"
 #include "tcp_listener.h"
 #include "view/draw/draw.h"
 
@@ -30,12 +31,6 @@ using namespace std;
 
 //*************** global variables ***************************************//
 extern CEDsettings setting;
-
-long int doubleClickTime=0;
-
-extern int socket_fd;
-extern void (*socket_fn)(void);
-extern bool client_connected;
 
 // ********** function definitions  (rest of file) ************************** //
 
@@ -76,6 +71,7 @@ int main(int argc,char *argv[]){
     parseCliArgs(argc, argv);
 
     ced_register_elements();
+    initialize_shortcuts();
 
     char *p;
     p = getenv ( "CED_PORT" );

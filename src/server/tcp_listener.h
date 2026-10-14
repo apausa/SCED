@@ -23,4 +23,19 @@
  */
 int tcp_server(unsigned short port, void (*user_func)(void *data));
 
+/*
+ * Server side function.
+ * Send the id of the picked element to the client, as a plain int.
+ * Does nothing if no client is connected.
+ */
+void net_send_selected_id(int id);
+
+/*
+ * Server side function.
+ * Check, without waiting, if a client wants to connect or has sent
+ * something, and handle it. That calls the user_func of tcp_server().
+ * To be called once per pass of the main loop.
+ */
+void net_poll(void);
+
 #endif /* __TCP_LISTENER_H  */
