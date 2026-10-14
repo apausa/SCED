@@ -4,7 +4,6 @@
 #  include <GL/gl.h>
 #endif
 
-#include <sys/socket.h>
 #include <sys/time.h>
 
 #include <cstdio>
@@ -21,6 +20,7 @@
 #include "actions.h"
 #include "input.h"
 #include "keymap.h"
+#include "tcp_listener.h"
 #include "view/pick.h"
 #include "view/view_state.h"
 
@@ -28,8 +28,6 @@ using namespace std;
 
 // Owned by glced.cc.
 extern long int doubleClickTime;
-extern int socket_fd;
-extern bool client_connected;
 extern CEDsettings setting;
 
 static enum {
@@ -68,9 +66,7 @@ void mouse(int btn,int state,int x,int y){
 
             int id;
             if(!ced_picking(x,y,&id)){
-               if(client_connected){
-                    send( socket_fd , &id , sizeof(int) , 0 );
-                }
+                net_send_selected_id(id);
             }
 
 

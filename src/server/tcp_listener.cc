@@ -152,3 +152,9 @@ int tcp_server(unsigned short port,
   socket_fn=tcp_server_accept;
   return 0;
 }
+
+void net_send_selected_id(int id){
+  if(client_connected){
+    send(socket_fd, &id, sizeof(int), 0);
+  }
+}
