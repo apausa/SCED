@@ -4,6 +4,7 @@
 
 #include "detector.h"
 #include "layers.h"
+#include "projection.h"
 #include "settings.h"
 
 static CEDsettings setting;
@@ -17,7 +18,6 @@ CEDsettings &settings_edit(void){
 }
 
 void defaultSettings(void){
-    setting.persp=true;
     setting.antia=true;
 
     setting.show_axes=true;
@@ -26,9 +26,7 @@ void defaultSettings(void){
 
     detector_reset();
 
-    setting.phi_projection=false;
-    setting.z_projection=false;
-    setting.fixed_view=false;
+    projection_reset();
 
     std::cout << "Set options to default settings" << std::endl;
 }
