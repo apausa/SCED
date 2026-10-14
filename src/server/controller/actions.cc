@@ -2,28 +2,21 @@
  * Split out of glced.cc: this is the handler invoked for every
  * keyboard shortcut and scroll-wheel action. */
 
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
-#include <sced_types.h>
 #include <model/settings.h>
-
-#include "actions.h"
 #include <model/camera.h>
 #include <model/layers.h>
 #include <model/projection.h>
 
-#include "controller/input.h"
+#include "actions.h"
 #include "view/view_state.h"
 
 extern CEDsettings setting;
 
-// Hack: call the resize function to overwrite the perspective settings.
-static void reshape_view(void){
-    window_reshape();
+// reshape() builds the projection, so the view has to run it again when the perspective changes.
+static void reshape_if_persp_changed(void){
+    if(projection_take_persp_changed()){
+        window_reshape();
+    }
 }
 
 void selectFromMenu(int id){
@@ -35,9 +28,7 @@ void selectFromMenu(int id){
 
         case CED_RESET:
             projection_set_persp(true); //switch persp on
-            if(projection_take_persp_changed()){
-                reshape_view();
-            }
+            reshape_if_persp_changed();
             setting.detector_trans=0.8;
             setting.detector_cut_angle=0;
             setting.detector_cut_z=7000;
@@ -59,16 +50,12 @@ void selectFromMenu(int id){
 
         case TOGGLE_PHI_PROJECTION:
             projection_toggle_phi();
-            if(projection_take_persp_changed()){
-                reshape_view();
-            }
+            reshape_if_persp_changed();
             break;
 
         case TOGGLE_Z_PROJECTION:
             projection_toggle_z();
-            if(projection_take_persp_changed()){
-                reshape_view();
-            }
+            reshape_if_persp_changed();
             break;
 
         case VIEW_ZOOM_IN:

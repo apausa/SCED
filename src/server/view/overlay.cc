@@ -18,7 +18,6 @@
 #include <third_party/gl_font.h>
 
 #include "overlay.h"
-#include "ui/layers.h"
 #include "view.h"
 #include "view_state.h"
 
@@ -76,6 +75,25 @@ std::string truncateTo(std::string str, size_t max_len) {
   return str;
 }
 
+// The general shortcuts, as "[key] description" rows, and the layer keys. The controller hands them in once.
+static vector<string> general_shortcuts;
+static string data_layer_keys;
+static string detector_layer_keys;
+
+void overlay_set_shortcuts(
+    const ShortcutHelp *rows,
+    int count,
+    const char *data_keys,
+    const char *detector_keys
+){
+    general_shortcuts.clear();
+    for(int i=0;i<count;i++){
+        general_shortcuts.push_back(string("[") + rows[i].key + "] " + rows[i].description);
+    }
+    data_layer_keys = data_keys;
+    detector_layer_keys = detector_keys;
+}
+
 static std::string formatShortcut(int iLayer, const char key, const char *description,
                            size_t max_len) {
   std::stringstream sstr;
@@ -102,27 +120,7 @@ void printShortcuts(void){
     shortcuts.push_back( "GENERAL SHORTCUTS:" );
 
 
-    shortcuts.push_back( "[ESC] Quit CED" );
-    shortcuts.push_back( "[h] Toggle shortcut frame" );
-    shortcuts.push_back( "[r] Reset view" );
-    shortcuts.push_back( "[R] Reset CED" );
-    shortcuts.push_back( "[f] Front view" );
-    shortcuts.push_back( "[s] Side view" );
-    shortcuts.push_back( "[F] Front projection" );
-    shortcuts.push_back( "[S] Side projection" );
-    shortcuts.push_back( "[+] Zoom in" );
-    shortcuts.push_back( "[-] Zoom out" );
-    shortcuts.push_back( "[c] Center" );
-    shortcuts.push_back( "[Z] Cut in z-axe direction" );
-    shortcuts.push_back( "[z] Cut in -z-axe direction" );
-    shortcuts.push_back( "[>] Increase transparency" );
-    shortcuts.push_back( "[<] Decrease transparency" );
-    shortcuts.push_back( "[M] Increase detector cut angle" );
-    shortcuts.push_back( "[m] Decrease detector cut angle" );
-    shortcuts.push_back( "[->] Move in z-direction" );
-    shortcuts.push_back( "[<-] Move in -z-direction" );
-    shortcuts.push_back( "[`] Toggle all data layers" );
-    shortcuts.push_back( "[~] Toggle all detector layers" );
+    shortcuts.insert(shortcuts.end(), general_shortcuts.begin(), general_shortcuts.end());
 
 
     shortcuts.push_back( "  " );
@@ -130,14 +128,14 @@ void printShortcuts(void){
 
 
     for(i=0;i<NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, layer_keys[i], layer_description(i), MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, data_layer_keys[i], layer_description(i), MAX_STR_LEN));
     }
 
     shortcuts.push_back( " " );
     shortcuts.push_back( "DETECTOR LAYERS: " );
 
     for(i=NUMBER_DATA_LAYER;i<NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER;i++){
-        shortcuts.emplace_back(formatShortcut(i, detec_layer_keys[-1 * NUMBER_DATA_LAYER + i], layer_description(i), MAX_STR_LEN));
+        shortcuts.emplace_back(formatShortcut(i, detector_layer_keys[-1 * NUMBER_DATA_LAYER + i], layer_description(i), MAX_STR_LEN));
     }
 
     glMatrixMode(GL_PROJECTION);
