@@ -21,7 +21,7 @@ void ced_draw_line(CED_Line *h){
 
     
 #if 1
-    if(setting.phi_projection){
+    if(settings_get().phi_projection){
       //phi_projection is on
         p0.y = p0.y > 0 ? sqrt(p0.x*p0.x + p0.y*p0.y) : -1*sqrt(p0.x*p0.x + p0.y*p0.y);
         p0.x = 0;
@@ -29,7 +29,7 @@ void ced_draw_line(CED_Line *h){
         p1.y = p1.y > 0 ? sqrt(p1.x*p1.x + p1.y*p1.y) : -1*sqrt(p1.x*p1.x + p1.y*p1.y);
         p1.x = 0;
    }
-   if(setting.z_projection){
+   if(settings_get().z_projection){
     p0.z=0;
     p1.z=0;
    }

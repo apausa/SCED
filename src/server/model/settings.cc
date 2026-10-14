@@ -7,6 +7,10 @@
 
 CEDsettings setting;
 
+const CEDsettings &settings_get(void){
+    return setting;
+}
+
 void defaultSettings(void){
     setting.persp=true;
     setting.antia=true;

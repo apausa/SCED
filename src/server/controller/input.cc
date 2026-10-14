@@ -14,8 +14,6 @@
 #include "view/pick.h"
 #include "view/view_state.h"
 
-extern CEDsettings setting;
-
 static enum {
     NO_MOVE,
     TURN_XY,
@@ -61,7 +59,7 @@ void mouse(int btn,int state,int x,int y){
 
 
         }else{
-            if(setting.fixed_view == 0){ //dont rotate the view when in side or front projection
+            if(settings_get().fixed_view == 0){ //dont rotate the view when in side or front projection
                 move_mode=TURN_XY;
             }
         }
