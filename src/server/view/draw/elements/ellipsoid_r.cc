@@ -1,13 +1,14 @@
 #include "third_party/fg_geometry.h"
 
 #include "../draw.h"
+#include <model/layers.h>
 
 /** Draws an ellipsoid 
  * Code based on http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=242991
  * */
 
 void ced_draw_ellipsoid_r(CED_EllipsoidR * eli )  {
-	if(!IS_VISIBLE(eli->layer))
+	if(!layer_visible(eli->layer))
       return;
 
 	/** ellipsoid 'resolution' */

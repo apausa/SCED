@@ -38,4 +38,11 @@ void net_send_selected_id(int id);
  */
 void net_poll(void);
 
+/*
+ * Server side function.
+ * Accept connections from this host (a dotted IPv4 address,
+ * at most 49 characters) as well as from localhost.
+ */
+void net_trust_host(const char *ip);
+
 #endif /* __TCP_LISTENER_H  */

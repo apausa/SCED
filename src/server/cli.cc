@@ -7,6 +7,7 @@
 #include <netdb.h>
 
 #include "cli.h"
+#include "tcp_listener.h"
 
 void parseCliArgs(int argc, char *argv[]){
     int i;
@@ -42,9 +43,10 @@ void parseCliArgs(int argc, char *argv[]){
 
           struct hostent *host = gethostbyname(argv[i]);
           if (host != NULL){
-              extern char trusted_hosts[50];
-              snprintf(trusted_hosts, 50, "%u.%u.%u.%u",(unsigned char)host->h_addr[0] ,(unsigned char)host->h_addr[1] ,(unsigned char)host->h_addr[2] ,(unsigned char)host->h_addr[3]);
-              printf("Trust ip: %s\n", trusted_hosts);
+              char ip[50];
+              snprintf(ip, sizeof(ip), "%u.%u.%u.%u",(unsigned char)host->h_addr[0] ,(unsigned char)host->h_addr[1] ,(unsigned char)host->h_addr[2] ,(unsigned char)host->h_addr[3]);
+              net_trust_host(ip);
+              printf("Trust ip: %s\n", ip);
           } else {
               printf("ERROR: Host %s is unknown!\n", argv[i]);
           }

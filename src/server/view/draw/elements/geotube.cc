@@ -2,6 +2,8 @@
 #include "view/view_state.h"
 
 #include "../draw.h"
+#include <model/detector.h>
+#include <model/layers.h>
 
 //size of the boarder line in filled (new view) of detector components.
 #define CED_GEOTUBE_LINE_WIDTH              0.3
@@ -11,17 +13,17 @@
 
 void ced_draw_geotube(CED_GeoTube *c){
     using namespace std;
-    if(!IS_VISIBLE(c->type)){
+    if(!layer_visible(c->type)){
         return;
     }
 
     double transformed_shift = c->shift;
 
 
-    double cut_angle=setting.detector_cut_angle;
-    double trans_value=setting.detector_trans;
+    double cut_angle=detector_cut_angle();
+    double trans_value=detector_trans();
 
-    double cut_z=setting.detector_cut_z;
+    double cut_z=detector_cut_z();
 
 
     double d_o = c->r_o;

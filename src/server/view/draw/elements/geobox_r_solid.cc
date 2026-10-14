@@ -1,4 +1,6 @@
 #include "../draw.h"
+#include <model/detector.h>
+#include <model/layers.h>
 
 /*
  * GeoBoxRSolid
@@ -6,7 +8,7 @@
 
 void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 
-	if(!IS_VISIBLE(box->layer)){
+	if(!layer_visible(box->layer)){
 		return;
     }
 	// a box has 8 vertices, four belonging to the first surface facing
@@ -60,7 +62,7 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR * box )  {
 	//  drawing the first face
 
 
-    double trans=setting.detector_trans;
+    double trans=detector_trans();
     GLfloat face_color[4]={static_cast<GLfloat>(((box->color>>16)&0xff)/255.0),static_cast<GLfloat>(((box->color>>8)&0xff)/255.0),static_cast<GLfloat>(((box->color)&0xff)/255.0), static_cast<GLfloat>(trans)};
     glColor4f(face_color[0], face_color[1], face_color[2], face_color[3]);
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);

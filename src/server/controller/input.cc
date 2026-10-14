@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include <model/settings.h>
 #include <model/camera.h>
 #include <model/detector.h>
 #include <model/layers.h>
+#include <model/projection.h>
 
 #include "actions.h"
 #include "input.h"
@@ -13,8 +13,6 @@
 #include "tcp_listener.h"
 #include "view/pick.h"
 #include "view/view_state.h"
-
-extern CEDsettings setting;
 
 static enum {
     NO_MOVE,
@@ -61,7 +59,7 @@ void mouse(int btn,int state,int x,int y){
 
 
         }else{
-            if(setting.fixed_view == 0){ //dont rotate the view when in side or front projection
+            if(projection_fixed() == 0){ //dont rotate the view when in side or front projection
                 move_mode=TURN_XY;
             }
         }

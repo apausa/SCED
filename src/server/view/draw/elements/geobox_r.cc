@@ -1,4 +1,5 @@
 #include "../draw.h"
+#include <model/layers.h>
 
 /*
  * GeoBoxR 
@@ -6,7 +7,7 @@
 
 void ced_draw_geobox_r(CED_GeoBoxR * box )  {
 
-    if(!IS_VISIBLE(box->layer)){
+    if(!layer_visible(box->layer)){
         return;
     }
 
@@ -87,7 +88,6 @@ void ced_draw_geobox_r(CED_GeoBoxR * box )  {
   
 
     glDepthMask(GL_TRUE);
-    glDisable(GL_LINE_SMOOTH);
 
     glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 

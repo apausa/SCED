@@ -1,39 +1,23 @@
-/* "C" event display.
- * Communications related part. */
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
+/* "C" event display server: sets up the environment, the SDL window and the
+ * OpenGL context, wires the model, view and controller together and runs the loop. */
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <math.h>
+#include <string>
 
-#include <sced_types.h>
-#include <model/settings.h>
 #include <SDL3/SDL.h>
+#include <model/detector.h>
+#include <model/layers.h>
+#include <model/projection.h>
 #include <third_party/gl_font.h>
 
-#include <iostream>
-
-#include "controller/actions.h"
-#include "view/view.h"
-#include "view/view_state.h"
 #include "cli.h"
 #include "controller/event_loop.h"
 #include "controller/keymap.h"
 #include "tcp_listener.h"
 #include "view/draw/draw.h"
-
-using namespace std;
-
-//*************** global variables ***************************************//
-extern CEDsettings setting;
-
-// ********** function definitions  (rest of file) ************************** //
-
+#include "view/view.h"
+#include "view/view_state.h"
 
 int main(int argc,char *argv[]){
     #ifndef SDL_PLATFORM_APPLE
@@ -66,7 +50,10 @@ int main(int argc,char *argv[]){
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
-    defaultSettings();
+    layers_show_all();
+    detector_reset();
+    projection_reset();
+    printf("Set options to default settings\n");
 
     parseCliArgs(argc, argv);
 
@@ -109,18 +96,18 @@ int main(int argc,char *argv[]){
     SDL_GL_SetSwapInterval(1); // vsync control
     SDL_StartTextInput(window);
 
-    glEnable(GL_POINT_SMOOTH);
-    glEnable(GL_LINE_SMOOTH);
-    glShadeModel(GL_SMOOTH);
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-
     init();
     font_init();
 
     window_reshape();
-    mainLoop(gl_context);
+    mainLoop();
+
+    font_clean();
+    SDL_StopTextInput(window);
+    SDL_GL_DestroyContext(gl_context);
+    SDL_DestroyWindow(window);
+    view_set_window(nullptr);
+    SDL_Quit();
 
     return 0;
 }

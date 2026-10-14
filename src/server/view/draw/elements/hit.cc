@@ -1,4 +1,6 @@
 #include "../draw.h"
+#include <model/layers.h>
+#include <model/projection.h>
 #include "view/pick.h"
 
 /*
@@ -11,17 +13,17 @@ void ced_draw_hit(CED_Hit *h){
     float y = h->p.y;
     float z = h->p.z;
 
-    if(setting.phi_projection){
+    if(projection_phi()){
         //phi_projection is on
         y = y > 0 ? sqrt(x*x + y*y) : -1*sqrt(x*x + y*y);
         x = 0; 
     }
    
-    if(setting.z_projection){
+    if(projection_z()){
         z=0;
     }
 
-    if(!IS_VISIBLE(h->layer)){
+    if(!layer_visible(h->layer)){
         return;
     }
 

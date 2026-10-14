@@ -1,10 +1,11 @@
 #include "../draw.h"
+#include <model/layers.h>
 
 /** 
  * Draws 3 orthogonal elipses as wireframes
  */
 void ced_draw_cluellipse_r(CED_CluEllipseR * eli )  {
-	if(!IS_VISIBLE(eli->layer)){
+	if(!layer_visible(eli->layer)){
         return;
     }
 
