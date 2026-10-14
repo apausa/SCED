@@ -19,6 +19,7 @@
 #include <model/camera.h>
 
 #include "third_party/fg_geometry.h"
+#include "third_party/gl_font.h"
 #include "view/overlay.h"
 #include "view/view_state.h"
 #include "view/pick.h"
@@ -49,6 +50,10 @@ static double camera_max_distance(const CameraState &cam){
 extern CEDsettings setting;
 
 void init(void){
+    glEnable(GL_POINT_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_BLEND);
+
     //Set background color
     const double *bg = get_background_color();
     glClearColor(bg[0], bg[1], bg[2], bg[3]);
@@ -68,6 +73,8 @@ void init(void){
 
     // to put text
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+
+    font_init();
 }
 
 // bitmaps for X,Y and Z
