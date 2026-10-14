@@ -1,11 +1,5 @@
 /* "C" event display server: sets up the environment, the SDL window and the
  * OpenGL context, wires the model, view and controller together and runs the loop. */
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#else
-#  include <GL/gl.h>
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -13,7 +7,6 @@
 
 #include <SDL3/SDL.h>
 #include <model/settings.h>
-#include <third_party/gl_font.h>
 
 #include "cli.h"
 #include "controller/event_loop.h"
@@ -97,15 +90,7 @@ int main(int argc,char *argv[]){
     SDL_GL_SetSwapInterval(1); // vsync control
     SDL_StartTextInput(window);
 
-    glEnable(GL_POINT_SMOOTH);
-    glEnable(GL_LINE_SMOOTH);
-    glShadeModel(GL_SMOOTH);
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-
     init();
-    font_init();
 
     window_reshape();
     mainLoop(gl_context);
