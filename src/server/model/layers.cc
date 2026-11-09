@@ -9,61 +9,58 @@ static bool visible[CED_MAX_LAYER];
 
 static char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
 
-bool layer_visible(int layer){
-    return layer >= 0 && layer < CED_MAX_LAYER && visible[layer];
+bool layer_visible(int layer) { return layer >= 0 && layer < CED_MAX_LAYER && visible[layer]; }
+
+void toggle_layer(unsigned l) {
+  if (l > CED_MAX_LAYER - 1) {
+    return;
+  }
+
+  if (visible[l]) {
+    visible[l] = false;
+  } else {
+    visible[l] = true;
+  }
 }
 
-void toggle_layer(unsigned l){
-    if(l > CED_MAX_LAYER-1){ return; }
-
-    if(visible[l]){
-        visible[l]=false;
-    }else{
-        visible[l]=true;
+static void toggle_all(int first, int end) {
+  int anz = 0;
+  for (int i = first; i < end; i++) {  // try to turn all layers on
+    if (!visible[i]) {
+      toggle_layer(i);
+      anz++;
     }
-
-}
-
-static void toggle_all(int first, int end){
-    int anz=0;
-    for(int i=first;i<end;i++){ //try to turn all layers on
-        if(!visible[i]){
-           toggle_layer(i);
-           anz++;
-        }
+  }
+  if (anz == 0) {  // turn all layers off
+    for (int i = first; i < end; i++) {
+      toggle_layer(i);
     }
-    if(anz == 0){ //turn all layers off
-        for(int i=first;i<end;i++){
-           toggle_layer(i);
-        }
-    }
+  }
 }
 
-void layers_toggle_all_data(void){
-    toggle_all(0, NUMBER_DATA_LAYER);
+void layers_toggle_all_data(void) { toggle_all(0, NUMBER_DATA_LAYER); }
+
+void layers_toggle_all_detector(void) {
+  toggle_all(NUMBER_DATA_LAYER, NUMBER_DETECTOR_LAYER + NUMBER_DATA_LAYER);
 }
 
-void layers_toggle_all_detector(void){
-    toggle_all(NUMBER_DATA_LAYER, NUMBER_DETECTOR_LAYER+NUMBER_DATA_LAYER);
+void layers_show_all(void) {
+  for (int i = 0; i < CED_MAX_LAYER; i++) {
+    visible[i] = true;  // turn all layers on
+  }
 }
 
-void layers_show_all(void){
-    for(int i=0;i<CED_MAX_LAYER;i++){
-        visible[i]=true; // turn all layers on
-    }
+void layer_set_description(int id, const char* text) {
+  if (id < 0 || id >= CED_MAX_LAYER) {
+    printf("Warning: Layer id out of range\n");
+    return;
+  }
+  strncpy(layerDescription[id], text, CED_MAX_LAYER_CHAR - 1);
 }
 
-void layer_set_description(int id, const char *text){
-    if(id < 0 || id >= CED_MAX_LAYER){
-        printf("Warning: Layer id out of range\n");
-        return;
-    }
-    strncpy(layerDescription[id], text,CED_MAX_LAYER_CHAR-1);
-}
-
-const char *layer_description(int layer){
-    if(layer < 0 || layer >= CED_MAX_LAYER){
-        return "";
-    }
-    return layerDescription[layer];
+const char* layer_description(int layer) {
+  if (layer < 0 || layer >= CED_MAX_LAYER) {
+    return "";
+  }
+  return layerDescription[layer];
 }

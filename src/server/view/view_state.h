@@ -3,12 +3,12 @@
 struct SDL_Window;
 
 // The window the view draws into. main() sets it once the window exists.
-void view_set_window(SDL_Window *window);
-SDL_Window *view_window(void);
+void view_set_window(SDL_Window* window);
+SDL_Window* view_window(void);
 
 struct ViewSize {
-    int w; // pixel
-    int h;
+  int w;  // pixel
+  int h;
 };
 
 // The window size. It is 500x500 until reshape() is given another size.
@@ -30,4 +30,4 @@ void view_toggle_help(void);
 bool view_help_shown(void);
 
 // The background colour (what glClear() paints), as r, g, b, a.
-const double *get_background_color(void);
+const double* get_background_color(void);

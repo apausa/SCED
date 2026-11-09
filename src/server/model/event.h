@@ -23,14 +23,14 @@
  *        if(ced_process_input(x)>0)
  *          <do redraw>
  */
-int ced_process_input(void *data);
+int ced_process_input(void* data);
 
 /*
  * The event on screen: the last one completed
  * by a DRAW_EVENT message. It stays valid until
  * the next DRAW_EVENT is processed.
  */
-const ced_event &get_event(void);
+const ced_event& get_event(void);
 
 /*
  * The type of the element that carries layer

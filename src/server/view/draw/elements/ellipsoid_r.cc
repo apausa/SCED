@@ -3,44 +3,43 @@
 #include "../draw.h"
 #include <model/layers.h>
 
-/** Draws an ellipsoid 
+/** Draws an ellipsoid
  * Code based on http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=242991
  * */
 
-void ced_draw_ellipsoid_r(CED_EllipsoidR * eli )  {
-	if(!layer_visible(eli->layer))
-      return;
+void ced_draw_ellipsoid_r(CED_EllipsoidR* eli) {
+  if (!layer_visible(eli->layer)) return;
 
-	/** ellipsoid 'resolution' */
-	int slices = 10;
-	int stacks = 10;
+  /** ellipsoid 'resolution' */
+  int slices = 10;
+  int stacks = 10;
 
-  	glPushMatrix();
+  glPushMatrix();
 
-	/** Ellipsoid centre */
-  	glTranslated(eli->center[0],eli->center[1],eli->center[2]);
-  	
-  	/** Rotate the ellipsoid */
-	glRotated(eli->rotate[2], 0.0, 0.0, 1.0);
-  	glRotated(eli->rotate[1], 0.0, 1.0, 0.0);
-  	glRotated(eli->rotate[0], 1.0, 0.0, 0.0);
-  	
-    /** Quadric object */
-   	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    /** Set polygon's filling */
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  /** Ellipsoid centre */
+  glTranslated(eli->center[0], eli->center[1], eli->center[2]);
 
-	/** Set the colour */
-	ced_color(eli->color);
+  /** Rotate the ellipsoid */
+  glRotated(eli->rotate[2], 0.0, 0.0, 1.0);
+  glRotated(eli->rotate[1], 0.0, 1.0, 0.0);
+  glRotated(eli->rotate[0], 1.0, 0.0, 0.0);
 
-	/** Draw the cone */
-	glEnable(GL_BLEND);
+  /** Quadric object */
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  /** Set polygon's filling */
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	/** Alter scale factors so as to obtain an ellipsoid from a sphere */
-	glScaled(eli->size[0]/2, eli->size[1]/2, eli->size[2]/2);
+  /** Set the colour */
+  ced_color(eli->color);
 
-	geoSolidSphere(1.0, slices, stacks);
-    glPopMatrix();
-  	glEndList();	
+  /** Draw the cone */
+  glEnable(GL_BLEND);
+
+  /** Alter scale factors so as to obtain an ellipsoid from a sphere */
+  glScaled(eli->size[0] / 2, eli->size[1] / 2, eli->size[2] / 2);
+
+  geoSolidSphere(1.0, slices, stacks);
+  glPopMatrix();
+  glEndList();
 }

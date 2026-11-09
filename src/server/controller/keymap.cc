@@ -9,9 +9,9 @@
 #include "keymap.h"
 
 struct Shortcut {
-    const char *key;
-    int action;
-    const char *description;
+  const char* key;
+  int action;
+  const char* description;
 };
 
 // The general shortcuts, in the order the help lists them.
@@ -49,29 +49,35 @@ static const char detec_layer_keys[] = "jkl;'p[]\\TYUIOP{}|aeABDEGHJKLNQWXdgnqw:
 static_assert(sizeof(layer_keys) - 1 == NUMBER_DATA_LAYER, "one key per data layer");
 static_assert(sizeof(detec_layer_keys) - 1 == NUMBER_DETECTOR_LAYER, "one key per detector layer");
 
-int keymap_action(unsigned char key){
-    for(const Shortcut &s : shortcuts){
-        if(s.key[1] == 0 && s.key[0] == key){ return s.action; }
+int keymap_action(unsigned char key) {
+  for (const Shortcut& s : shortcuts) {
+    if (s.key[1] == 0 && s.key[0] == key) {
+      return s.action;
     }
-    return 0;
+  }
+  return 0;
 }
 
-void initialize_shortcuts(void){
-    std::vector<ShortcutHelp> rows;
-    for(const Shortcut &s : shortcuts){
-        if(s.description){ rows.push_back({s.key, s.description}); }
+void initialize_shortcuts(void) {
+  std::vector<ShortcutHelp> rows;
+  for (const Shortcut& s : shortcuts) {
+    if (s.description) {
+      rows.push_back({s.key, s.description});
     }
-    overlay_set_shortcuts(rows.data(), rows.size(), layer_keys, detec_layer_keys);
+  }
+  overlay_set_shortcuts(rows.data(), rows.size(), layer_keys, detec_layer_keys);
 }
 
-int layer_from_key(unsigned char key){
-    if(key == 0){ return -1; }
-
-    if(const char *p = strchr(layer_keys, key)){
-        return p - layer_keys;
-    }
-    if(const char *p = strchr(detec_layer_keys, key)){
-        return NUMBER_DATA_LAYER + (p - detec_layer_keys);
-    }
+int layer_from_key(unsigned char key) {
+  if (key == 0) {
     return -1;
+  }
+
+  if (const char* p = strchr(layer_keys, key)) {
+    return p - layer_keys;
+  }
+  if (const char* p = strchr(detec_layer_keys, key)) {
+    return NUMBER_DATA_LAYER + (p - detec_layer_keys);
+  }
+  return -1;
 }
