@@ -4,49 +4,49 @@
 
 #include "draw.h"
 
-#define PORT  0x1234
+#define PORT 0x1234
 
-static unsigned HIT_ID=0;
-static unsigned LINE_ID=0;
-static unsigned GEOT_ID=0;
-static unsigned GEOC_ID=0;
-static unsigned GEOCR_ID=0;
+static unsigned HIT_ID = 0;
+static unsigned LINE_ID = 0;
+static unsigned GEOT_ID = 0;
+static unsigned GEOC_ID = 0;
+static unsigned GEOCR_ID = 0;
 static unsigned ELLIPSOID_ID = 0;
 static unsigned CLUELLIPSE_ID = 0;
-static unsigned TEXT_ID=0;
-static unsigned LEGEND_ID=0;
+static unsigned TEXT_ID = 0;
+static unsigned LEGEND_ID = 0;
 static unsigned GEOB_ID = 0;
 static unsigned GEOBR_ID = 0;
 static unsigned CONER_ID = 0;
 static unsigned GEOBRS_ID = 0;
 
-void ced_register_elements(void){
-  //the order of this items is very important!!! 
-  //1
-  GEOC_ID       =ced_register_element(sizeof(CED_GeoCylinder),(ced_draw_cb)ced_draw_geocylinder);
-  //2
-  GEOCR_ID      =ced_register_element(sizeof(CED_GeoCylinderR),(ced_draw_cb)ced_draw_geocylinder_r);
-  //3
-  LINE_ID       =ced_register_element(sizeof(CED_Line),(ced_draw_cb)ced_draw_line);
-  //4
-  HIT_ID        =ced_register_element(sizeof(CED_Hit),(ced_draw_cb)ced_draw_hit);
-  //5
-  GEOB_ID       =ced_register_element(sizeof(CED_GeoBox),(ced_draw_cb)ced_draw_geobox);
-  //6
-  GEOBR_ID      =ced_register_element(sizeof(CED_GeoBoxR),(ced_draw_cb)ced_draw_geobox_r);
-  //7
-  GEOBRS_ID     =ced_register_element(sizeof(CED_GeoBoxR),(ced_draw_cb)ced_draw_geobox_r_solid);
-  //8
-  CONER_ID      =ced_register_element(sizeof(CED_ConeR),(ced_draw_cb)ced_draw_cone_r);
-  //9
-  ELLIPSOID_ID  =ced_register_element(sizeof(CED_EllipsoidR),(ced_draw_cb)ced_draw_ellipsoid_r);
-  //10
-  CLUELLIPSE_ID =ced_register_element(sizeof(CED_CluEllipseR),(ced_draw_cb)ced_draw_cluellipse_r);
-  //11
-  TEXT_ID       =ced_register_element(sizeof(CED_TEXT),0);
+void ced_register_elements(void) {
+  // the order of this items is very important!!!
+  // 1
+  GEOC_ID = ced_register_element(sizeof(CED_GeoCylinder), (ced_draw_cb)ced_draw_geocylinder);
+  // 2
+  GEOCR_ID = ced_register_element(sizeof(CED_GeoCylinderR), (ced_draw_cb)ced_draw_geocylinder_r);
+  // 3
+  LINE_ID = ced_register_element(sizeof(CED_Line), (ced_draw_cb)ced_draw_line);
+  // 4
+  HIT_ID = ced_register_element(sizeof(CED_Hit), (ced_draw_cb)ced_draw_hit);
+  // 5
+  GEOB_ID = ced_register_element(sizeof(CED_GeoBox), (ced_draw_cb)ced_draw_geobox);
+  // 6
+  GEOBR_ID = ced_register_element(sizeof(CED_GeoBoxR), (ced_draw_cb)ced_draw_geobox_r);
+  // 7
+  GEOBRS_ID = ced_register_element(sizeof(CED_GeoBoxR), (ced_draw_cb)ced_draw_geobox_r_solid);
+  // 8
+  CONER_ID = ced_register_element(sizeof(CED_ConeR), (ced_draw_cb)ced_draw_cone_r);
+  // 9
+  ELLIPSOID_ID = ced_register_element(sizeof(CED_EllipsoidR), (ced_draw_cb)ced_draw_ellipsoid_r);
+  // 10
+  CLUELLIPSE_ID = ced_register_element(sizeof(CED_CluEllipseR), (ced_draw_cb)ced_draw_cluellipse_r);
+  // 11
+  TEXT_ID = ced_register_element(sizeof(CED_TEXT), 0);
   set_text_type(TEXT_ID);
-  //12
-  LEGEND_ID  =ced_register_element(sizeof(CED_Legend),(ced_draw_cb)ced_draw_legend);
-  //13
-  GEOT_ID       =ced_register_element(sizeof(CED_GeoTube),(ced_draw_cb)ced_draw_geotube);
+  // 12
+  LEGEND_ID = ced_register_element(sizeof(CED_Legend), (ced_draw_cb)ced_draw_legend);
+  // 13
+  GEOT_ID = ced_register_element(sizeof(CED_GeoTube), (ced_draw_cb)ced_draw_geotube);
 }

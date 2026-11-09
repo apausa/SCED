@@ -2,94 +2,93 @@
 #include <model/layers.h>
 
 /*
- * GeoBoxR 
+ * GeoBoxR
  */
 
-void ced_draw_geobox_r(CED_GeoBoxR * box )  {
+void ced_draw_geobox_r(CED_GeoBoxR* box) {
+  if (!layer_visible(box->layer)) {
+    return;
+  }
 
-    if(!layer_visible(box->layer)){
-        return;
+  // a box has 8 vertices, four belonging to the first surface facing
+  // the beam, the other four from the second surface
+  const unsigned int nPoint = 4;
+  const unsigned int nDim = 3;
+  const unsigned int nFace = 2;
+  double face[nFace][nPoint][nDim];
+  unsigned int i, j;
+
+  ced_color(box->color);
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_LINE_SMOOTH);
+  glHint(GL_LINE_SMOOTH, GL_NICEST);
+  glDepthMask(GL_FALSE);
+
+  glLineWidth(2);
+
+  glPushMatrix();  // push the matrix onto the matrix stack and pop it off (preserving the original
+                   // matrix)
+  glTranslated(box->center[0], box->center[1], box->center[2]);
+
+  glRotated(box->rotate[2], 0.0, 0.0, 1.0);
+  glRotated(box->rotate[1], 0.0, 1.0, 0.0);
+  glRotated(box->rotate[0], 1.0, 0.0, 0.0);
+
+  double box_z = box->sizes[2];
+  face[0][0][0] = +(0.5 * box->sizes[0]);
+  face[0][0][1] = +(0.5 * box->sizes[1]);
+  face[0][0][2] = -(0.5 * box_z);
+
+  face[0][1][0] = +(0.5 * box->sizes[0]);
+  face[0][1][1] = -(0.5 * box->sizes[1]);
+  face[0][1][2] = -(0.5 * box_z);
+
+  face[0][2][0] = -(0.5 * box->sizes[0]);
+  face[0][2][1] = -(0.5 * box->sizes[1]);
+  face[0][2][2] = -(0.5 * box_z);
+
+  face[0][3][0] = -(0.5 * box->sizes[0]);
+  face[0][3][1] = +(0.5 * box->sizes[1]);
+  face[0][3][2] = -(0.5 * box_z);
+
+  face[1][0][0] = +(0.5 * box->sizes[0]);
+  face[1][0][1] = +(0.5 * box->sizes[1]);
+  face[1][0][2] = +(0.5 * box_z);
+
+  face[1][1][0] = +(0.5 * box->sizes[0]);
+  face[1][1][1] = -(0.5 * box->sizes[1]);
+  face[1][1][2] = +(0.5 * box_z);
+
+  face[1][2][0] = -(0.5 * box->sizes[0]);
+  face[1][2][1] = -(0.5 * box->sizes[1]);
+  face[1][2][2] = +(0.5 * box_z);
+
+  face[1][3][0] = -(0.5 * box->sizes[0]);
+  face[1][3][1] = +(0.5 * box->sizes[1]);
+  face[1][3][2] = +(0.5 * box_z);
+
+  glBegin(GL_TRIANGLE_STRIP);
+  // drawing the first (i=0) and second (i=1) faces
+  for (i = 0; i < 2; i++) {
+    glVertex3f((float)face[i][0][0], (float)face[i][0][1], (float)face[i][0][2]);
+    for (j = 1; j < 4; j++) {
+      glVertex3f((float)face[i][j][0], (float)face[i][j][1], (float)face[i][j][2]);
+      glVertex3f((float)face[i][j][0], (float)face[i][j][1], (float)face[i][j][2]);
     }
+    glVertex3f((float)face[i][0][0], (float)face[i][0][1], (float)face[i][0][2]);
+  }
 
-    // a box has 8 vertices, four belonging to the first surface facing
-    // the beam, the other four from the second surface
-    const unsigned int nPoint = 4;
-    const unsigned int nDim   = 3;
-    const unsigned int nFace  = 2;
-    double face[nFace][nPoint][nDim];
-    unsigned int i, j;
-  
-    ced_color(box->color);
+  // drawing the connections
+  for (j = 0; j < 4; j++) {
+    glVertex3f((float)face[0][j][0], (float)face[0][j][1], (float)face[0][j][2]);
+    glVertex3f((float)face[1][j][0], (float)face[1][j][1], (float)face[1][j][2]);
+  }
+  glEnd();
 
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_LINE_SMOOTH);
-    glHint(GL_LINE_SMOOTH,GL_NICEST);
-    glDepthMask(GL_FALSE);
+  glDepthMask(GL_TRUE);
 
-    glLineWidth(2);
-  
-    glPushMatrix(); // push the matrix onto the matrix stack and pop it off (preserving the original matrix)
-    glTranslated(box->center[0],box->center[1],box->center[2]);
+  glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 
-    glRotated(box->rotate[2], 0.0, 0.0, 1.0);
-    glRotated(box->rotate[1], 0.0, 1.0, 0.0);
-    glRotated(box->rotate[0], 1.0, 0.0, 0.0);
-
-    double box_z = box->sizes[2];
-    face[0][0][0] =  + (0.5 * box->sizes[0]);
-    face[0][0][1] =  + (0.5 * box->sizes[1]);
-    face[0][0][2] =  - (0.5 * box_z);
-  
-    face[0][1][0] =  + (0.5 * box->sizes[0]);
-    face[0][1][1] =  - (0.5 * box->sizes[1]);
-    face[0][1][2] =  - (0.5 * box_z);
-  
-    face[0][2][0] =  - (0.5 * box->sizes[0]);
-    face[0][2][1] =  - (0.5 * box->sizes[1]);
-    face[0][2][2] =  - (0.5 * box_z);
-  
-    face[0][3][0] =  - (0.5 * box->sizes[0]);
-    face[0][3][1] =  + (0.5 * box->sizes[1]);
-    face[0][3][2] =  - (0.5 * box_z);
-  
-    face[1][0][0] =  + (0.5 * box->sizes[0]);
-    face[1][0][1] =  + (0.5 * box->sizes[1]);
-    face[1][0][2] =  + (0.5 * box_z);
-  
-    face[1][1][0] =  + (0.5 * box->sizes[0]);
-    face[1][1][1] =  - (0.5 * box->sizes[1]);
-    face[1][1][2] =  + (0.5 * box_z);
-  
-    face[1][2][0] =  - (0.5 * box->sizes[0]);
-    face[1][2][1] =  - (0.5 * box->sizes[1]);
-    face[1][2][2] =  + (0.5 * box_z);
-  
-    face[1][3][0] =  - (0.5 * box->sizes[0]);
-    face[1][3][1] =  + (0.5 * box->sizes[1]);
-    face[1][3][2] =  + (0.5 * box_z);
-  
-    glBegin(GL_TRIANGLE_STRIP);
-    // drawing the first (i=0) and second (i=1) faces
-    for(i = 0; i < 2; i++){
-        glVertex3f( (float) face[i][0][0], (float) face[i][0][1],  (float) face[i][0][2] );
-        for(j = 1; j < 4; j++){
-            glVertex3f((float) face[i][j][0],(float) face[i][j][1],(float) face[i][j][2]);
-            glVertex3f((float) face[i][j][0],(float) face[i][j][1],(float) face[i][j][2]);
-        }      
-        glVertex3f( (float) face[i][0][0], (float) face[i][0][1],  (float) face[i][0][2] );
-    }
-  
-    // drawing the connections
-    for(j = 0; j < 4; j++){
-        glVertex3f( (float) face[0][j][0], (float) face[0][j][1],  (float) face[0][j][2] );
-        glVertex3f( (float) face[1][j][0], (float) face[1][j][1],  (float) face[1][j][2] );
-    }
-    glEnd();
-  
-
-    glDepthMask(GL_TRUE);
-
-    glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-
-    glPopMatrix();
+  glPopMatrix();
 }
