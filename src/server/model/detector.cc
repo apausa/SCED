@@ -4,10 +4,13 @@ static double trans;
 static double cut_angle;
 static double cut_z;
 
-double detector_trans(void) { return trans; }
+// detector_get_trans
+double detector_get_trans(void) { return trans; }
 
+// detector_get_cut_angle
 double detector_cut_angle(void) { return cut_angle; }
 
+// detector_get_cut_z
 double detector_cut_z(void) { return cut_z; }
 
 void detector_set_cut_angle(double angle) { cut_angle = angle; }
