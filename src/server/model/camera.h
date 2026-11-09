@@ -6,22 +6,22 @@
  */
 
 typedef struct {
-    float x;
-    float y;
-    float z;
+  float x;
+  float y;
+  float z;
 } Point;
 
 struct CameraState {
-    float va; // vertical angle
-    float ha; // horisontal angle
-    float sf; // scale factor
-    Point mv; // the center
-    float va_start; // the pose when the current drag began
-    float ha_start;
-    Point mv_start;
+  float va;        // vertical angle
+  float ha;        // horisontal angle
+  float sf;        // scale factor
+  Point mv;        // the center
+  float va_start;  // the pose when the current drag began
+  float ha_start;
+  Point mv_start;
 };
 
-const CameraState &camera_get(void);
+const CameraState& camera_get(void);
 
 // Back to the pose the program starts with.
 void camera_reset(void);
@@ -41,5 +41,6 @@ void camera_drag_begin(void);
 // Turn by dha / dva degrees from the pose at the start of the drag.
 void camera_rotate(double dha, double dva);
 
-// Move the centre from its position at the start of the drag; dx and dy are the pointer movement in pixels.
+// Move the centre from its position at the start of the drag; dx and dy are the pointer movement in
+// pixels.
 void camera_pan(float dx, float dy, float window_width, float window_height);

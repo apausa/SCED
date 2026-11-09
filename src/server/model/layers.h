@@ -19,5 +19,5 @@ void layers_toggle_all_detector(void);
 // Every layer on, including those without a key.
 void layers_show_all(void);
 
-void layer_set_description(int id, const char *text);
-const char *layer_description(int layer);
+void layer_set_description(int id, const char* text);
+const char* layer_description(int layer);
