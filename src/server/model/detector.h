@@ -1,16 +1,24 @@
 #pragma once
 
-// Detector variable getters
-double detector_get_transparency(void);
-double detector_get_wedge_angle(void);
-double detector_get_cut_z(void);
+// Detector state:
+// - The controller changes it through the functions below
+// - The view reads it through detector_state_get()
 
-// Detector variable setters
+struct DetectorState {
+  double transparency;  // transparency levels (0 solid .. 1 invisible)
+  double wedge_angle;   // degrees of the wedge cut out
+  double cut_z;         // z value at which the detector is cut
+};
+
+// Detector state getters
+const DetectorState& detector_state_get(void);
+
+// Detector state setters
 void detector_set_transparency(double t);
 void detector_set_wedge_angle(double angle);
 void detector_set_cut_z(double z);
 
-// Reset all detector variables
+// Reset the detector state
 void detector_reset(void);
 
 // Make detector more see-through

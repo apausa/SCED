@@ -60,7 +60,7 @@ void ced_draw_geobox_r_solid(CED_GeoBoxR* box) {
 
   //  drawing the first face
 
-  double transparency = detector_get_transparency();
+  double transparency = detector_state_get().transparency;
   GLfloat face_color[4] = {static_cast<GLfloat>(((box->color >> 16) & 0xff) / 255.0),
                            static_cast<GLfloat>(((box->color >> 8) & 0xff) / 255.0),
                            static_cast<GLfloat>(((box->color) & 0xff) / 255.0),

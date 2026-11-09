@@ -46,7 +46,7 @@ void projection_toggle_phi(void) {
       projection_toggle_z();
     }
 
-    wedge_angle_backup = detector_get_wedge_angle();
+    wedge_angle_backup = detector_state_get().wedge_angle;
 
     phi_projection = true;
 
@@ -84,7 +84,7 @@ void projection_toggle_z(void) {
       projection_toggle_phi();
     }
 
-    cut_z_backup = detector_get_cut_z();
+    cut_z_backup = detector_state_get().cut_z;
 
     z_projection = true;
 
