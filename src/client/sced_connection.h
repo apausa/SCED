@@ -19,7 +19,7 @@ extern "C" {
  * NOTE: ced_register_elements() must be called
  *       separately.
  */
-void ced_client_init(const char *host,unsigned short port);
+void ced_client_init(const char* host, unsigned short port);
 
 /*
  * Cancel current event output. So, all elements
@@ -28,7 +28,6 @@ void ced_client_init(const char *host,unsigned short port);
  * Good to call at the begining of every event processing.
  */
 void ced_new_event(void);
-
 
 /*
  * This function really attempt to display event in CED.
@@ -53,9 +52,8 @@ int ced_selected_id(void);
 
 int ced_selected_id_noblock(void);
 
-
 #ifdef __cplusplus
- }
+}
 #endif
 
 #endif /* __SCED_CONNECTION_H */

@@ -14,8 +14,7 @@ extern ced_event eve;
 void ced_reset(void);
 
 // Allocate the data of an element for count items, HDR_SIZE bytes are reserved before them.
-void ced_buf_alloc(ced_element *pe,unsigned count);
-
+void ced_buf_alloc(ced_element* pe, unsigned count);
 
 /*
  * Register new element type. Order is important!
@@ -27,7 +26,7 @@ void ced_buf_alloc(ced_element *pe,unsigned count);
  *              called from ced_do_draw_event()
  *              not used on client side.
  */
-unsigned ced_register_element(unsigned item_size,ced_draw_cb draw_func);
+unsigned ced_register_element(unsigned item_size, ced_draw_cb draw_func);
 
 /*
  * To be called from element functions
@@ -43,6 +42,6 @@ unsigned ced_register_element(unsigned item_size,ced_draw_cb draw_func);
  *            item->i=0;
  * This will add one Dummy item to the event
  */
-void *ced_add(unsigned id);
+void* ced_add(unsigned id);
 
 #endif /* __EVENT_BUFFER_H  */
