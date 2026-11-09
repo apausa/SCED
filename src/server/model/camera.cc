@@ -2,11 +2,16 @@
 
 #include "camera.h"
 
+#define INITIAL_VERTICAL_ANGLE 30.     // vertical angle at start-up, in degrees
+#define INITIAL_HORIZONTAL_ANGLE 150.  // horizontal angle at start-up, in degrees
+#define INITIAL_SCALE_FACTOR 0.1       // scale factor at start-up, zoomed out
+#define ZOOM_STEP 50.0                 // how much zoom changes, in pixels
+
 static const CameraState camera_initial = {
-    30.,
-    150.,
+    INITIAL_VERTICAL_ANGLE,
+    INITIAL_HORIZONTAL_ANGLE,
     {0., 0., 0.},
-    0.1,
+    INITIAL_SCALE_FACTOR,
 };
 
 static CameraState camera_state = camera_initial;
@@ -34,12 +39,12 @@ void camera_begin_drag(void) { dragged_state = camera_state; }
 
 // Increase the scale factor
 void camera_zoom_in(float window_height) {
-  camera_set_scale_factor(camera_state.sf + camera_state.sf * 50.0 / window_height);
+  camera_set_scale_factor(camera_state.sf + camera_state.sf * ZOOM_STEP / window_height);
 }
 
 // Decrease the scale factor
 void camera_zoom_out(float window_height) {
-  camera_set_scale_factor(camera_state.sf - camera_state.sf * 50.0 / window_height);
+  camera_set_scale_factor(camera_state.sf - camera_state.sf * ZOOM_STEP / window_height);
 }
 
 // Move center along the y axis

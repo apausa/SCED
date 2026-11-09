@@ -1,14 +1,17 @@
 #include "detector.h"
 
-#define TRANSPARENCY_STEP 0.01  // how much transparency changes
-#define WEDGE_ANGLE_STEP 1      // how much the wedge angle changes, in degrees
-#define CUT_Z_STEP 100          // how much the cut z changes
+#define TRANSPARENCY_STEP 0.01     // how much transparency changes
+#define WEDGE_ANGLE_STEP 1         // how much the wedge angle changes, in degrees
+#define CUT_Z_STEP 100             // how much the cut z changes, in mm
+#define INITIAL_TRANSPARENCY 0.75  // transparency value at start-up
+#define INITIAL_WEDGE_ANGLE 0      // wedge angle at start-up, in degrees
+#define INITIAL_CUT_Z 7000         // cut z at start-up, in mm
 
 // Detector variables at start-up
 static const DetectorState detector_initial = {
-    0.75,
-    0,
-    7000,  // @fix maximum detector length
+    INITIAL_TRANSPARENCY,
+    INITIAL_WEDGE_ANGLE,
+    INITIAL_CUT_Z,  // @fix may not atch the maximum detector length
 };
 
 // Detector variables
