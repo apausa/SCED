@@ -21,7 +21,7 @@
  * Example:
  *      tcp_server(7285,my_process_input)
  */
-int tcp_server(unsigned short port, void (*user_func)(void *data));
+int tcp_server(unsigned short port, void (*user_func)(void* data));
 
 /*
  * Server side function.
@@ -43,6 +43,6 @@ void net_poll(void);
  * Accept connections from this host (a dotted IPv4 address,
  * at most 49 characters) as well as from localhost.
  */
-void net_trust_host(const char *ip);
+void net_trust_host(const char* ip);
 
 #endif /* __TCP_LISTENER_H  */

@@ -9,17 +9,12 @@
 #include "cli.h"
 #include "tcp_listener.h"
 
-void parseCliArgs(int argc, char *argv[]){
-    int i;
-    for(i=1;i<argc ; i++){
-
-      if(!strcmp( argv[i] , "-h" ) ||
-         !strcmp( argv[i] , "--help" )||
-         !strcmp( argv[i] , "-?" )
-         ) {
-
-
-      printf( "\n  CED event display server: \n\n"
+void parseCliArgs(int argc, char* argv[]) {
+  int i;
+  for (i = 1; i < argc; i++) {
+    if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help") || !strcmp(argv[i], "-?")) {
+      printf(
+          "\n  CED event display server: \n\n"
           "   Usage:  glced [-trust TRUSTED_HOST]\n\n"
           "        options:  \n"
           "              TRUSTED_HOST: Ip or name of the host who is allowed to connect to CED\n\n"
@@ -27,29 +22,32 @@ void parseCliArgs(int argc, char *argv[]){
           "     ./bin/glced -trust 192.168.11.22 > /tmp/glced.log 2>&1 & \n\n"
           "    "
           "   Change port (before starting glced):"
-              "         export CED_PORT=<portnumber>\n\n\n"
-          "   To connect Marlin from a remote machine set variables CED_HOST=<this_host> and CED_PORT=<this_CED_PORT> on the machine where Marlin is started from\n\n"
-          "   On this machine start glced with option: -trust <host_where_Marlin_is_started_from> to accept the connection from the remote host"
-          "\n\n"
-          ) ;
+          "         export CED_PORT=<portnumber>\n\n\n"
+          "   To connect Marlin from a remote machine set variables CED_HOST=<this_host> and "
+          "CED_PORT=<this_CED_PORT> on the machine where Marlin is started from\n\n"
+          "   On this machine start glced with option: -trust <host_where_Marlin_is_started_from> "
+          "to accept the connection from the remote host"
+          "\n\n");
 
-        exit(0) ;
-      } else if(!strcmp(argv[i], "-trust")){
-          i++;
-          if(i >= argc){
-              printf("wrong syntax!\n");
-              exit(0);
-          }
+      exit(0);
+    } else if (!strcmp(argv[i], "-trust")) {
+      i++;
+      if (i >= argc) {
+        printf("wrong syntax!\n");
+        exit(0);
+      }
 
-          struct hostent *host = gethostbyname(argv[i]);
-          if (host != NULL){
-              char ip[50];
-              snprintf(ip, sizeof(ip), "%u.%u.%u.%u",(unsigned char)host->h_addr[0] ,(unsigned char)host->h_addr[1] ,(unsigned char)host->h_addr[2] ,(unsigned char)host->h_addr[3]);
-              net_trust_host(ip);
-              printf("Trust ip: %s\n", ip);
-          } else {
-              printf("ERROR: Host %s is unknown!\n", argv[i]);
-          }
+      struct hostent* host = gethostbyname(argv[i]);
+      if (host != NULL) {
+        char ip[50];
+        snprintf(ip, sizeof(ip), "%u.%u.%u.%u", (unsigned char)host->h_addr[0],
+                 (unsigned char)host->h_addr[1], (unsigned char)host->h_addr[2],
+                 (unsigned char)host->h_addr[3]);
+        net_trust_host(ip);
+        printf("Trust ip: %s\n", ip);
+      } else {
+        printf("ERROR: Host %s is unknown!\n", argv[i]);
       }
     }
+  }
 }
