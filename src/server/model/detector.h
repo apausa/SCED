@@ -6,6 +6,7 @@ double detector_get_cut_angle(void);  // degrees of the wedge cut out of the tub
 double detector_get_cut_z(void);      // the z at which the detector is cut
 
 // Used by the projections, which force a cut and restore it afterwards.
+void detector_set_trans(double t);
 void detector_set_cut_angle(double angle);
 void detector_set_cut_z(double z);
 
