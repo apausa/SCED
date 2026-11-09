@@ -1,24 +1,33 @@
 #include "detector.h"
 
+// Smallest wedge, in degrees
+#define WEDGE_MIN 0
+
+// Largest wedge, in degrees (all tubes cut away)
+#define WEDGE_MAX 360
+
+// How much wedge changes, in degrees
+#define WEDGE_STEP 1
+
 static double transparency;
-static double cut_angle;
+static double wedge;
 static double cut_z;
 
 double detector_get_transparency(void) { return transparency; }
 
-double detector_get_cut_angle(void) { return cut_angle; }
+double detector_get_wedge(void) { return wedge; }
 
 double detector_get_cut_z(void) { return cut_z; }
 
 void detector_set_transparency(double t) { transparency = t; }
 
-void detector_set_cut_angle(double angle) { cut_angle = angle; }
+void detector_set_wedge(double w) { wedge = w; }
 
 void detector_set_cut_z(double z) { cut_z = z; }
 
 void detector_reset(void) {
   detector_set_transparency(0.8);
-  detector_set_cut_angle(0);
+  detector_set_wedge(WEDGE_MIN);
   detector_set_cut_z(7000);
 }
 
@@ -50,14 +59,14 @@ void detector_transparency_up(void) {
   }
 }
 
-void detector_cut_angle_down(void) {
-  if (cut_angle > 0) {
-    detector_set_cut_angle(cut_angle - 0.5);
+void detector_wedge_down(void) {
+  if (wedge > WEDGE_MIN) {
+    detector_set_wedge(wedge - WEDGE_STEP);
   }
 }
 
-void detector_cut_angle_up(void) {
-  if (cut_angle < 360) {
-    detector_set_cut_angle(cut_angle + 0.5);
+void detector_wedge_up(void) {
+  if (wedge < WEDGE_MAX) {
+    detector_set_wedge(wedge + WEDGE_STEP);
   }
 }

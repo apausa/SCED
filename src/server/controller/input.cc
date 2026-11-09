@@ -119,12 +119,12 @@ void keypressed(unsigned char key, int x, int y) {
       break;
 
     case DETECTOR_CUT_ANGLE_DOWN:
-      detector_cut_angle_down();
+      detector_wedge_down();
       view_request_redraw();
       break;
 
     case DETECTOR_CUT_ANGLE_UP:
-      detector_cut_angle_up();
+      detector_wedge_up();
       view_request_redraw();
       break;
 
