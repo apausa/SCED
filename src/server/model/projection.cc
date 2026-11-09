@@ -46,7 +46,7 @@ void projection_toggle_phi(void) {
       projection_toggle_z();
     }
 
-    cut_angle_backup = detector_cut_angle();
+    cut_angle_backup = detector_get_cut_angle();
 
     phi_projection = true;
 
