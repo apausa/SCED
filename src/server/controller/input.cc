@@ -109,12 +109,12 @@ void keypressed(unsigned char key, int x, int y) {
       break;
 
     case DETECTOR_TRANS_DOWN:
-      detector_trans_down();
+      detector_transparency_down();
       view_request_redraw();
       break;
 
     case DETECTOR_TRANS_UP:
-      detector_trans_up();
+      detector_transparency_up();
       view_request_redraw();
       break;
 

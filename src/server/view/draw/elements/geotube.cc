@@ -20,7 +20,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
   double transformed_shift = c->shift;
 
   double cut_angle = detector_get_cut_angle();
-  double trans_value = detector_get_trans();
+  double transparency = detector_get_transparency();
 
   double cut_z = detector_get_cut_z();
 
@@ -47,7 +47,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
     GLfloat face_color[4] = {static_cast<GLfloat>(((c->color >> 16) & 0xff) / 255.0),
                              static_cast<GLfloat>(((c->color >> 8) & 0xff) / 255.0),
                              static_cast<GLfloat>(((c->color) & 0xff) / 255.0),
-                             static_cast<GLfloat>(trans_value)};
+                             static_cast<GLfloat>(transparency)};
 
     float detector_lines_wide = CED_GEOTUBE_LINE_WIDTH;
 
@@ -57,7 +57,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
         static_cast<GLfloat>(((c->color >> 16) & 0xff) / 255.0 / 2.0 + (1.0 - bg[0]) / 2.0),
         static_cast<GLfloat>(((c->color >> 8) & 0xff) / 255.0 / 2.0 + (1.0 - bg[1]) / 2.0),
         static_cast<GLfloat>(((c->color) & 0xff) / 255.0 / 2.0 + (1.0 - bg[2]) / 2.0),
-        static_cast<GLfloat>((1 - trans_value) +
+        static_cast<GLfloat>((1 - transparency) +
                              CED_GEOTUBE_LINE_MAX_TRANS)};  // lines in detector color mixed with
                                                             // anti background color
 
@@ -81,7 +81,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
           glRotatef(c->rotate_i, 0, 0, 1);
 
           glPolygonOffset(1.f, 1.f);
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0)
               drawPartialCylinder(z * 2, d_o - (d_o - d_i) / 5, d_i, c->edges_i,
                                   cut_angle - c->rotate_i - c->rotate_o, c->rotate_i + c->rotate_o,
@@ -94,7 +94,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
           glPolygonOffset(1.f, 1.f);
           glEnable(GL_POLYGON_OFFSET_FILL);
           glPolygonOffset(2.f, 2.f);
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0)
               drawPartialCylinder(z * 2, d_o, d_i + (d_o - d_i) / 5, c->edges_o,
                                   cut_angle - c->rotate_o, c->rotate_o, 1, 0,
@@ -120,7 +120,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
 
           glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0)
               drawPartialCylinder(z * 2, d_o, d_i, c->edges_o, cut_angle - c->rotate_o,
                                   c->rotate_o);
@@ -145,7 +145,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
           glRotatef(c->rotate_i, 0, 0, 1);
 
           glPolygonOffset(1.f, 1.f);
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0)
               drawPartialCylinder(z * 2, d_o - (d_o - d_i) / 5, d_i, c->edges_i, 0, 0, 0,
                                   1);  // draw the inner cylinder
@@ -157,7 +157,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
           glPolygonOffset(1.f, 1.f);
           glEnable(GL_POLYGON_OFFSET_FILL);
           glPolygonOffset(2.f, 2.f);
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0)
               drawPartialCylinder(z * 2, d_o, d_i + (d_o - d_i) / 5, c->edges_o, 0, 0, 1, 0,
                                   c->rotate_i);  // draw the outer cylinder
@@ -183,7 +183,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
 
           glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 
-          if (trans_value < 1.0) {
+          if (transparency < 1.0) {
             if (k == 0) drawPartialCylinder(z * 2, d_o, d_i, c->edges_o, 0, 0);
           }
 

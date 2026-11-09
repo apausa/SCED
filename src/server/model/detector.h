@@ -1,19 +1,19 @@
 #pragma once
 
 // How the detector is drawn. The view reads these.
-double detector_get_trans(void);      // how opaque the faces are, 0 .. 1
-double detector_get_cut_angle(void);  // degrees of the wedge cut out of the tubes
-double detector_get_cut_z(void);      // the z at which the detector is cut
+double detector_get_transparency(void);  // how see-through the faces are, 0 solid .. 1 invisible
+double detector_get_cut_angle(void);     // degrees of the wedge cut out of the tubes
+double detector_get_cut_z(void);         // the z at which the detector is cut
 
 // Used by the projections, which force a cut and restore it afterwards.
-void detector_set_trans(double t);
+void detector_set_transparency(double t);
 void detector_set_cut_angle(double angle);
 void detector_set_cut_z(double z);
 
 void detector_cut_z_up(void);
 void detector_cut_z_down(void);
-void detector_trans_up(void);
-void detector_trans_down(void);
+void detector_transparency_up(void);
+void detector_transparency_down(void);
 void detector_cut_angle_up(void);
 void detector_cut_angle_down(void);
 
