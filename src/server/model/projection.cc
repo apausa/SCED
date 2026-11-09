@@ -7,7 +7,7 @@ static bool phi_projection;
 static bool z_projection;
 static bool fixed_view;
 
-static double wedge_backup;
+static double wedge_angle_backup;
 static double cut_z_backup;
 static float ha_backup;
 static float va_backup;
@@ -32,7 +32,7 @@ void projection_toggle_phi(void) {
   if (phi_projection) {  // turn projection off
     phi_projection = false;
 
-    detector_set_wedge(wedge_backup);
+    detector_set_wedge_angle(wedge_angle_backup);
     if (persp_backup != persp) {
       flip_persp();
     }  // restore persp setting
@@ -46,7 +46,7 @@ void projection_toggle_phi(void) {
       projection_toggle_z();
     }
 
-    wedge_backup = detector_get_wedge();
+    wedge_angle_backup = detector_get_wedge_angle();
 
     phi_projection = true;
 
@@ -56,7 +56,7 @@ void projection_toggle_phi(void) {
       flip_persp();
     }
 
-    detector_set_wedge(180);
+    detector_set_wedge_angle(180);
     ha_backup = camera_get().ha;
     va_backup = camera_get().va;
     camera_set_angles(90., 0.);

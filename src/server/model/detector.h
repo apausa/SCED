@@ -1,21 +1,32 @@
 #pragma once
 
-// How the detector is drawn. The view reads these.
-double detector_get_transparency(void);  // how see-through the faces are, 0 solid .. 1 invisible
-double detector_get_wedge(void);         // angle in degrees of the wedge cut out of the tubes
-double detector_get_cut_z(void);         // the z at which the detector is cut
+// Detector variable getters
+double detector_get_transparency(void);
+double detector_get_wedge_angle(void);
+double detector_get_cut_z(void);
 
-// Used by the projections, which force a cut and restore it afterwards.
+// Detector variable setters
 void detector_set_transparency(double t);
-void detector_set_wedge(double angle);
+void detector_set_wedge_angle(double angle);
 void detector_set_cut_z(double z);
 
-void detector_cut_z_up(void);
-void detector_cut_z_down(void);
-void detector_transparency_up(void);
-void detector_transparency_down(void);
-void detector_wedge_up(void);
-void detector_wedge_down(void);
-
-// The start-up appearance: transparency 0.8, cut angle 0, cut z 7000.
+// Reset all detector variables
 void detector_reset(void);
+
+// Make detector more see-through
+void detector_transparency_up(void);
+
+// Make detector more opaque
+void detector_transparency_down(void);
+
+// Widen the wedge cut out of the detector
+void detector_wedge_angle_up(void);
+
+// Narrow the wedge cut out of the detector
+void detector_wedge_angle_down(void);
+
+// Increase detector cut along z axis
+void detector_cut_z_up(void);
+
+// Decrease detector cut along z axis
+void detector_cut_z_down(void);
