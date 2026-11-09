@@ -22,7 +22,7 @@ void ced_draw_geotube(CED_GeoTube* c) {
   double cut_angle = detector_get_cut_angle();
   double trans_value = detector_get_trans();
 
-  double cut_z = detector_cut_z();
+  double cut_z = detector_get_cut_z();
 
   double d_o = c->r_o;
   double d_i = c->r_i;

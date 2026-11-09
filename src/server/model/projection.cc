@@ -84,7 +84,7 @@ void projection_toggle_z(void) {
       projection_toggle_phi();
     }
 
-    cut_z_backup = detector_cut_z();
+    cut_z_backup = detector_get_cut_z();
 
     z_projection = true;
 

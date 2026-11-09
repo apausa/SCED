@@ -3,7 +3,7 @@
 // How the detector is drawn. The view reads these.
 double detector_get_trans(void);      // how opaque the faces are, 0 .. 1
 double detector_get_cut_angle(void);  // degrees of the wedge cut out of the tubes
-double detector_cut_z(void);          // the z at which the detector is cut
+double detector_get_cut_z(void);      // the z at which the detector is cut
 
 // Used by the projections, which force a cut and restore it afterwards.
 void detector_set_cut_angle(double angle);
