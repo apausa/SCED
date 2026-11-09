@@ -37,7 +37,8 @@ void projection_toggle_phi(void) {
       flip_persp();
     }  // restore persp setting
 
-    camera_set_angles(ha_backup, va_backup);
+    camera_set_horizontal_angle(ha_backup);
+    camera_set_vertical_angle(va_backup);
 
     fixed_view = false;
 
@@ -59,7 +60,8 @@ void projection_toggle_phi(void) {
     detector_set_wedge_angle(180);
     ha_backup = camera_get().ha;
     va_backup = camera_get().va;
-    camera_set_angles(90., 0.);
+    camera_set_horizontal_angle(90.);
+    camera_set_vertical_angle(0.);
 
     fixed_view = true;
   }
@@ -75,7 +77,8 @@ void projection_toggle_z(void) {
       flip_persp();
     }  // restore persp setting
 
-    camera_set_angles(ha_backup, va_backup);
+    camera_set_horizontal_angle(ha_backup);
+    camera_set_vertical_angle(va_backup);
 
     fixed_view = false;
   } else {  // turn projection on
@@ -100,7 +103,8 @@ void projection_toggle_z(void) {
     ha_backup = camera_get().ha;
     va_backup = camera_get().va;
 
-    camera_set_angles(180., 0.);
+    camera_set_horizontal_angle(180.);
+    camera_set_vertical_angle(0.);
 
     fixed_view = true;
   }
@@ -111,7 +115,8 @@ void projection_view_front(void) {
     return;
   }
 
-  camera_set_angles(180., 0.);
+  camera_set_horizontal_angle(180.);
+  camera_set_vertical_angle(0.);
 }
 
 void projection_view_side(void) {
@@ -119,7 +124,8 @@ void projection_view_side(void) {
     return;
   }
 
-  camera_set_angles(90., 0.);
+  camera_set_horizontal_angle(90.);
+  camera_set_vertical_angle(0.);
 }
 
 void projection_set_persp(bool on) {

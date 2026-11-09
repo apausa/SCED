@@ -181,9 +181,9 @@ void display(void) {
 
   glScalef(cam.sf, cam.sf, cam.sf);  // zoom
 
-  glRotatef(cam.va, 1., 0., 0.);                  // rotate
-  glRotatef(cam.ha, 0., 1.0, 0.);                 // rotate
-  glTranslatef(-cam.mv.x, -cam.mv.y, -cam.mv.z);  // move
+  glRotatef(cam.va, 1., 0., 0.);                              // rotate
+  glRotatef(cam.ha, 0., 1.0, 0.);                             // rotate
+  glTranslatef(-cam.center.x, -cam.center.y, -cam.center.z);  // move
 
   // draw static objects
   display_world();  // only axes?

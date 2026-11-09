@@ -1,9 +1,8 @@
 #pragma once
 
-/*
- * The pose of the camera. The controller changes it through the functions below,
- * the view reads it through camera_get().
- */
+// Camera state:
+// - The controller changes it through the functions below
+// - The view reads it through camera_get()
 
 typedef struct {
   float x;
@@ -12,35 +11,41 @@ typedef struct {
 } Point;
 
 struct CameraState {
-  float va;        // vertical angle
-  float ha;        // horisontal angle
-  float sf;        // scale factor
-  Point mv;        // the center
-  float va_start;  // the pose when the current drag began
-  float ha_start;
-  Point mv_start;
+  float va;      // vertical angle
+  float ha;      // horizontal angle
+  Point center;  // the center
+  float sf;      // scale factor
 };
 
+// Camera state getters
 const CameraState& camera_get(void);
 
-// Back to the pose the program starts with.
-void camera_reset(void);
+// Camera state setters
+void camera_set_horizontal_angle(float angle);
+void camera_set_vertical_angle(float angle);
+void camera_set_scale_factor(float factor);
+void camera_set_center(float x, float y, float z);
 
-// One step is 50 pixels of the window height.
+// Reset the camera state
+void camera_reset_state(void);
+
+// Save current camera state
+void camera_begin_drag(void);
+
+// Increase the scale factor
 void camera_zoom_in(float window_height);
+
+// Decrease the scale factor
 void camera_zoom_out(float window_height);
 
-void camera_set_angles(float ha, float va);
-void camera_center_on(float x, float y, float z);
+// Move center along the y axis
 void camera_shift_y(double d);
+
+// Move center along the z axis
 void camera_shift_z(double d);
 
-// Start of a mouse drag: remember the pose that camera_rotate() and camera_pan() work from.
-void camera_drag_begin(void);
+// Rotate view
+void camera_rotate_view(double dha, double dva);
 
-// Turn by dha / dva degrees from the pose at the start of the drag.
-void camera_rotate(double dha, double dva);
-
-// Move the centre from its position at the start of the drag; dx and dy are the pointer movement in
-// pixels.
-void camera_pan(float dx, float dy, float window_width, float window_height);
+// Drag center
+void camera_drag_center(float dx, float dy, float window_width, float window_height);

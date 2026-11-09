@@ -21,7 +21,7 @@ void selectFromMenu(int id) {
   switch (id) {
     case VIEW_RESET:
       projection_clear();
-      camera_reset();
+      camera_reset_state();
       break;
 
     case CED_RESET:
@@ -31,7 +31,7 @@ void selectFromMenu(int id) {
 
       layers_show_all();
       projection_clear();
-      camera_reset();
+      camera_reset_state();
       break;
 
     case VIEW_FRONT:

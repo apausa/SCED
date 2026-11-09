@@ -39,7 +39,7 @@ void mouse(int btn, int state, int x, int y) {
   }
   mouse_x = x;
   mouse_y = y;
-  camera_drag_begin();
+  camera_begin_drag();
 
   switch (btn) {
     case MOUSE_LEFT:
@@ -93,7 +93,7 @@ void keypressed(unsigned char key, int x, int y) {
     case VIEW_CENTER:
       float wx, wy, wz;
       if (!ced_get_selected(x, y, &wx, &wy, &wz)) {
-        camera_center_on(wx, wy, wz);
+        camera_set_center(wx, wy, wz);
         view_request_redraw();
       }
       break;
@@ -171,11 +171,9 @@ void motion(int x, int y) {
   if ((move_mode == NO_MOVE) || !window.w || !window.h) return;
 
   if (move_mode == TURN_XY) {
-    camera_rotate((x - mouse_x) * 180. / window.w, (y - mouse_y) * 180. / window.h);
-
-    // todo
+    camera_rotate_view((x - mouse_x) * 180. / window.w, (y - mouse_y) * 180. / window.h);
   } else if (move_mode == ORIGIN) {
-    camera_pan(x - mouse_x, y - mouse_y, window.w, window.h);
+    camera_drag_center(x - mouse_x, y - mouse_y, window.w, window.h);
   }
   view_request_redraw();
 }
