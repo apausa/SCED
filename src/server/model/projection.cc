@@ -48,7 +48,7 @@ void projection_toggle_phi(void) {
   } else {  // Turn phi projection on
     if (projection_state.z) projection_toggle_z();
 
-    wedge_angle_backup = detector_state_get().wedge_angle;  // Store current wedge angle
+    wedge_angle_backup = detector_get().wedge_angle;  // Store current wedge angle
     ha_backup = camera_get().ha;  // Restore horizontal angle
     va_backup = camera_get().va;  // Restore vertical angle
 
@@ -75,7 +75,7 @@ void projection_toggle_z(void) {
   } else {  // Turn z projection on
     if (projection_state.phi) projection_toggle_phi();
 
-    cut_z_backup = detector_state_get().cut_z;  // Store current z cut
+    cut_z_backup = detector_get().cut_z;  // Store current z cut
     ha_backup = camera_get().ha;  // Store current horizontal angle
     va_backup = camera_get().va;  // Store current vertical angle
 

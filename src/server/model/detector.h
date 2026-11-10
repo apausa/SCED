@@ -2,16 +2,15 @@
 
 // Detector state:
 // - The controller changes it through the functions below
-// - The view reads it through detector_state_get()
+// - The view reads it through detector_get()
 
 struct DetectorState {
   double transparency;  // transparency levels (0 solid .. 1 invisible)
-  double wedge_angle;   // degrees of the wedge cut out
-  double cut_z;         // z value at which the detector is cut
+  double wedge_angle;  // degrees of the wedge cut out
+  double cut_z;  // z value at which the detector is cut
 };
 
-// Detector state getters
-const DetectorState& detector_state_get(void);
+const DetectorState& detector_get(void);
 
 // Detector state setters
 void detector_set_transparency(double t);

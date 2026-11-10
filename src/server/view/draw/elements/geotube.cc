@@ -19,10 +19,10 @@ void ced_draw_geotube(CED_GeoTube* c) {
 
   double transformed_shift = c->shift;
 
-  double wedge_angle = detector_state_get().wedge_angle;
-  double transparency = detector_state_get().transparency;
+  double wedge_angle = detector_get().wedge_angle;
+  double transparency = detector_get().transparency;
 
-  double cut_z = detector_state_get().cut_z;
+  double cut_z = detector_get().cut_z;
 
   double d_o = c->r_o;
   double d_i = c->r_i;
