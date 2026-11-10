@@ -12,7 +12,7 @@
 
 // reshape() builds the projection, so the view has to run it again when the perspective changes.
 static void reshape_if_persp_changed(void) {
-  if (projection_take_persp_changed()) {
+  if (camera_check_perspective()) {
     window_reshape();
   }
 }
@@ -21,17 +21,16 @@ void selectFromMenu(int id) {
   switch (id) {
     case VIEW_RESET:
       projection_clear();
-      camera_reset_state();
+      camera_reset_state();  // switches perspective on
+      reshape_if_persp_changed();
       break;
 
     case CED_RESET:
-      projection_set_persp(true);  // switch persp on
-      reshape_if_persp_changed();
       detector_reset();
-
       layers_show_all();
       projection_clear();
-      camera_reset_state();
+      camera_reset_state();  // switches perspective on
+      reshape_if_persp_changed();
       break;
 
     case VIEW_FRONT:

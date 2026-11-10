@@ -11,10 +11,11 @@ typedef struct {
 } Point;
 
 struct CameraState {
-  float va;      // vertical angle
-  float ha;      // horizontal angle
-  Point center;  // the center
-  float sf;      // scale factor
+  float va;          // vertical angle
+  float ha;          // horizontal angle
+  Point center;      // the center
+  float sf;          // scale factor
+  bool perspective;  // perspective, or orthographic
 };
 
 // Camera state getters
@@ -25,6 +26,7 @@ void camera_set_horizontal_angle(float angle);
 void camera_set_vertical_angle(float angle);
 void camera_set_scale_factor(float factor);
 void camera_set_center(float x, float y, float z);
+void camera_set_perspective(bool perspective);
 
 // Reset the camera state
 void camera_reset_state(void);
@@ -49,3 +51,6 @@ void camera_rotate_view(double dha, double dva);
 
 // Drag center
 void camera_drag_center(float dx, float dy, float window_width, float window_height);
+
+// Check change in perspective to rebuild the projection
+bool camera_check_perspective(void);

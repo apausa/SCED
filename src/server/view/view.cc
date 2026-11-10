@@ -16,7 +16,6 @@
 
 #include <sced_types.h>
 #include <model/camera.h>
-#include <model/projection.h>
 
 #include "third_party/fg_geometry.h"
 #include "view/overlay.h"
@@ -207,7 +206,7 @@ void display(void) {
 void reshape(int w, int h) {
   set_window_size(w, h);
 
-  if (projection_persp() == false) {
+  if (camera_get().perspective == false) {
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
