@@ -1,10 +1,4 @@
-/*
- * This file is internal. It must not be
- * included into enduser application.
- */
-
-#ifndef __TCP_LISTENER_H
-#define __TCP_LISTENER_H
+#pragma once
 
 /*
  * Server side function.
@@ -44,5 +38,3 @@ void net_poll(void);
  * at most 49 characters) as well as from localhost.
  */
 void net_trust_host(const char* ip);
-
-#endif /* __TCP_LISTENER_H  */

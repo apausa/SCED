@@ -1,9 +1,5 @@
 #pragma once
 
-// Detector state:
-// - The controller changes it through the functions below
-// - The view reads it through detector_get()
-
 struct DetectorState {
   double transparency;  // transparency levels (0 solid .. 1 invisible)
   double wedge_angle;  // degrees of the wedge cut out
