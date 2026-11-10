@@ -1,33 +1,27 @@
 #pragma once
 
-/*
- * The front and side views and the two flat projections: phi (the detector unrolled
- * onto one plane) and z (seen along z). A projection switches the perspective off and
- * fixes the view, and switching it off restores both. Nothing here redraws or reshapes
- * the window: after a call that can change the perspective, the caller asks
- * projection_take_persp_changed() and reshapes the view if it says true.
- */
+// Projection state:
+// - The controller changes it through the functions below
+// - The view and controller read it through projection_get()
 
-// The state of the view. The view and the controller read it.
-bool projection_persp(void);  // perspective, or orthographic
-bool projection_phi(void);    // the phi projection is on
-bool projection_z(void);      // the z projection is on
-bool projection_fixed(void);  // a projection is on, so the view angles cannot be changed
+struct ProjectionState {
+  bool phi;  // the detector unrolled onto one plane
+  bool z;  // the detector seen along the z axis
+};
 
-// The start-up state: perspective on, no projection.
+const ProjectionState& projection_get(void);
+
+// Turn both projections off
 void projection_reset(void);
 
+// Change to front view
 void projection_view_front(void);
+
+// Change to side view
 void projection_view_side(void);
 
+// Toggle phi projection on or off
 void projection_toggle_phi(void);
+
+// Toggle z projection on or off
 void projection_toggle_z(void);
-
-// Turn perspective on or off.
-void projection_set_persp(bool on);
-
-// True if the perspective was flipped since the last call; clears the answer.
-bool projection_take_persp_changed(void);
-
-// Both projections off and the view free again. Does not restore the perspective or the cuts.
-void projection_clear(void);

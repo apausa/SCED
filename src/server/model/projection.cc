@@ -2,151 +2,87 @@
 #include "detector.h"
 #include "projection.h"
 
-static bool persp;
-static bool phi_projection;
-static bool z_projection;
-static bool fixed_view;
+#define INITIAL_PHI false  // phi projection at start-up
+#define INITIAL_Z false  // z projection at start-up
 
-static double wedge_angle_backup;
-static double cut_z_backup;
+static const ProjectionState projection_initial = {INITIAL_PHI, INITIAL_Z};
+
+static ProjectionState projection_state = projection_initial;
+
 static float ha_backup;
 static float va_backup;
-static int persp_backup;
 
-static bool persp_flipped;
+const ProjectionState& projection_get(void) { return projection_state; }
 
-bool projection_persp(void) { return persp; }
+// Disable projection
+void projection_reset(void) { projection_state = projection_initial; }
 
-bool projection_phi(void) { return phi_projection; }
-
-bool projection_z(void) { return z_projection; }
-
-bool projection_fixed(void) { return fixed_view; }
-
-static void flip_persp(void) {
-  persp = !persp;
-  persp_flipped = true;
-}
-
-void projection_toggle_phi(void) {
-  if (phi_projection) {  // turn projection off
-    phi_projection = false;
-
-    detector_set_wedge_angle(wedge_angle_backup);
-    if (persp_backup != persp) {
-      flip_persp();
-    }  // restore persp setting
-
-    camera_set_horizontal_angle(ha_backup);
-    camera_set_vertical_angle(va_backup);
-
-    fixed_view = false;
-
-  } else {  // turn projection on
-    if (z_projection) {
-      projection_toggle_z();
-    }
-
-    wedge_angle_backup = detector_state_get().wedge_angle;
-
-    phi_projection = true;
-
-    persp_backup = persp;
-
-    if (persp == 1) {
-      flip_persp();
-    }
-
-    detector_set_wedge_angle(180);
-    ha_backup = camera_get().ha;
-    va_backup = camera_get().va;
-    camera_set_horizontal_angle(90.);
-    camera_set_vertical_angle(0.);
-
-    fixed_view = true;
-  }
-}
-
-void projection_toggle_z(void) {
-  if (z_projection) {  // turn projection off
-
-    z_projection = false;
-
-    detector_set_cut_z(cut_z_backup);
-    if (persp_backup != persp) {
-      flip_persp();
-    }  // restore persp setting
-
-    camera_set_horizontal_angle(ha_backup);
-    camera_set_vertical_angle(va_backup);
-
-    fixed_view = false;
-  } else {  // turn projection on
-
-    if (phi_projection) {
-      projection_toggle_phi();
-    }
-
-    cut_z_backup = detector_state_get().cut_z;
-
-    z_projection = true;
-
-    detector_set_cut_z(-10);
-
-    persp_backup = persp;
-
-    if (persp == true) {
-      flip_persp();
-    }
-
-    // side view
-    ha_backup = camera_get().ha;
-    va_backup = camera_get().va;
-
-    camera_set_horizontal_angle(180.);
-    camera_set_vertical_angle(0.);
-
-    fixed_view = true;
-  }
-}
-
+// Change to front view
 void projection_view_front(void) {
-  if (fixed_view) {
-    return;
-  }
+  if (projection_state.phi || projection_state.z) return;
 
   camera_set_horizontal_angle(180.);
   camera_set_vertical_angle(0.);
 }
 
+// Change to side view
 void projection_view_side(void) {
-  if (fixed_view) {
-    return;
-  }
+  if (projection_state.phi || projection_state.z) return;
 
   camera_set_horizontal_angle(90.);
   camera_set_vertical_angle(0.);
 }
 
-void projection_set_persp(bool on) {
-  if (persp != on) {
-    flip_persp();
+// Toggle phi projection on or off
+void projection_toggle_phi(void) {
+  static double wedge_angle_backup;
+
+  if (projection_state.phi) {  // Turn phi projection off
+    projection_state.phi = false;
+
+    detector_set_wedge_angle(wedge_angle_backup);  // Restore wedge angle
+    camera_set_horizontal_angle(ha_backup);  // Restore horizontal angle
+    camera_set_vertical_angle(va_backup);  // Restore vertical angle
+    camera_set_perspective(true);  // Turns perspective back on
+
+  } else {  // Turn phi projection on
+    if (projection_state.z) projection_toggle_z();
+
+    wedge_angle_backup = detector_state_get().wedge_angle;  // Store current wedge angle
+    ha_backup = camera_get().ha;  // Restore horizontal angle
+    va_backup = camera_get().va;  // Restore vertical angle
+
+    camera_set_perspective(false);  // Enable the orthographic projection
+    detector_set_wedge_angle(180);  // Cut half of the detector seen from a side view
+    projection_view_side();  // Change to side view
+
+    projection_state.phi = true;
   }
 }
 
-bool projection_take_persp_changed(void) {
-  bool changed = persp_flipped;
-  persp_flipped = false;
-  return changed;
-}
+// Toggle z projection on or off
+void projection_toggle_z(void) {
+  static double cut_z_backup;
 
-void projection_clear(void) {
-  phi_projection = false;
-  z_projection = false;
-  fixed_view = false;
-}
+  if (projection_state.z) {  // Turn z projection off
+    projection_state.z = false;
 
-void projection_reset(void) {
-  persp = true;
-  projection_clear();
+    detector_set_cut_z(cut_z_backup);  // Restore z cut
+    camera_set_horizontal_angle(ha_backup);  // Restore horizontal angle
+    camera_set_vertical_angle(va_backup);  // Restore vertical angle
+    camera_set_perspective(true);  // Turn perspective back on
+
+  } else {  // Turn z projection on
+    if (projection_state.phi) projection_toggle_phi();
+
+    cut_z_backup = detector_state_get().cut_z;  // Store current z cut
+    ha_backup = camera_get().ha;  // Store current horizontal angle
+    va_backup = camera_get().va;  // Store current vertical angle
+
+    camera_set_perspective(false);  // Enable the orthographic projection
+    detector_set_cut_z(0);  // Cut half of the detector seen from a front view
+    projection_view_front();  // Before updating projection state
+
+    projection_state.z = true;
+  }
 }

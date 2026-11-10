@@ -55,7 +55,8 @@ void mouse(int btn, int state, int x, int y) {
         }
 
       } else {
-        if (projection_fixed() == 0) {  // dont rotate the view when in side or front projection
+        // dont rotate the view when in side or front projection
+        if (!projection_get().phi && !projection_get().z) {
           move_mode = TURN_XY;
         }
       }
