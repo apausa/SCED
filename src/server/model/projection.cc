@@ -2,22 +2,26 @@
 #include "detector.h"
 #include "projection.h"
 
+// COnstnat variables
+
 #define INITIAL_PHI false  // phi projection at start-up
 #define INITIAL_Z false  // z projection at start-up
 
+// Global variables
+
 static const ProjectionState projection_initial = {INITIAL_PHI, INITIAL_Z};
-
 static ProjectionState projection_state = projection_initial;
-
 static float ha_backup;
 static float va_backup;
 
+// Getter functions
+
 const ProjectionState& projection_get(void) { return projection_state; }
 
-// Disable projection
+// Remaining functions, called by the controller and main to change the state
+
 void projection_reset(void) { projection_state = projection_initial; }
 
-// Change to front view
 void projection_view_front(void) {
   if (projection_state.phi || projection_state.z) return;
 
@@ -25,7 +29,6 @@ void projection_view_front(void) {
   camera_set_vertical_angle(0.);
 }
 
-// Change to side view
 void projection_view_side(void) {
   if (projection_state.phi || projection_state.z) return;
 
@@ -33,7 +36,6 @@ void projection_view_side(void) {
   camera_set_vertical_angle(0.);
 }
 
-// Toggle phi projection on or off
 void projection_toggle_phi(void) {
   static double wedge_angle_backup;
 
@@ -60,7 +62,6 @@ void projection_toggle_phi(void) {
   }
 }
 
-// Toggle z projection on or off
 void projection_toggle_z(void) {
   static double cut_z_backup;
 

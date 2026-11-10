@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
-  layers_show_all();
+  layers_reset();
   detector_reset();
   projection_reset();
   printf("Set options to default settings\n");

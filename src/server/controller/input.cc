@@ -136,7 +136,7 @@ void keypressed(unsigned char key, int x, int y) {
     default: {
       int layer = layer_from_key(key);
       if (layer >= 0) {
-        toggle_layer(layer);
+        layers_set_visibility(layer);
         view_request_redraw();
       } else {
         std::cerr << "Unknown keyboard shortcut: " << key << std::endl;

@@ -1,9 +1,5 @@
 #pragma once
 
-// Camera state:
-// - The controller changes it through the functions below
-// - The view reads it through camera_get()
-
 typedef struct {
   float x;
   float y;
@@ -28,7 +24,7 @@ void camera_set_center(float x, float y, float z);
 void camera_set_perspective(bool perspective);
 
 // Reset the camera state
-void camera_reset_state(void);
+void camera_reset(void);
 
 // Save current camera state
 void camera_begin_drag(void);

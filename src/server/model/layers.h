@@ -1,10 +1,5 @@
 #pragma once
 
-// Layer settings
-// - The controller changes it through the functions below
-// - The event code in model sets layer descriptions
-// - The view reads both through layers_get_visibility() and layers_get_description()
-
 // Layers getters
 const char* layers_get_description(int layer);
 bool layers_get_visibility(int layer);

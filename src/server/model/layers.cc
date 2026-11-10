@@ -2,11 +2,14 @@
 #include <cstring>
 
 #include <sced_types.h>
-
 #include "layers.h"
+
+// Global variables
 
 static bool layerVisibility[CED_MAX_LAYER];
 static char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
+
+// Getter functions
 
 bool layers_get_visibility(int layer) {
   return layer >= 0 && layer < CED_MAX_LAYER && layerVisibility[layer];
@@ -15,6 +18,8 @@ bool layers_get_visibility(int layer) {
 const char* layers_get_description(int layer) {
   return (layer < 0 || layer >= CED_MAX_LAYER) ? "" : layerDescription[layer];
 }
+
+// Setter functions
 
 void layers_set_description(int id, const char* text) {
   if (id < 0 || id >= CED_MAX_LAYER) {
@@ -30,14 +35,14 @@ void layers_set_visibility(unsigned l) {
   layerVisibility[l] = !layerVisibility[l];
 }
 
-// Turn every layer on, including those without a key assigned
+// Remaining functions, called by the controller to change the state
+
 void layers_reset(void) {
   for (int i = 0; i < CED_MAX_LAYER; i++) {
     layerVisibility[i] = true;
   }
 }
 
-// Show all layers between a range; if they are all shown already, hide them all off
 static void toggle_all(int first, int end) {
   int count = 0;
 
@@ -57,10 +62,8 @@ static void toggle_all(int first, int end) {
   }
 }
 
-// Show all data layers (from 0 to 24); if they are all on already, turn them all off
 void layers_toggle_all_data(void) { toggle_all(0, NUMBER_DATA_LAYER); }
 
-// Toggle all detector layers (from 25 to 64); if they are all on already, turn them all off
 void layers_toggle_all_detector(void) {
   toggle_all(NUMBER_DATA_LAYER, NUMBER_DETECTOR_LAYER + NUMBER_DATA_LAYER);
 }
