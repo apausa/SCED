@@ -2,11 +2,11 @@
 
 #include "camera.h"
 
-#define INITIAL_VERTICAL_ANGLE 30.     // vertical angle at start-up, in degrees
+#define INITIAL_VERTICAL_ANGLE 30.  // vertical angle at start-up, in degrees
 #define INITIAL_HORIZONTAL_ANGLE 150.  // horizontal angle at start-up, in degrees
-#define INITIAL_SCALE_FACTOR 0.1       // scale factor at start-up, zoomed out
-#define INITIAL_PERSPECTIVE true       // perspective on at start-up
-#define ZOOM_STEP 50.0                 // how much zoom changes, in pixels
+#define INITIAL_SCALE_FACTOR 0.1  // scale factor at start-up, zoomed out
+#define INITIAL_PERSPECTIVE true  // perspective on at start-up
+#define ZOOM_STEP 50.0  // how much zoom changes, in pixels
 
 static const CameraState camera_initial = {
     INITIAL_VERTICAL_ANGLE, INITIAL_HORIZONTAL_ANGLE, {0., 0., 0.},
@@ -19,7 +19,6 @@ static CameraState dragged_state;
 
 static bool perspective_change;
 
-// Camera state getter
 const CameraState& camera_get(void) { return camera_state; }
 
 // Camera state setters

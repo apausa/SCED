@@ -11,14 +11,13 @@ typedef struct {
 } Point;
 
 struct CameraState {
-  float va;          // vertical angle
-  float ha;          // horizontal angle
-  Point center;      // the center
-  float sf;          // scale factor
+  float va;  // vertical angle
+  float ha;  // horizontal angle
+  Point center;  // the center
+  float sf;  // scale factor
   bool perspective;  // perspective, or orthographic
 };
 
-// Camera state getters
 const CameraState& camera_get(void);
 
 // Camera state setters
