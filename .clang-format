@@ -1,3 +1,4 @@
 BasedOnStyle: Google
 SortIncludes: Never
 ColumnLimit: 100
+AlignTrailingComments: false
