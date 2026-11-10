@@ -5,52 +5,18 @@
 
 #include "layers.h"
 
-static bool visible[CED_MAX_LAYER];
-
+static bool layerVisibility[CED_MAX_LAYER];
 static char layerDescription[CED_MAX_LAYER][CED_MAX_LAYER_CHAR];
 
-bool layer_visible(int layer) { return layer >= 0 && layer < CED_MAX_LAYER && visible[layer]; }
-
-void toggle_layer(unsigned l) {
-  if (l > CED_MAX_LAYER - 1) {
-    return;
-  }
-
-  if (visible[l]) {
-    visible[l] = false;
-  } else {
-    visible[l] = true;
-  }
+bool layers_get_visibility(int layer) {
+  return layer >= 0 && layer < CED_MAX_LAYER && layerVisibility[layer];
 }
 
-static void toggle_all(int first, int end) {
-  int anz = 0;
-  for (int i = first; i < end; i++) {  // try to turn all layers on
-    if (!visible[i]) {
-      toggle_layer(i);
-      anz++;
-    }
-  }
-  if (anz == 0) {  // turn all layers off
-    for (int i = first; i < end; i++) {
-      toggle_layer(i);
-    }
-  }
+const char* layers_get_description(int layer) {
+  return (layer < 0 || layer >= CED_MAX_LAYER) ? "" : layerDescription[layer];
 }
 
-void layers_toggle_all_data(void) { toggle_all(0, NUMBER_DATA_LAYER); }
-
-void layers_toggle_all_detector(void) {
-  toggle_all(NUMBER_DATA_LAYER, NUMBER_DETECTOR_LAYER + NUMBER_DATA_LAYER);
-}
-
-void layers_show_all(void) {
-  for (int i = 0; i < CED_MAX_LAYER; i++) {
-    visible[i] = true;  // turn all layers on
-  }
-}
-
-void layer_set_description(int id, const char* text) {
+void layers_set_description(int id, const char* text) {
   if (id < 0 || id >= CED_MAX_LAYER) {
     printf("Warning: Layer id out of range\n");
     return;
@@ -58,9 +24,45 @@ void layer_set_description(int id, const char* text) {
   strncpy(layerDescription[id], text, CED_MAX_LAYER_CHAR - 1);
 }
 
-const char* layer_description(int layer) {
-  if (layer < 0 || layer >= CED_MAX_LAYER) {
-    return "";
-  }
-  return layerDescription[layer];
+void layers_set_visibility(unsigned l) {
+  if (l > CED_MAX_LAYER - 1) return;
+
+  layerVisibility[l] = !layerVisibility[l];
 }
+
+// Turn every layer on, including those without a key assigned
+void layers_reset(void) {
+  for (int i = 0; i < CED_MAX_LAYER; i++) {
+    layerVisibility[i] = true;
+  }
+}
+
+// Show all layers between a range; if they are all shown already, hide them all off
+static void toggle_all(int first, int end) {
+  int count = 0;
+
+  // First if some layers are hidden, it shows them all
+  for (int i = first; i < end; i++) {
+    if (!layerVisibility[i]) {
+      layers_set_visibility(i);
+      count++;
+    }
+  }
+
+  // Else if all layers are shown, it hides them all (and viceversa)
+  if (count == 0) {
+    for (int i = first; i < end; i++) {
+      layers_set_visibility(i);
+    }
+  }
+}
+
+// Show all data layers (from 0 to 24); if they are all on already, turn them all off
+void layers_toggle_all_data(void) { toggle_all(0, NUMBER_DATA_LAYER); }
+
+// Toggle all detector layers (from 25 to 64); if they are all on already, turn them all off
+void layers_toggle_all_detector(void) {
+  toggle_all(NUMBER_DATA_LAYER, NUMBER_DETECTOR_LAYER + NUMBER_DATA_LAYER);
+}
+
+// @fix only first 64 keys have a layer assigned (can be toggled)

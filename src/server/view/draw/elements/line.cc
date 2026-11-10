@@ -8,7 +8,7 @@
  */
 
 void ced_draw_line(CED_Line* h) {
-  if (!layer_visible(h->type)) {
+  if (!layers_get_visibility(h->type)) {
     return;
   }
 

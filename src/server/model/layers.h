@@ -1,23 +1,23 @@
 #pragma once
 
-/*
- * Which layers are shown and the text that describes each layer. Layers
- * 0 .. NUMBER_DATA_LAYER-1 are data, the NUMBER_DETECTOR_LAYER layers after them
- * are detector. Nothing here requests a redraw.
- */
+// Layer settings
+// - The controller changes it through the functions below
+// - The event code in model sets layer descriptions
+// - The view reads both through layers_get_visibility() and layers_get_description()
 
-// Whether a layer is shown. Layers outside 0 .. CED_MAX_LAYER-1 never are.
-bool layer_visible(int layer);
+// Layers getters
+const char* layers_get_description(int layer);
+bool layers_get_visibility(int layer);
 
-// Flip the visibility of one layer (0 .. CED_MAX_LAYER-1).
-void toggle_layer(unsigned l);
+// Layers setters
+void layers_set_description(int id, const char* text);
+void layers_set_visibility(unsigned l);
 
-// Turn all data (or detector) layers on; if they are all on already, turn them all off.
+// Turn every layer on, including those without a key assigned
+void layers_reset(void);
+
+// Show all data layers (from 0 to 24); if they are all on already, turn them all off
 void layers_toggle_all_data(void);
+
+// Toggle all detector layers (from 25 to 64); if they are all on already, turn them all off
 void layers_toggle_all_detector(void);
-
-// Every layer on, including those without a key.
-void layers_show_all(void);
-
-void layer_set_description(int id, const char* text);
-const char* layer_description(int layer);

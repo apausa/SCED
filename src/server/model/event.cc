@@ -47,7 +47,7 @@ const ced_event& get_event(void) { return ceve; }
 
 void set_text_type(unsigned type) { text_type = type; }
 
-//  Visits each TEXT type passing them to layer_set_description
+//  Visits each TEXT type passing them to layers_set_description
 static void describe_layers(void) {
   unsigned long j;
   ced_element* pe;
@@ -56,7 +56,7 @@ static void describe_layers(void) {
   pe = ceve.e + text_type;
   for (pdata = pe->b, j = 0; j < pe->count; j++, pdata += pe->size) {
     CED_TEXT* text = (CED_TEXT*)pdata;
-    layer_set_description(text->id, text->text);
+    layers_set_description(text->id, text->text);
   }
 }
 

@@ -13,7 +13,7 @@
 
 void ced_draw_geotube(CED_GeoTube* c) {
   using namespace std;
-  if (!layer_visible(c->type)) {
+  if (!layers_get_visibility(c->type)) {
     return;
   }
 

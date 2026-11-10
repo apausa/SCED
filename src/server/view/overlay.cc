@@ -90,8 +90,8 @@ void overlay_set_shortcuts(const ShortcutHelp* rows, int count, const char* data
 static std::string formatShortcut(int iLayer, const char key, const char* description,
                                   size_t max_len) {
   std::stringstream sstr;
-  sstr << "(" << (layer_visible(iLayer) ? "X" : "_") << ") [" << key << "] " << std::setfill('0')
-       << std::setw(2) << iLayer << ": " << description;
+  sstr << "(" << (layers_get_visibility(iLayer) ? "X" : "_") << ") [" << key << "] "
+       << std::setfill('0') << std::setw(2) << iLayer << ": " << description;
 
   return truncateTo(sstr.str(), max_len);
 }
@@ -115,7 +115,7 @@ void printShortcuts(void) {
 
   for (i = 0; i < NUMBER_DATA_LAYER; i++) {
     shortcuts.emplace_back(
-        formatShortcut(i, data_layer_keys[i], layer_description(i), MAX_STR_LEN));
+        formatShortcut(i, data_layer_keys[i], layers_get_description(i), MAX_STR_LEN));
   }
 
   shortcuts.push_back(" ");
@@ -123,7 +123,7 @@ void printShortcuts(void) {
 
   for (i = NUMBER_DATA_LAYER; i < NUMBER_DETECTOR_LAYER + NUMBER_DATA_LAYER; i++) {
     shortcuts.emplace_back(formatShortcut(i, detector_layer_keys[-1 * NUMBER_DATA_LAYER + i],
-                                          layer_description(i), MAX_STR_LEN));
+                                          layers_get_description(i), MAX_STR_LEN));
   }
 
   glMatrixMode(GL_PROJECTION);

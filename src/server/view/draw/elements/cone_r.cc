@@ -6,7 +6,7 @@
 // Draws a opaque cone with a custom alpha colour channel. Warning: the cone centre is the vertex
 // (not the centre of teh base!)
 void ced_draw_cone_r(CED_ConeR* cone) {
-  if (!layer_visible(cone->layer)) {
+  if (!layers_get_visibility(cone->layer)) {
     return;
   }
 

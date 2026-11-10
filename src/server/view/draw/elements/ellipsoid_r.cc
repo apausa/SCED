@@ -8,7 +8,7 @@
  * */
 
 void ced_draw_ellipsoid_r(CED_EllipsoidR* eli) {
-  if (!layer_visible(eli->layer)) return;
+  if (!layers_get_visibility(eli->layer)) return;
 
   /** ellipsoid 'resolution' */
   int slices = 10;

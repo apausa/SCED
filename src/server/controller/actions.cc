@@ -20,16 +20,16 @@ static void reshape_if_persp_changed(void) {
 void selectFromMenu(int id) {
   switch (id) {
     case VIEW_RESET:
-      projection_clear();
-      camera_reset_state();  // switches perspective on
+      projection_reset();
+      camera_reset();  // switches perspective on
       reshape_if_persp_changed();
       break;
 
     case CED_RESET:
       detector_reset();
-      layers_show_all();
-      projection_clear();
-      camera_reset_state();  // switches perspective on
+      layers_reset();
+      projection_reset();
+      camera_reset();  // switches perspective on
       reshape_if_persp_changed();
       break;
 

@@ -5,7 +5,7 @@
  * Draws 3 orthogonal elipses as wireframes
  */
 void ced_draw_cluellipse_r(CED_CluEllipseR* eli) {
-  if (!layer_visible(eli->layer)) {
+  if (!layers_get_visibility(eli->layer)) {
     return;
   }
 

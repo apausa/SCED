@@ -23,7 +23,7 @@ void ced_draw_hit(CED_Hit* h) {
     z = 0;
   }
 
-  if (!layer_visible(h->layer)) {
+  if (!layers_get_visibility(h->layer)) {
     return;
   }
 

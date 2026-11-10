@@ -7,7 +7,7 @@
  */
 
 void ced_draw_geobox_r_solid(CED_GeoBoxR* box) {
-  if (!layer_visible(box->layer)) {
+  if (!layers_get_visibility(box->layer)) {
     return;
   }
   // a box has 8 vertices, four belonging to the first surface facing

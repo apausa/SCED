@@ -7,7 +7,7 @@
  * GeoCylinder
  */
 void ced_draw_geocylinder_r(CED_GeoCylinderR* c) {
-  if (!layer_visible(c->layer)) {
+  if (!layers_get_visibility(c->layer)) {
     return;
   }
 

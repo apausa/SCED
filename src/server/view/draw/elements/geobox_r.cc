@@ -6,7 +6,7 @@
  */
 
 void ced_draw_geobox_r(CED_GeoBoxR* box) {
-  if (!layer_visible(box->layer)) {
+  if (!layers_get_visibility(box->layer)) {
     return;
   }
 
