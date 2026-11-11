@@ -8,10 +8,16 @@
 #include "event.h"
 #include "layers.h"
 
-// NOT used in CED client
-static ced_event ceve = {0, 0};  // current event on screen
+// Global variables
 
+static ced_event event_state = {0, 0};  // current event on screen
 static unsigned text_type = (unsigned)-1;  // element type of the layer descriptions
+
+// Setter functions
+
+const ced_event& get_event(void) { return event_state; }
+
+// Remaining functions
 
 static void ced_event_copy(ced_event* trg) {
   unsigned i;
@@ -43,8 +49,6 @@ static void ced_event_copy(ced_event* trg) {
   trg->e_count = eve.e_count;
 }
 
-const ced_event& get_event(void) { return ceve; }
-
 void set_text_type(unsigned type) { text_type = type; }
 
 //  Visits each TEXT type passing them to layers_set_description
@@ -52,8 +56,8 @@ static void describe_layers(void) {
   unsigned long j;
   ced_element* pe;
   unsigned char* pdata;
-  if (text_type >= ceve.e_count) return;
-  pe = ceve.e + text_type;
+  if (text_type >= event_state.e_count) return;
+  pe = event_state.e + text_type;
   for (pdata = pe->b, j = 0; j < pe->count; j++, pdata += pe->size) {
     CED_TEXT* text = (CED_TEXT*)pdata;
     layers_set_description(text->id, text->text);
@@ -71,7 +75,7 @@ int ced_process_input(void* data) {
   }
 
   if (hdr->type == DRAW_EVENT) {
-    ced_event_copy(&ceve);
+    ced_event_copy(&event_state);
     ced_reset();
     describe_layers();
     return 1;

@@ -152,12 +152,12 @@ static void display_world(void) {
 
 // Visits every element type with a draw callback calling it
 static void ced_do_draw_event(void) {
-  const ced_event& ceve = get_event();
+  const ced_event& event_state = get_event();
   unsigned int i, j;
   ced_element* pe;
   unsigned char* pdata;
-  for (i = 0; i < ceve.e_count; i++) {
-    pe = ceve.e + i;
+  for (i = 0; i < event_state.e_count; i++) {
+    pe = event_state.e + i;
     if (!pe->draw) continue;
     for (pdata = pe->b, j = 0; j < pe->count; j++, pdata += pe->size) (*(pe->draw))(pdata);
   }
